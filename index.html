@@ -1,1 +1,117 @@
 
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Auto GBP — Повідомлення в Telegram</title>
+  <style>
+    :root { --bg:#0b0b0f; --card:#12121a; --gold:#d4af37; --text:#e9e9ef; --muted:#9aa0a6; }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(1000px 600px at 80% -10%, #1b1b24 0, transparent 60%), var(--bg);
+      color: var(--text);
+      min-height: 100svh; display:grid; place-items:center; padding:24px;
+    }
+    .wrap { width: min(720px, 100%); }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:20px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    h1 { margin:0 0 10px; font-size: clamp(22px, 4.5vw, 32px); letter-spacing:.3px; }
+    p.lead { margin:0 0 18px; color:var(--muted) }
+    label { display:block; margin:14px 0 6px; font-weight:600; color:#cfd3da }
+    input, textarea, button {
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.14);
+      background:#0f1016; color:var(--text); font-size:16px; outline:none;
+    }
+    textarea { min-height:120px; resize:vertical; }
+    input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,.15); }
+    .row { display:grid; grid-template-columns: 1fr; gap:12px; }
+    .actions { display:flex; gap:10px; margin-top:14px; align-items:center; }
+    button {
+      background: linear-gradient( to bottom right, #f1cc56, #b88a16 );
+      color:#111; font-weight:700; border:none; cursor:pointer;
+    }
+    button[disabled] { opacity:.65; cursor:not-allowed; }
+    .note { font-size:13px; color:var(--muted); }
+    .status { margin-top:12px; font-weight:600; }
+    .ok { color:#59e38f; }
+    .err { color:#ff7d7d; }
+    .brand { display:flex; gap:10px; align-items:center; margin-bottom:12px; opacity:.9 }
+    .logo { width:30px; height:30px; border-radius:8px; background: radial-gradient(circle at 40% 30%, #ffe58a, #c99e2f 60%, #6d5312 100%); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div><strong>Auto GBP</strong> · миттєве повідомлення в Telegram</div>
+    </div>
+
+    <div class="card">
+      <h1>Надіслати тестове повідомлення</h1>
+      <p class="lead">Ця форма відправляє текст у ваш Telegram через Netlify Functions.</p>
+
+      <form id="tgForm" autocomplete="off">
+        <label for="chat">Chat ID (тимчасово введи сюди свій ID)</label>
+        <input id="chat" name="chat" placeholder="наприклад, 123456789" inputmode="numeric" required />
+
+        <label for="text">Текст повідомлення</label>
+        <textarea id="text" name="text" placeholder="Ваше повідомлення…" required></textarea>
+
+        <div class="actions">
+          <button id="sendBtn" type="submit">Надіслати</button>
+          <span class="note">Порада: свій chat ID можна дізнатись у бота <em>@userinfobot</em>.</span>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const $ = s => document.querySelector(s);
+    const form = $('#tgForm');
+    const btn  = $('#sendBtn');
+    const status = $('#status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const chat_id = $('#chat').value.trim();
+      const text    = $('#text').value.trim();
+      if (!chat_id || !text) {
+        status.textContent = 'Будь ласка, заповніть усі поля.';
+        status.className = 'status err';
+        return;
+      }
+      btn.disabled = true; status.textContent = 'Відправляю…'; status.className = 'status';
+
+      try {
+        const res = await fetch('/.netlify/functions/telegram', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ chat_id, text })
+        });
+
+        const body = await res.json().catch(() => ({}));
+        if (res.ok) {
+          status.textContent = 'Готово! Повідомлення надіслано ✅';
+          status.className = 'status ok';
+          form.reset();
+        } else {
+          status.textContent = 'Помилка: ' + (body.error || res.status + ' ' + res.statusText);
+          status.className = 'status err';
+        }
+      } catch (err) {
+        status.textContent = 'Помилка мережі: ' + err.message;
+        status.className = 'status err';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
