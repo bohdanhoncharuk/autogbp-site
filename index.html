@@ -1,26 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Auto GBP – Пригін авто з США та Європи</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;font-family:system-ui,Arial,sans-serif;background:#060606;color:#f8f8f8;">
+  <header style="padding:20px;text-align:center;border-bottom:1px solid #333;">
+    <h1 style="margin:0;font-size:26px;letter-spacing:2px;">AUTO GBP</h1>
+    <p style="margin:5px 0 0;font-size:14px;">Grand Best Performance – пригін авто з США та Європи</p>
+  </header>
 
-<script>
-const form = document.getElementById('tg-form');
-const textarea = document.getElementById('tg-text');
-const status = document.getElementById('status');
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  status.textContent = 'Надсилаю...';
-  try {
-    const res = await fetch('/.netlify/functions/telegram', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: textarea.value.trim() })
-    });
-    if (res.ok) {
-      status.textContent = 'Готово ✅';
-      form.reset();
-    } else {
-      const err = await res.text();
-      status.textContent = 'Помилка: ' + err;
-    }
-  } catch (err) {
-    status.textContent = 'Помилка мережі: ' + err.message;
-  }
-});
-</script>
+  <main style="max-width:900px;margin:20px auto;padding:0 15px;">
+    <section style="margin-bottom:20px;">
+      <h2 style="font-size:20px;margin-bottom:8px;">Що ми робимо</h2>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:15px;line-height:1.5;">
+        <li>Підбір авто під ваш бюджет</li>
+        <li>Участь в аукціонах США / Європи</li>
+        <li>Доставка, митне оформлення, сертифікація</li>
+        <li>Організація ремонту та підготовка до продажу</li>
+      </ul>
+    </section>
+
+    <section style="margin-bottom:20px;">
+      <h2 style="font-size:20px;margin-bottom:8px;">Контакти</h2>
+      <p style="margin:4px 0;font-size:15px;">Телефон офісу: <a href="tel:+380955633089" style="color:#ffd84a;text-decoration:none;">+38&nbsp;095&nbsp;563&nbsp;30&nbsp;89</a></p>
+      <p style="margin:4px 0;font-size:15px;">Інформаційний номер: <a href="tel:+380508232374" style="color:#ffd84a;text-decoration:none;">+38&nbsp;050&nbsp;823&nbsp;23&nbsp;74</a></p>
+      <p style="margin:4px 0;font-size:15px;">Месенджери:</p>
+      <ul style="margin:0 0 0 18px;padding:0;font-size:15px;line-height:1.5;">
+        <li><a href="https://t.me/" style="color:#ffd84a;">Telegram</a></li>
+        <li>Viber</li>
+        <li>WhatsApp</li>
+        <li>Messenger</li>
+      </ul>
+    </section>
+
+    <section style="margin-bottom:20px;">
+      <h2 style="font-size:20px;margin-bottom:8px;">Заявка на авто</h2>
+      <p style="font-size:14px;margin-bottom:8px;">Поки що сайт у тестовому режимі. Просто зателефонуйте або напишіть у месенджер – ми підберемо авто під ваш бюджет.</p>
+    </section>
+  </main>
+
+  <footer style="text-align:center;padding:10px 5px;border-top:1px solid #333;font-size:12px;color:#999;">
+    © Grand Best Performance, Auto GBP
+  </footer>
+</body>
+</html>
