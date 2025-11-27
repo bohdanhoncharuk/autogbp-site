@@ -24,25 +24,104 @@
 
     <section style="margin-bottom:20px;">
       <h2 style="font-size:20px;margin-bottom:8px;">Контакти</h2>
-      <p style="margin:4px 0;font-size:15px;">Телефон офісу: <a href="tel:+380955633089" style="color:#ffd84a;text-decoration:none;">+38&nbsp;095&nbsp;563&nbsp;30&nbsp;89</a></p>
-      <p style="margin:4px 0;font-size:15px;">Інформаційний номер: <a href="tel:+380508232374" style="color:#ffd84a;text-decoration:none;">+38&nbsp;050&nbsp;823&nbsp;23&nbsp;74</a></p>
-      <p style="margin:4px 0;font-size:15px;">Месенджери:</p>
-      <ul style="margin:0 0 0 18px;padding:0;font-size:15px;line-height:1.5;">
-        <li><a href="https://t.me/" style="color:#ffd84a;">Telegram</a></li>
-        <li>Viber</li>
-        <li>WhatsApp</li>
-        <li>Messenger</li>
-      </ul>
+      <p style="margin:4px 0;font-size:15px;">Телефон офісу:
+        <a href="tel:+380955633089" style="color:#ffd84a;text-decoration:none;">+38&nbsp;095&nbsp;563&nbsp;30&nbsp;89</a>
+      </p>
+      <p style="margin:4px 0;font-size:15px;">Інформаційний номер:
+        <a href="tel:+380508232374" style="color:#ffd84a;text-decoration:none;">+38&nbsp;050&nbsp;823&nbsp;23&nbsp;74</a>
+      </p>
     </section>
 
     <section style="margin-bottom:20px;">
       <h2 style="font-size:20px;margin-bottom:8px;">Заявка на авто</h2>
-      <p style="font-size:14px;margin-bottom:8px;">Поки що сайт у тестовому режимі. Просто зателефонуйте або напишіть у месенджер – ми підберемо авто під ваш бюджет.</p>
+      <p style="font-size:14px;margin-bottom:8px;">
+        Заповніть форму – заявка прийде до нас у Telegram.
+      </p>
+
+      <form id="lead-form" style="display:flex;flex-direction:column;gap:10px;max-width:500px;">
+        <input
+          type="text"
+          name="name"
+          placeholder="Ваше ім'я"
+          required
+          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;">
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Телефон (Viber/Telegram)"
+          required
+          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;">
+        <input
+          type="text"
+          name="car"
+          placeholder="Бажане авто / бюджет"
+          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;">
+        <textarea
+          name="comment"
+          rows="3"
+          placeholder="Додаткова інформація"
+          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;"></textarea>
+
+        <button
+          type="submit"
+          style="padding:12px;border:none;border-radius:4px;background:#ffd84a;color:#000;
+                 font-weight:600;cursor:pointer;">
+          Надіслати заявку
+        </button>
+
+        <div id="form-status" style="font-size:14px;min-height:18px;"></div>
+      </form>
     </section>
   </main>
 
   <footer style="text-align:center;padding:10px 5px;border-top:1px solid #333;font-size:12px;color:#999;">
     © Grand Best Performance, Auto GBP
   </footer>
+
+  <script>
+    // ⚠️ СЮДИ ВСТАВИ СВОЇ ДАНІ:
+    const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';   // твій токен бота
+    const CHAT_ID   = 'YOUR_CHAT_ID_HERE';     // твій chat_id
+
+    const form   = document.getElementById('lead-form');
+    const status = document.getElementById('form-status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const name    = formData.get('name');
+      const phone   = formData.get('phone');
+      const car     = formData.get('car');
+      const comment = formData.get('comment');
+
+      const text =
+        'Нова заявка з сайту Auto GBP:%0A%0A' +
+        'Імʼя: ' + encodeURIComponent(name) + '%0A' +
+        'Телефон: ' + encodeURIComponent(phone) + '%0A' +
+        'Авто / бюджет: ' + encodeURIComponent(car || '-') + '%0A' +
+        'Коментар: ' + encodeURIComponent(comment || '-') + '%0A';
+
+      status.style.color = '#ccc';
+      status.textContent = 'Надсилаємо заявку...';
+
+      try {
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`;
+        const res = await fetch(url);
+
+        if (res.ok) {
+          status.style.color = '#65d96b';
+          status.textContent = 'Заявку надіслано ✅ Ми зателефонуємо найближчим часом.';
+          form.reset();
+        } else {
+          status.style.color = '#ff8080';
+          status.textContent = 'Помилка при надсиланні. Спробуйте ще раз або зателефонуйте.';
+        }
+      } catch (err) {
+        status.style.color = '#ff8080';
+        status.textContent = 'Помилка мережі. Перевірте інтернет або зателефонуйте.';
+      }
+    });
+  </script>
 </body>
 </html>
