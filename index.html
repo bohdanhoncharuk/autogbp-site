@@ -4,124 +4,709 @@
   <meta charset="UTF-8">
   <title>Auto GBP – Пригін авто з США та Європи</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+        content="Auto GBP (Grand Best Performance) – підбір, викуп, доставка та розмитнення авто з США та Європи під ключ.">
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-soft: #101218;
+      --gold: #ffd86a;
+      --gold-soft: #e4c45a;
+      --text: #f7f7f7;
+      --muted: #9a9a9a;
+      --border: #262935;
+      --error: #ff7070;
+      --success: #65d96b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #1a1a24 0, transparent 55%),
+        radial-gradient(circle at bottom right, #161620 0, transparent 55%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(5, 6, 8, 0.92);
+      border-bottom: 1px solid rgba(255, 216, 106, 0.08);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      margin-right: 8px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      font-size: 13px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 216, 106, 0.5);
+      color: var(--gold-soft);
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.6fr);
+      gap: 28px;
+      align-items: center;
+      margin-top: 18px;
+      margin-bottom: 36px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      line-height: 1.2;
+      margin: 10px 0 12px;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+    }
+
+    .hero-text {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .hero-list {
+      padding-left: 18px;
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #d3d3d3;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      border: none;
+      border-radius: 999px;
+      padding: 11px 20px;
+      background: linear-gradient(120deg, #ffe18a, #f7c84f);
+      color: #171717;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 216, 106, 0.25);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--gold-soft);
+      color: var(--gold-soft);
+    }
+
+    .hero-card {
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      background: radial-gradient(circle at top, rgba(255, 216, 106, 0.06), transparent 55%),
+                  rgba(6, 8, 12, 0.9);
+      border: 1px solid rgba(255, 216, 106, 0.2);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-card-title {
+      font-size: 16px;
+      margin: 0 0 10px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .hero-grid-item {
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(10, 12, 18, 0.95);
+      border: 1px solid rgba(50, 55, 72, 0.9);
+    }
+
+    .hero-grid-label {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+
+    .hero-grid-value {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .sections {
+      display: grid;
+      gap: 28px;
+    }
+
+    section {
+      border-radius: 18px;
+      background: rgba(6, 8, 12, 0.9);
+      border: 1px solid rgba(38, 41, 53, 0.95);
+      padding: 18px 18px 16px;
+    }
+
+    section h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    section p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .card {
+      padding: 10px;
+      border-radius: 12px;
+      background: #0b0d13;
+      border: 1px solid #282c3a;
+      font-size: 13px;
+    }
+
+    .card strong {
+      font-size: 13px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .step {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(255, 216, 106, 0.12);
+      border: 1px solid rgba(255, 216, 106, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--gold-soft);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-text {
+      color: #d5d5d5;
+    }
+
+    .contacts-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .contacts-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .messengers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 216, 106, 0.4);
+      background: rgba(0, 0, 0, 0.25);
+      color: var(--gold-soft);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 10px;
+      max-width: 520px;
+      margin-top: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .field label {
+      color: #d0d0d0;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    textarea {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #34384a;
+      background: #05060a;
+      color: var(--text);
+      font: inherit;
+      resize: vertical;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #555a6b;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    #form-status {
+      font-size: 13px;
+      min-height: 18px;
+      margin-top: 4px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px 5px 18px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 850px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .hero-title {
+        font-size: 22px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .cards {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-actions .btn-ghost {
+        text-align: center;
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-<body style="margin:0;font-family:system-ui,Arial,sans-serif;background:#060606;color:#f8f8f8;">
-  <header style="padding:20px;text-align:center;border-bottom:1px solid #333;">
-    <h1 style="margin:0;font-size:26px;letter-spacing:2px;">AUTO GBP</h1>
-    <p style="margin:5px 0 0;font-size:14px;">Grand Best Performance – пригін авто з США та Європи</p>
-  </header>
+<body>
+<header>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-mark">G</div>
+      <div>
+        <div class="logo-text-main">AUTO GBP</div>
+        <div class="logo-text-sub">Grand Best Performance · Dubno</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#services">Послуги</a>
+      <a href="#process">Як це працює</a>
+      <a href="#request">Заявка</a>
+      <a href="#contacts">Контакти</a>
+    </nav>
+  </div>
+</header>
 
-  <main style="max-width:900px;margin:20px auto;padding:0 15px;">
-    <section style="margin-bottom:20px;">
-      <h2 style="font-size:20px;margin-bottom:8px;">Що ми робимо</h2>
-      <ul style="margin:0 0 0 18px;padding:0;font-size:15px;line-height:1.5;">
-        <li>Підбір авто під ваш бюджет</li>
-        <li>Участь в аукціонах США / Європи</li>
-        <li>Доставка, митне оформлення, сертифікація</li>
-        <li>Організація ремонту та підготовка до продажу</li>
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div>
+      <div class="badge">
+        Пригін авто під ключ
+        <span style="width:4px;height:4px;border-radius:50%;background:var(--gold);"></span>
+        США · Європа · Канада
+      </div>
+      <h1 class="hero-title">
+        Авто з <span>США та Європи</span> з повним супроводом
+      </h1>
+      <p class="hero-text">
+        Підбір, викуп, доставка, митне оформлення, ремонт та підготовка до реєстрації.
+        Працюємо офіційно через ТОВ «Grand Best Performance».
+      </p>
+      <ul class="hero-list">
+        <li>Пояснюємо кожен етап і бюджет до підписання договору</li>
+        <li>Працюємо прозоро: фото, відео та звіти по етапах</li>
+        <li>Допомагаємо з продажем готового авто</li>
       </ul>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('request').scrollIntoView({behavior:'smooth'});">
+          Залишити заявку
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('contacts').scrollIntoView({behavior:'smooth'});">
+          Подзвонити / написати
+        </button>
+        <span style="font-size:11px;color:var(--muted);">
+          Безкоштовна консультація перед стартом роботи
+        </span>
+      </div>
+    </div>
+
+    <aside class="hero-card">
+      <h3 class="hero-card-title">Auto GBP · Коротко про нас</h3>
+      <div class="hero-grid">
+        <div class="hero-grid-item">
+          <div class="hero-grid-label">Юр. особа</div>
+          <div class="hero-grid-value">ТОВ «Grand Best Performance»</div>
+        </div>
+        <div class="hero-grid-item">
+          <div class="hero-grid-label">Локація</div>
+          <div class="hero-grid-value">м. Дубно, Рівненська обл.</div>
+        </div>
+        <div class="hero-grid-item">
+          <div class="hero-grid-label">Напрямки</div>
+          <div class="hero-grid-value">США · ЄС · електро · SUV</div>
+        </div>
+        <div class="hero-grid-item">
+          <div class="hero-grid-label">Формат</div>
+          <div class="hero-grid-value">Від підбору до номера</div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <div class="sections">
+    <!-- SERVICES -->
+    <section id="services">
+      <h2>Що ми робимо</h2>
+      <p>
+        Закриваємо весь ланцюжок – від ідеї авто до готового результату «під ключ».
+        Можна заходити як з невеликим бюджетом, так і під преміум сегмент.
+      </p>
+      <div class="cards">
+        <div class="card">
+          <strong>Підбір авто</strong><br>
+          Разом визначаємо бюджет, клас авто, паливо та задачі. Пояснюємо варіанти по ринку
+          і розрахунок кінцевої вартості в Україні.
+        </div>
+        <div class="card">
+          <strong>Аукціони та викуп</strong><br>
+          Працюємо з Copart, IAAI та європейськими майданчиками. Аналізуємо історію,
+          ставимо реалістичні ставки, не женемося за «виграти будь-що».
+        </div>
+        <div class="card">
+          <strong>Доставка та логістика</strong><br>
+          Організовуємо доставку до порту, морський етап, розвантаження та доставку по Україні.
+          Тримаємо в курсі всіх переміщень авто.
+        </div>
+        <div class="card">
+          <strong>Мито, сертифікація</strong><br>
+          Допомагаємо з розмитненням, сертифікацією, постановкою на облік. Підказуємо, де можна
+          оптимізувати витрати, а де краще не економити.
+        </div>
+        <div class="card">
+          <strong>Ремонт та підготовка</strong><br>
+          Підбір СТО, контроль основних робіт, поради по запчастинах. Орієнтуємось на чесний технічний стан,
+          а не тільки «щоб блищало».
+        </div>
+        <div class="card">
+          <strong>Продаж або користування</strong><br>
+          Підкажемо по ринковій ціні, можемо допомогти з продажем, якщо авто купується
+          під перепродаж чи оновлення автопарку.
+        </div>
+      </div>
     </section>
 
-    <section style="margin-bottom:20px;">
-      <h2 style="font-size:20px;margin-bottom:8px;">Контакти</h2>
-      <p style="margin:4px 0;font-size:15px;">Телефон офісу:
-        <a href="tel:+380955633089" style="color:#ffd84a;text-decoration:none;">+38&nbsp;095&nbsp;563&nbsp;30&nbsp;89</a>
-      </p>
-      <p style="margin:4px 0;font-size:15px;">Інформаційний номер:
-        <a href="tel:+380508232374" style="color:#ffd84a;text-decoration:none;">+38&nbsp;050&nbsp;823&nbsp;23&nbsp;74</a>
-      </p>
+    <!-- PROCESS -->
+    <section id="process">
+      <h2>Як це працює – прості кроки</h2>
+      <p>Схема співпраці без «магії» – кожен етап зрозумілий і прозорий.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            Ви залишаєте заявку або телефонуєте. Узгоджуємо бюджет, тип авто, терміни та формат співпраці.
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            Підбір лотів, пояснення плюсів/мінусів кожного варіанту, попередній розрахунок
+            повної вартості в Україні.
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            Викуп на аукціоні, оформлення документів, доставка до порту, корабель, розмитнення та сертифікація.
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">
+            Ремонт (за потреби), діагностика, підготовка до реєстрації. Ви отримуєте авто в зрозумілому стані,
+            а не «кота в мішку».
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-text">
+            Допомога з продажем/страхуванням/обслуговуванням. Ми залишаємось на зв’язку і після видачі авто.
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section style="margin-bottom:20px;">
-      <h2 style="font-size:20px;margin-bottom:8px;">Заявка на авто</h2>
-      <p style="font-size:14px;margin-bottom:8px;">
-        Заповніть форму – заявка прийде до нас у Telegram.
+    <!-- REQUEST / FORM -->
+    <section id="request">
+      <h2>Заявка на підбір авто</h2>
+      <p>
+        Заповніть коротку форму – я перегляну ваш запит і зв’яжусь з вами по телефону або в месенджері.
       </p>
+      <form id="lead-form" class="form-grid">
+        <div class="field">
+          <label for="name">Ваше ім’я *</label>
+          <input id="name" type="text" name="name" required placeholder="Як до вас звертатися">
+        </div>
+        <div class="field">
+          <label for="phone">Телефон / месенджер *</label>
+          <input id="phone" type="tel" name="phone" required placeholder="+38 (0ХХ) ХХХ-ХХ-ХХ">
+        </div>
+        <div class="field">
+          <label for="car">Бажане авто / бюджет</label>
+          <input id="car" type="text" name="car" placeholder="Напр. Ford Edge до 20 000 $, електро, кросовер тощо">
+        </div>
+        <div class="field">
+          <label for="comment">Додаткова інформація</label>
+          <textarea id="comment" name="comment"
+                    placeholder="Що важливо по авто: рік, пробіг, паливо, коробка, привід, чи є авто на обмін тощо"></textarea>
+        </div>
 
-      <form id="lead-form" style="display:flex;flex-direction:column;gap:10px;max-width:500px;">
-        <input
-          type="text"
-          name="name"
-          placeholder="Ваше ім'я"
-          required
-          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;">
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Телефон (Viber/Telegram)"
-          required
-          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;">
-        <input
-          type="text"
-          name="car"
-          placeholder="Бажане авто / бюджет"
-          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;">
-        <textarea
-          name="comment"
-          rows="3"
-          placeholder="Додаткова інформація"
-          style="padding:10px;border-radius:4px;border:1px solid #444;background:#111;color:#f8f8f8;"></textarea>
-
-        <button
-          type="submit"
-          style="padding:12px;border:none;border-radius:4px;background:#ffd84a;color:#000;
-                 font-weight:600;cursor:pointer;">
-          Надіслати заявку
+        <button type="submit" class="btn-primary">
+          Надіслати заявку в Telegram
         </button>
 
-        <div id="form-status" style="font-size:14px;min-height:18px;"></div>
+        <div id="form-status"></div>
       </form>
     </section>
-  </main>
 
-  <footer style="text-align:center;padding:10px 5px;border-top:1px solid #333;font-size:12px;color:#999;">
-    © Grand Best Performance, Auto GBP
-  </footer>
+    <!-- CONTACTS -->
+    <section id="contacts">
+      <h2>Контакти Auto GBP</h2>
+      <p>Завжди можна просто подзвонити або написати в зручний месенджер.</p>
+      <div class="contacts-grid">
+        <div class="contacts-row">
+          <strong>Телефон офісу:</strong>
+          <a href="tel:+380955633089">+38 095 563 30 89</a>
+        </div>
+        <div class="contacts-row">
+          <strong>Інформаційний номер:</strong>
+          <a href="tel:+380508232374">+38 050 823 23 74</a>
+        </div>
+        <div class="contacts-row">
+          <strong>Месенджери:</strong>
+          <div class="messengers">
+            <a class="pill" href="https://t.me/AutoGBPbot" target="_blank" rel="noopener">Telegram бот</a>
+            <a class="pill" href="viber://chat?number=%2B380955633089">Viber</a>
+            <a class="pill" href="https://wa.me/380955633089" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="pill" href="https://m.me/" target="_blank" rel="noopener">Messenger</a>
+          </div>
+        </div>
+        <div class="contacts-row" style="font-size:13px;color:var(--muted);">
+          Працюємо переважно по Рівненській області та сусідніх регіонах, але доставку можемо організувати по всій Україні.
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
 
-  <script>
-    // ⚠️ СЮДИ ВСТАВИ СВОЇ ДАНІ:
-    const BOT_TOKEN = '8047611600:AAGFificTsV0FDpZ-NmgFKjZTeaT_xDJQtc';
-    const CHAT_ID   = '7490517948';
+<footer>
+  © Grand Best Performance · Auto GBP. Пригін авто з США та Європи.
+</footer>
 
-    const form   = document.getElementById('lead-form');
-    const status = document.getElementById('form-status');
+<script>
+  // =========================
+  //   TELEGRAM CONFIG
+  //   🔻 СЮДИ ВСТАВ СВОЇ ДАНІ
+  // =========================
+  const BOT_TOKEN = '8047611600:AAGFificTsV0FDpZ-NmgFKjZTeaT_XDJQtc';   // ← сюди встав свій токен бота
+  const CHAT_ID   = '7490517948';     // ← сюди свій chat_id
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  const form   = document.getElementById('lead-form');
+  const status = document.getElementById('form-status');
 
-      const formData = new FormData(form);
-      const name    = formData.get('name');
-      const phone   = formData.get('phone');
-      const car     = formData.get('car');
-      const comment = formData.get('comment');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      const text =
-        'Нова заявка з сайту Auto GBP:%0A%0A' +
-        'Імʼя: ' + encodeURIComponent(name) + '%0A' +
-        'Телефон: ' + encodeURIComponent(phone) + '%0A' +
-        'Авто / бюджет: ' + encodeURIComponent(car || '-') + '%0A' +
-        'Коментар: ' + encodeURIComponent(comment || '-') + '%0A';
+    const formData = new FormData(form);
+    const name    = formData.get('name');
+    const phone   = formData.get('phone');
+    const car     = formData.get('car');
+    const comment = formData.get('comment');
 
-      status.style.color = '#ccc';
-      status.textContent = 'Надсилаємо заявку...';
+    const text =
+      'Нова заявка з сайту Auto GBP:%0A%0A' +
+      'Імʼя: ' + encodeURIComponent(name) + '%0A' +
+      'Телефон: ' + encodeURIComponent(phone) + '%0A' +
+      'Авто / бюджет: ' + encodeURIComponent(car || '-') + '%0A' +
+      'Коментар: ' + encodeURIComponent(comment || '-') + '%0A';
 
-      try {
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`;
-        const res = await fetch(url);
+    status.style.color = '#ccc';
+    status.textContent = 'Надсилаємо заявку...';
 
-        if (res.ok) {
-          status.style.color = '#65d96b';
-          status.textContent = 'Заявку надіслано ✅ Ми зателефонуємо найближчим часом.';
-          form.reset();
-        } else {
-          status.style.color = '#ff8080';
-          status.textContent = 'Помилка при надсиланні. Спробуйте ще раз або зателефонуйте.';
-        }
-      } catch (err) {
-        status.style.color = '#ff8080';
-        status.textContent = 'Помилка мережі. Перевірте інтернет або зателефонуйте.';
+    try {
+      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`;
+      const res = await fetch(url);
+
+      if (res.ok) {
+        status.style.color = getComputedStyle(document.documentElement)
+          .getPropertyValue('--success') || '#65d96b';
+        status.textContent = 'Заявку надіслано ✅ Ми зателефонуємо найближчим часом.';
+        form.reset();
+      } else {
+        status.style.color = getComputedStyle(document.documentElement)
+          .getPropertyValue('--error') || '#ff7070';
+        status.textContent = 'Помилка при надсиланні. Спробуйте ще раз або зателефонуйте.';
       }
-    });
-  </script>
+    } catch (err) {
+      status.style.color = getComputedStyle(document.documentElement)
+        .getPropertyValue('--error') || '#ff7070';
+      status.textContent = 'Помилка мережі. Перевірте інтернет або зателефонуйте.';
+    }
+  });
+</script>
 </body>
 </html>
