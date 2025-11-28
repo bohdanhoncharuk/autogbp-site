@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Наші авто – Auto GBP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Галерея авто, які Auto GBP вже пригнали та підготували для клієнтів." />
+  <style>
+    :root {
+      --bg: #050506;
+      --card: #111115;
+      --border: #26262b;
+      --gold: #ffd86a;
+      --text: #f7f7f7;
+      --muted: #a0a0a0;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #121219 0, #050506 55%);
+      color: var(--text);
+    }
+    a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(16px);
+      background: rgba(5, 5, 8, 0.9);
+      border-bottom: 1px solid rgba(255, 216, 106, 0.18);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    nav {
+      display: flex;
+      gap: 14px;
+      font-size: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    nav a {
+      color: var(--text);
+      opacity: 0.8;
+    }
+    nav a:hover {
+      opacity: 1;
+      color: var(--gold);
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    .page-title {
+      margin: 12px 0 4px;
+      font-size: 26px;
+      letter-spacing: 1px;
+    }
+    .page-subtitle {
+      margin: 0 0 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .gallery-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+    }
+    .car-card {
+      background: linear-gradient(145deg, #101015, #08080b);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      flex: 1 1 260px;
+      max-width: 330px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+    }
+    .car-card img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: 210px;
+    }
+    .car-body {
+      padding: 12px 14px 14px;
+      font-size: 13px;
+    }
+    .car-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .car-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .car-notes {
+      font-size: 12px;
+      color: #d5d5d5;
+      margin-bottom: 10px;
+    }
+    .card-footer {
+      padding: 0 14px 14px;
+    }
+    .btn-outline {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--gold);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 216, 106, 0.08);
+    }
+    .insta-note {
+      margin-top: 26px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    footer {
+      border-top: 1px solid #1f1f24;
+      padding: 10px 16px 16px;
+      font-size: 12px;
+      color: #8a8a8a;
+      text-align: center;
+      background: #050506;
+    }
+    @media (max-width: 600px) {
+      .page-title {
+        font-size: 22px;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      nav {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <div class="logo-badge">G</div>
+        <div>
+          <div style="font-weight:700;font-size:15px;">AUTO GBP</div>
+          <div style="font-size:11px;color:var(--muted);">
+            Grand Best Performance · Dubno
+          </div>
+        </div>
+      </a>
+      <nav>
+        <a href="/">Головна</a>
+        <a href="/#services">Послуги</a>
+        <a href="/#how-it-works">Як це працює</a>
+        <a href="/#request">Заявка</a>
+        <a href="/#contacts">Контакти</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title">Наші авто</h1>
+    <p class="page-subtitle">
+      Декілька прикладів авто, які ми вже пригнали та підготували. 
+      Так само можемо підібрати й ваше.
+    </p>
+
+    <div class="gallery-grid">
+      <!-- 1 -->
+      <article class="car-card">
+        <img src="images/edge-2020-1.jpg" alt="Ford Edge 2020 SEL AWD" />
+        <div class="car-body">
+          <div class="car-title">Ford Edge 2020 · SEL AWD</div>
+          <div class="car-meta">2.0 EcoBoost · США · автомат · повний привід</div>
+          <div class="car-notes">
+            Підбір на Copart, доставка в Україну, митниця, сертифікація та 
+            контроль ремонту «під ключ».
+          </div>
+          <div class="card-footer">
+            <a href="/#request" class="btn-outline">Хочу схожу автівку</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="car-card">
+        <img src="images/bmw-x5-1.jpg" alt="BMW X5" />
+        <div class="car-body">
+          <div class="car-title">BMW X5 · дизель · Європа</div>
+          <div class="car-meta">3.0d · ЄС · сервісна історія · оригінальний пробіг</div>
+          <div class="car-notes">
+            Перевірка по базах, діагностика ходової, кузова та електроніки перед купівлею.
+          </div>
+          <div class="card-footer">
+            <a href="/#request" class="btn-outline">Хочу схожу автівку</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="car-card">
+        <img src="images/tesla-3-1.jpg" alt="Tesla Model 3 Long Range" />
+        <div class="car-body">
+          <div class="car-title">Tesla Model 3 · Long Range</div>
+          <div class="car-meta">Електро · США · запас ходу 400+ км</div>
+          <div class="car-notes">
+            Повний супровід: аукціон, доставка, розмитнення, реєстрація, порада по зарядці.
+          </div>
+          <div class="card-footer">
+            <a href="/#request" class="btn-outline">Хочу схожу автівку</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="car-card">
+        <img src="images/range-evoque-1.jpg" alt="Range Rover Evoque" />
+        <div class="car-body">
+          <div class="car-title">Range Rover Evoque · 2.0T AWD</div>
+          <div class="car-meta">Бензин · автомат · повний привід</div>
+          <div class="car-notes">
+            Підбір під сімейний міський кросовер, оптимальний баланс ціни та стану.
+          </div>
+          <div class="card-footer">
+            <a href="/#request" class="btn-outline">Хочу схожу автівку</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="car-card">
+        <img src="images/sprinter-1.jpg" alt="Mercedes Sprinter" />
+        <div class="car-body">
+          <div class="car-title">Mercedes Sprinter · робочий автомобіль</div>
+          <div class="car-meta">Дизель · Європа · вантажний</div>
+          <div class="car-notes">
+            Підбір під бізнес: пробіг, вантажопідйомність, стан рами та кузова — все перевіряємо.
+          </div>
+          <div class="card-footer">
+            <a href="/#request" class="btn-outline">Хочу схожу автівку</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 -->
+      <article class="car-card">
+        <img src="images/leaf-1.jpg" alt="Nissan Leaf" />
+        <div class="car-body">
+          <div class="car-title">Nissan Leaf · електро для міста</div>
+          <div class="car-meta">Електро · Європа / США · економічний міський варіант</div>
+          <div class="car-notes">
+            Перевірка стану батареї, поради по зарядці та експлуатації в наших умовах.
+          </div>
+          <div class="card-footer">
+            <a href="/#request" class="btn-outline">Хочу схожу автівку</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <p class="insta-note">
+      Більше живих фото та історій дивись в Instagram:&nbsp;
+      <a href="https://instagram.com/ТВІЙ_НІК" target="_blank">@ТВІЙ_НІК</a>
+    </p>
+  </main>
+
+  <footer>
+    © Grand Best Performance · Auto GBP. Пригін авто з США та Європи.
+  </footer>
+</body>
+</html>
