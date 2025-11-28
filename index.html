@@ -658,52 +658,59 @@
 </footer>
 
 <script>
-  // =========================
-  //   TELEGRAM CONFIG
-  //   🔻 СЮДИ ВСТАВ СВОЇ ДАНІ
-  // =========================
+  <script>
+  // ⚠️ ТВОЇ ДАНІ БОТА
   const BOT_TOKEN ='8047611600:AAGFificTsV0FDpZ-NmgFKjZTeaT_xDJQtc';
   const CHAT_ID   ='7490517948';
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // ПРИВʼЯЗКА ДО HTML
+  const form   = document.getElementById('lead-form');    // id форми
+  const status = document.getElementById('form-status');  // id блоку зі статусом
 
-    const formData = new FormData(form);
-    const name    = formData.get('name');
-    const phone   = formData.get('phone');
-    const car     = formData.get('car');
-    const comment = formData.get('comment');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    const text =
-      'Нова заявка з сайту Auto GBP:%0A%0A' +
-      'Імʼя: ' + encodeURIComponent(name) + '%0A' +
-      'Телефон: ' + encodeURIComponent(phone) + '%0A' +
-      'Авто / бюджет: ' + encodeURIComponent(car || '-') + '%0A' +
-      'Коментар: ' + encodeURIComponent(comment || '-') + '%0A';
+      const formData = new FormData(form);
+      const name    = formData.get('name');
+      const phone   = formData.get('phone');
+      const car     = formData.get('car');
+      const comment = formData.get('comment');
 
-    status.style.color = '#ccc';
-    status.textContent = 'Надсилаємо заявку...';
+      const text =
+        'Нова заявка з сайту Auto GBP:%0A%0A' +
+        'Імʼя: ' + encodeURIComponent(name) + '%0A' +
+        'Телефон: ' + encodeURIComponent(phone) + '%0A' +
+        'Авто / бюджет: ' + encodeURIComponent(car || '-') + '%0A' +
+        'Коментар: ' + encodeURIComponent(comment || '-') + '%0A';
 
-    try {
-      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`;
-      const res = await fetch(url);
-
-      if (res.ok) {
-        status.style.color = getComputedStyle(document.documentElement)
-          .getPropertyValue('--success') || '#65d96b';
-        status.textContent = 'Заявку надіслано ✅ Ми зателефонуємо найближчим часом.';
-        form.reset();
-      } else {
-        status.style.color = getComputedStyle(document.documentElement)
-          .getPropertyValue('--error') || '#ff7070';
-        status.textContent = 'Помилка при надсиланні. Спробуйте ще раз або зателефонуйте.';
+      if (status) {
+        status.style.color = '#ccc';
+        status.textContent = 'Надсилаємо заявку...';
       }
-    } catch (err) {
-      status.style.color = getComputedStyle(document.documentElement)
-        .getPropertyValue('--error') || '#ff7070';
-      status.textContent = 'Помилка мережі. Перевірте інтернет або зателефонуйте.';
-    }
-  });
+
+      try {
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`;
+        const res = await fetch(url);
+
+        if (res.ok) {
+          if (status) {
+            status.style.color = '#65d96b';
+            status.textContent = 'Заявку надіслано ✅ Ми звʼяжемося з вами.';
+          }
+          form.reset();
+        } else {
+          if (status) {
+            status.style.color = '#ff7070';
+            status.textContent = 'Помилка при надсиланні. Спробуйте ще раз або зателефонуйте.';
+          }
+        }
+      } catch (err) {
+        if (status) {
+          status.style.color = '#ff7070';
+          status.textContent = 'Помилка мережі. Перевірте інтернет або зателефонуйте.';
+        }
+      }
+    });
+  }
 </script>
-</body>
-</html>
