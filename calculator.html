@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Калькулятор вартості авто – Auto GBP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+        content="Калькулятор вартості авто з США та Європи від Auto GBP (Grand Best Performance). Орієнтовний розрахунок повної вартості з доставкою та митом.">
+  <link rel="icon" href="logo-gbp.png" type="image/png">
+
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-elevated: #0b0d12;
+      --panel: #0f1218;
+      --text: #f7f7f7;
+      --muted: #9a9a9a;
+      --border: #262935;
+      --gold: #ffd86a;
+      --gold-soft: #e4c45a;
+      --danger: #ff7070;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #131621 0, #050608 55%, #000 100%);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.94), rgba(0,0,0,0.85), transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #fff5c4, #f0b93c 40%, #704200);
+      border: 1px solid rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .logo-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav a {
+      padding: 4px 0;
+      position: relative;
+      color: #d7d7d7;
+      white-space: nowrap;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      height: 2px;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+      transition: width 0.18s ease-out;
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.nav-active {
+      color: var(--gold);
+    }
+
+    .nav a.nav-active::after {
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .header-phone {
+      font-size: 13px;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .header-btn {
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,216,106,0.5);
+      background: radial-gradient(circle at top, rgba(255,216,106,0.22), transparent);
+      color: var(--gold);
+    }
+
+    /* ===== LAYOUT ===== */
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    .breadcrumbs {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .breadcrumbs a {
+      color: var(--muted);
+    }
+
+    .breadcrumbs span {
+      color: #d0d0d0;
+    }
+
+    .page-header {
+      margin-bottom: 18px;
+    }
+
+    .page-title {
+      font-size: 26px;
+      margin: 0 0 6px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 560px;
+    }
+
+    /* ===== CALC ===== */
+    .calc-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: flex-start;
+    }
+
+    .panel {
+      background: radial-gradient(circle at top left, rgba(255,216,106,0.09), transparent 55%),
+                  var(--panel);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 18px 18px 16px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.6);
+    }
+
+    .panel-title {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .panel-text {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .calc-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .calc-field label {
+      color: var(--muted);
+    }
+
+    .calc-field input {
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #05060a;
+      color: var(--text);
+      outline: none;
+      font-size: 14px;
+    }
+
+    .calc-field input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(255,216,106,0.4);
+    }
+
+    .calc-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .calc-result {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .calc-result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .calc-result-label {
+      color: var(--muted);
+    }
+
+    .calc-result-value {
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    .calc-result-value-small {
+      font-size: 16px;
+      color: #dcdcdc;
+    }
+
+    .calc-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--gold);
+    }
+
+    .back-link span {
+      font-size: 16px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 24px;
+      padding: 12px 16px 18px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 860px) {
+      .header-inner {
+        flex-wrap: wrap;
+        row-gap: 8px;
+        align-items: flex-start;
+      }
+
+      .nav {
+        order: 2;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 13px;
+      }
+
+      .header-actions {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .calc-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .logo-title {
+        font-size: 16px;
+      }
+      .page-title {
+        font-size: 22px;
+      }
+      .calc-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-badge">
+          <!-- Якщо логотип не підвантажиться, буде просто золотий круг -->
+          <img src="logo-gbp.png" alt="GBP" onerror="this.style.display='none'">
+        </div>
+        <div>
+          <div class="logo-title">AUTO GBP</div>
+          <div class="logo-sub">Grand Best Performance · Dubno</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html">Головна</a>
+        <a href="cars.html">Авто в наявності</a>
+        <a href="calculator.html" class="nav-active">Калькулятор</a>
+        <a href="index.html#request">Заявка</a>
+        <a href="index.html#contacts">Контакти</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="tel:+380955633089" class="header-phone">+38 095 563 30 89</a>
+        <a href="https://t.me/AutoGBpBot" class="header-btn" target="_blank" rel="noopener">
+          Telegram бот
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== PAGE ===== -->
+  <main class="page">
+    <div class="breadcrumbs">
+      <a href="index.html">Головна</a> · <span>Калькулятор</span>
+    </div>
+
+    <header class="page-header">
+      <h1 class="page-title">Калькулятор вартості авто</h1>
+      <p class="page-subtitle">
+        Орієнтовний розрахунок повної вартості авто з урахуванням аукціонного збору,
+        доставки, митних платежів та комісії Auto GBP. Для точного прорахунку – просто
+        надішліть нам заявку.
+      </p>
+    </header>
+
+    <div class="calc-layout">
+      <!-- Ліва панель – введення -->
+      <section class="panel">
+        <h2 class="panel-title">Вихідні дані</h2>
+        <p class="panel-text">
+          Можеш змінювати будь-які цифри під свій кейс. Якщо чогось не знаєш – залишай поле порожнім.
+        </p>
+
+        <form id="calc-form" class="calc-grid">
+          <div class="calc-field">
+            <label for="price">Ціна авто на аукціоні, $</label>
+            <input id="price" name="price" type="number" inputmode="decimal" placeholder="Наприклад, 12000">
+          </div>
+
+          <div class="calc-field">
+            <label for="fee">Аукціонний збір, $</label>
+            <input id="fee" name="fee" type="number" inputmode="decimal" placeholder="Наприклад, 600">
+          </div>
+
+          <div class="calc-field">
+            <label for="shipping">Доставка до України, $</label>
+            <input id="shipping" name="shipping" type="number" inputmode="decimal" placeholder="Наприклад, 1800">
+          </div>
+
+          <div class="calc-field">
+            <label for="customs">Митні платежі, $</label>
+            <input id="customs" name="customs" type="number" inputmode="decimal" placeholder="Наприклад, 2500">
+          </div>
+
+          <div class="calc-field">
+            <label for="service">Комісія Auto GBP, $</label>
+            <input id="service" name="service" type="number" inputmode="decimal" placeholder="Наприклад, 700">
+          </div>
+
+          <div class="calc-field">
+            <label for="repair">Ремонт / дод. витрати, $ (за бажанням)</label>
+            <input id="repair" name="repair" type="number" inputmode="decimal" placeholder="Наприклад, 1500">
+          </div>
+
+          <div class="calc-field">
+            <label for="rate">Курс долара, грн</label>
+            <input id="rate" name="rate" type="number" inputmode="decimal" value="42">
+          </div>
+        </form>
+
+        <p class="calc-hint">
+          Порада: можна взяти середні значення по подібних авто, а ми вже після аукціону все звіримо по факту.
+        </p>
+      </section>
+
+      <!-- Права панель – результати -->
+      <aside class="panel">
+        <h2 class="panel-title">Результат розрахунку</h2>
+        <p class="panel-text">
+          Це попередній прорахунок “під ключ”. Остаточні суми залежать від конкретного лота,
+          ставки, курсу та умов доставки.
+        </p>
+
+        <div class="calc-result">
+          <div class="calc-result-row">
+            <span class="calc-result-label">Вартість авто + аукціонний збір</span>
+            <span class="calc-result-value-small" id="subtotal-auction">0 $</span>
+          </div>
+
+          <div class="calc-result-row">
+            <span class="calc-result-label">З доставкою до України</span>
+            <span class="calc-result-value-small" id="subtotal-shipping">0 $</span>
+          </div>
+
+          <div class="calc-result-row">
+            <span class="calc-result-label">До митного очищення</span>
+            <span class="calc-result-value-small" id="subtotal-before-customs">0 $</span>
+          </div>
+
+          <div class="calc-result-row">
+            <span class="calc-result-label">Повна вартість, $</span>
+            <span class="calc-result-value" id="total-usd">0 $</span>
+          </div>
+
+          <div class="calc-result-row">
+            <span class="calc-result-label">Повна вартість, грн</span>
+            <span class="calc-result-value" id="total-uah">0 грн</span>
+          </div>
+        </div>
+
+        <p class="calc-note">
+          * Розрахунок ознайомчий і не є публічною офертою.  
+          Щоб отримати детальний прорахунок саме під ваше авто – залиште
+          <a href="index.html#request" style="color: var(--gold);">заявку на головній</a>
+          або напишіть нам в Telegram.
+        </p>
+
+        <a class="back-link" href="index.html#request">
+          <span>←</span> Повернутися до заявки
+        </a>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © Grand Best Performance · Auto GBP. Пригін авто з США та Європи.
+  </footer>
+
+  <script>
+    // ===== КАЛЬКУЛЯТОР =====
+    const form = document.getElementById('calc-form');
+    const fields = form ? form.elements : null;
+
+    const elSubtotalAuction = document.getElementById('subtotal-auction');
+    const elSubtotalShipping = document.getElementById('subtotal-shipping');
+    const elSubtotalBeforeCustoms = document.getElementById('subtotal-before-customs');
+    const elTotalUsd = document.getElementById('total-usd');
+    const elTotalUah = document.getElementById('total-uah');
+
+    function num(value) {
+      if (typeof value !== 'string') return 0;
+      const n = parseFloat(value.replace(',', '.'));
+      return isNaN(n) ? 0 : n;
+    }
+
+    function fm(amount, suffix) {
+      const rounded = Math.round(amount);
+      return rounded.toLocaleString('uk-UA') + ' ' + suffix;
+    }
+
+    function recalc() {
+      if (!fields) return;
+
+      const price   = num(fields.price.value);
+      const fee     = num(fields.fee.value);
+      const ship    = num(fields.shipping.value);
+      const customs = num(fields.customs.value);
+      const serv    = num(fields.service.value);
+      const repair  = num(fields.repair.value);
+      const rate    = num(fields.rate.value) || 0;
+
+      const auction = price + fee;
+      const withShipping = auction + ship;
+      const beforeCustoms = withShipping + serv;
+      const totalUsd = beforeCustoms + customs + repair;
+      const totalUah = totalUsd * rate;
+
+      elSubtotalAuction.textContent = fm(auction, '$');
+      elSubtotalShipping.textContent = fm(withShipping, '$');
+      elSubtotalBeforeCustoms.textContent = fm(beforeCustoms, '$');
+      elTotalUsd.textContent = fm(totalUsd, '$');
+      elTotalUah.textContent = fm(totalUah, 'грн');
+    }
+
+    if (form) {
+      form.addEventListener('input', recalc);
+      recalc();
+    }
+  </script>
+</body>
+</html>
