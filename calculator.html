@@ -2,724 +2,691 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
-  <title>Калькулятор вартості авто — Auto GBP</title>
+  <title>Калькулятор — Auto GBP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Калькулятор орієнтовної вартості авто з США та Європи від Auto GBP (Grand Best Performance)." />
+  <meta name="description" content="Калькулятор вартості авто з США/Європи від Auto GBP (Grand Best Performance)." />
 
   <style>
     :root{
-      --bg:#050608;--border:#262935;--gold:#ffd86a;--gold-soft:#e4c45a;
-      --text:#f7f7f7;--muted:#9a9a9a;--success:#65d96b;
-      --radius-lg:18px;--radius-sm:8px;--shadow-soft:0 18px 40px rgba(0,0,0,.7);
+      --bg:#050608;
+      --bg2:#0b0c10;
+      --card:#0d0d11;
+      --border:#262935;
+      --gold:#ffd86a;
+      --gold2:#c69528;
+      --text:#f7f7f7;
+      --muted:#a0a0a0;
+      --ok:#65d96b;
+      --radius-lg:18px;
+      --radius-md:12px;
+      --radius-sm:10px;
+      --shadow:0 18px 40px rgba(0,0,0,.70);
     }
+
     *{box-sizing:border-box}
     body{
-      margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       background:radial-gradient(circle at top,#141821 0,#020308 55%);
-      color:var(--text);-webkit-font-smoothing:antialiased;
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
     }
     a{color:var(--gold);text-decoration:none}
+
     .container{width:min(1120px,100% - 32px);margin:0 auto}
 
-    .top-bar{
-      position:sticky;top:0;z-index:10;backdrop-filter:blur(18px);
-      background:linear-gradient(to bottom,rgba(5,6,8,.96),rgba(5,6,8,.88));
+    /* ===== TOP (як раніше) ===== */
+    .top{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(18px);
+      background:linear-gradient(to bottom, rgba(5,6,8,.96), rgba(5,6,8,.85));
       border-bottom:1px solid rgba(255,216,106,.18);
     }
-    .top-bar-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0;gap:16px}
-    .logo{display:flex;align-items:center;gap:10px}
-    .logo-mark{
+    .top-inner{
+      display:flex;flex-direction:column;gap:10px;
+      padding:12px 0 14px;
+      align-items:center;
+      text-align:center;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      justify-content:center;
+    }
+    .logo{
       width:34px;height:34px;border-radius:50%;
-      background:radial-gradient(circle at 30% 20%,#ffeaa0,#c69528);
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 0 0 1px rgba(0,0,0,.6),0 0 18px rgba(255,216,106,.55);
+      background:radial-gradient(circle at 30% 20%, #ffeaa0, var(--gold2));
+      box-shadow:0 0 0 1px rgba(0,0,0,.6), 0 0 18px rgba(255,216,106,.45);
       overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
     }
-    .logo-mark img{width:120%;height:auto;display:block}
-    .logo-text-main{font-size:18px;letter-spacing:3px;font-weight:800}
-    .logo-text-sub{font-size:11px;color:var(--muted)}
-    .nav-links{display:flex;gap:14px;font-size:14px;flex-wrap:wrap}
-    .nav-links a{
-      color:var(--muted);padding:6px 10px;border-radius:999px;border:1px solid transparent;
-      transition:.18s ease;white-space:nowrap
+    .logo img{width:120%;height:auto;display:block}
+    .brand-title{
+      font-weight:1000;letter-spacing:4px;font-size:18px;
+      color:var(--gold);
+      text-shadow:0 0 18px rgba(255,216,106,.18);
     }
-    .nav-links a:hover{color:var(--text);border-color:rgba(255,216,106,.5);background:rgba(255,216,106,.05)}
-    .nav-links .active{color:#000;font-weight:700;background:var(--gold);box-shadow:0 0 18px rgba(255,216,106,.55)}
+    .brand-sub{font-size:12px;color:var(--muted);margin-top:2px}
 
-    .page-hero{padding:26px 0 10px}
-    .page-hero h1{font-size:26px;margin:0 0 6px}
-    .page-hero p{margin:0;color:var(--muted);font-size:14px;max-width:900px}
+    .nav{
+      display:flex;gap:14px;flex-wrap:wrap;
+      justify-content:center;
+      font-size:14px;
+    }
+    .nav a{
+      color:rgba(255,255,255,.78);
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid transparent;
+      transition:.15s ease;
+      background:rgba(255,216,106,0.03);
+    }
+    .nav a:hover{
+      border-color:rgba(255,216,106,.35);
+      color:#fff;
+    }
+    .nav a.active{
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+      color:#000;
+      font-weight:900;
+      box-shadow:0 0 18px rgba(255,216,106,.35);
+    }
 
-    .layout{padding-bottom:40px}
-    .grid{display:grid;grid-template-columns:minmax(0,3.2fr) minmax(0,2.3fr);gap:18px;align-items:flex-start}
-    @media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+    /* ===== Page ===== */
+    .hero{padding:18px 0 8px}
+    .hero h1{margin:0 0 6px;font-size:22px}
+    .hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.45;max-width:900px}
+
+    .grid{
+      display:grid;
+      grid-template-columns:minmax(0,3.2fr) minmax(0,2.3fr);
+      gap:18px;
+      align-items:flex-start;
+      padding:16px 0 40px;
+    }
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
 
     .card{
-      background:radial-gradient(circle at top left,#1a1a22,#05050a);
-      border-radius:var(--radius-lg);padding:18px 16px 16px;
-      border:1px solid rgba(255,255,255,.05);box-shadow:var(--shadow-soft);
+      background:radial-gradient(circle at top left, #1a1a22, #05050a);
+      border-radius:var(--radius-lg);
+      padding:18px 16px 16px;
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:var(--shadow);
     }
-    .card h2{font-size:18px;margin:0 0 4px}
-    .card p.sub{margin:0 0 14px;font-size:13px;color:var(--muted)}
-    .section-title{margin-top:16px;margin-bottom:8px;font-size:15px}
 
-    .fields-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    @media (max-width:640px){.fields-row{grid-template-columns:minmax(0,1fr)}}
+    .card h2{margin:0 0 6px;font-size:18px}
+    .sub{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.4}
 
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}
+    .section-title{margin:14px 0 8px;font-size:14px;color:rgba(255,216,106,.95);letter-spacing:.4px}
+
+    .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    @media (max-width:640px){.row{grid-template-columns:1fr}}
+
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
     input,select{
-      width:100%;padding:9px 10px;border-radius:var(--radius-sm);
-      border:1px solid var(--border);background:rgba(9,11,18,.95);
-      color:var(--text);font-size:14px;outline:none;
-      transition:border-color .16s ease,box-shadow .16s ease,background .16s ease;
+      width:100%;
+      padding:10px 10px;
+      border-radius:var(--radius-sm);
+      border:1px solid var(--border);
+      background:rgba(9,11,18,.95);
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+      transition:.16s ease;
     }
-    input:focus,select:focus{border-color:var(--gold-soft);box-shadow:0 0 0 1px rgba(255,216,106,.4);background:#10121b}
-    input::placeholder{color:rgba(154,154,154,.7)}
-    .hint{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.35}
+    input:focus,select:focus{
+      border-color:rgba(255,216,106,.65);
+      box-shadow:0 0 0 1px rgba(255,216,106,.25);
+      background:#10121b;
+    }
+    .hint{margin-top:3px;font-size:11px;color:rgba(160,160,160,.92);line-height:1.35}
 
-    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .chip{
-      display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(255,216,106,.22);background:rgba(255,216,106,.06);color:rgba(255,216,106,.95)
+    .btn{
+      width:100%;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:11px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,216,106,.25);
+      background:rgba(255,216,106,.06);
+      color:var(--text);
+      font-weight:900;
+      font-size:13px;
+      cursor:pointer;
+      transition:.15s ease;
+      margin-top:10px;
     }
-    .chip.ok{border-color:rgba(101,217,107,.28);background:rgba(101,217,107,.05);color:rgba(101,217,107,.95)}
+    .btn:hover{border-color:rgba(255,216,106,.55);background:rgba(255,216,106,.10)}
+    .btn:active{transform:translateY(1px)}
 
     .btn-primary{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;
-      padding:11px 20px;border-radius:999px;border:none;cursor:pointer;
-      background:linear-gradient(135deg,#ffd86a,#c69528);color:#000;font-size:14px;font-weight:900;
-      box-shadow:0 12px 30px rgba(0,0,0,.8);margin-top:12px;transition:.12s ease;
+      border:none;
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+      color:#000;
+      box-shadow:0 12px 28px rgba(0,0,0,.75);
     }
     .btn-primary:hover{filter:brightness(1.03)}
-    .btn-primary:active{transform:translateY(1px)}
-
-    .btn-ghost{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;
-      padding:10px 14px;border-radius:999px;cursor:pointer;margin-top:10px;
-      border:1px solid rgba(255,216,106,.25);background:rgba(255,216,106,.06);
-      color:var(--text);font-size:13px;font-weight:900;transition:.15s ease;
-    }
-    .btn-ghost:hover{border-color:rgba(255,216,106,.55);background:rgba(255,216,106,.10)}
-    .btn-ghost:active{transform:translateY(1px)}
-
-    .pdf-btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;
-      padding:11px 14px;border-radius:999px;cursor:pointer;margin-top:10px;
-      border:1px solid rgba(255,216,106,.35);
-      background:linear-gradient(135deg, rgba(255,216,106,.20), rgba(198,149,40,.12));
-      color:var(--text);font-size:13px;font-weight:950;transition:.15s ease;
-      position:relative;overflow:hidden;
-    }
-    .pdf-btn::before{
-      content:"";position:absolute;inset:-45%;
-      background:radial-gradient(circle at 20% 20%, rgba(255,216,106,.35), transparent 55%);
-      transform:rotate(12deg);opacity:.8;
-    }
-    .pdf-btn span{position:relative;z-index:1}
-    .pdf-btn:hover{border-color:rgba(255,216,106,.70);background:linear-gradient(135deg, rgba(255,216,106,.28), rgba(198,149,40,.16))}
-    .pdf-btn:active{transform:translateY(1px)}
-
     .btn-row{display:flex;gap:10px}
     @media (max-width:640px){.btn-row{flex-direction:column}}
 
-    .note{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5}
-
-    .result-header{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:6px}
-    .result-main{font-size:26px;font-weight:1000;letter-spacing:.2px}
-    .result-tag{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);color:var(--muted)}
-    .result-block{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.08);font-size:13px}
-    .result-row{display:flex;justify-content:space-between;margin-bottom:3px;gap:10px}
-    .result-row span:first-child{color:var(--muted)}
-    .result-row span:last-child{font-variant-numeric:tabular-nums}
-    .result-highlight{margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,216,106,.25);font-weight:950}
-    .result-ok{color:var(--success);font-weight:950;margin-top:2px}
-    .tiny{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.35}
-    .pill{
-      display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 8px;border-radius:999px;
-      background:rgba(27,211,120,.05);border:1px solid rgba(101,217,107,.35);margin-top:10px;color:rgba(101,217,107,.95)
+    /* ===== Result ===== */
+    .result-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .sum{
+      font-size:26px;font-weight:1000;letter-spacing:.2px;
     }
-
-    .pulse{animation:pulse .35s ease}
-    @keyframes pulse{from{transform:scale(.995);opacity:.85}to{transform:scale(1);opacity:1}}
-
-    footer{border-top:1px solid rgba(255,255,255,.04);padding:12px 0 20px;font-size:11px;color:var(--muted);text-align:center}
-
-    /* ---------- PDF SHEET (hidden, used for branded export) ---------- */
-    #pdf-sheet {
-      position: fixed;
-      left: -9999px;
-      top: 0;
-      width: 794px; /* ~A4 at 96dpi */
-      min-height: 1123px;
-      background: #07080d;
-      color: #f7f7f7;
-      padding: 34px 34px 30px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,216,106,.18);
-      box-shadow: 0 30px 80px rgba(0,0,0,.55);
-      font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
-    }
-    .pdf-top{
-      display:flex;justify-content:space-between;align-items:flex-start;gap:18px;
-      padding-bottom:16px;border-bottom:1px solid rgba(255,216,106,.18);
-      margin-bottom:16px;
-    }
-    .pdf-brand{display:flex;gap:12px;align-items:center}
-    .pdf-logo{
-      width:44px;height:44px;border-radius:50%;
-      background: radial-gradient(circle at 30% 20%, #ffeaa0, #c69528);
-      display:flex;align-items:center;justify-content:center;
-      overflow:hidden;
-      box-shadow:0 0 0 1px rgba(0,0,0,.55), 0 0 18px rgba(255,216,106,.35);
-    }
-    .pdf-logo img{width:120%;height:auto;display:block}
-    .pdf-name{font-weight:1000;letter-spacing:3px;font-size:18px}
-    .pdf-sub{font-size:12px;color:#b6b6b6;margin-top:2px}
-    .pdf-meta{text-align:right}
-    .pdf-meta .pdf-title{
-      font-size:14px;font-weight:900;color:#ffd86a;margin-bottom:6px;
-    }
-    .pdf-meta .pdf-small{font-size:11px;color:#b6b6b6;line-height:1.35}
-    .pdf-box{
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      border-radius:14px;
-      padding:14px;
-      margin-bottom:14px;
-    }
-    .pdf-box h3{
-      margin:0 0 8px;
+    .uah{
+      margin-top:3px;
+      color:var(--ok);
+      font-weight:900;
       font-size:13px;
-      color:#ffd86a;
-      letter-spacing:.6px;
     }
-    .pdf-row{
-      display:flex;justify-content:space-between;gap:12px;
-      font-size:12px;padding:5px 0;border-bottom:1px dashed rgba(255,255,255,.08);
+    .tag{
+      font-size:11px;
+      padding:3px 9px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.70);
+      white-space:nowrap;
     }
-    .pdf-row:last-child{border-bottom:none}
-    .pdf-left{color:#cfcfcf}
-    .pdf-right{font-variant-numeric:tabular-nums;font-weight:800}
-    .pdf-total{
-      display:flex;justify-content:space-between;gap:12px;
-      padding-top:10px;margin-top:8px;
-      border-top:1px solid rgba(255,216,106,.25);
-      font-weight:1000;font-size:14px;
+    .mini{margin-top:6px;color:var(--muted);font-size:11.5px;line-height:1.35}
+    .block{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.10);font-size:13px}
+    .r{display:flex;justify-content:space-between;gap:12px;margin:5px 0}
+    .r span:first-child{color:rgba(255,255,255,.72)}
+    .r span:last-child{font-variant-numeric:tabular-nums}
+    .hl{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,216,106,.25);font-weight:1000}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:6px;
+      margin-top:10px;
+      font-size:11px;
+      padding:5px 10px;
+      border-radius:999px;
+      border:1px solid rgba(101,217,107,.32);
+      background:rgba(101,217,107,.06);
+      color:rgba(101,217,107,.95);
     }
-    .pdf-footer{
-      margin-top:16px;
-      display:flex;justify-content:space-between;gap:14px;align-items:flex-end;
-      border-top:1px solid rgba(255,255,255,.06);
-      padding-top:14px;
-    }
-    .pdf-contacts{font-size:11px;color:#b6b6b6;line-height:1.45}
-    .pdf-contacts b{color:#ffd86a}
-    .pdf-note{
-      font-size:10.5px;color:#9ea0a9;line-height:1.35;
-      max-width:520px;
-    }
-    .pdf-link{
-      font-size:10.5px;color:#ffd86a;
-      word-break: break-all;
-      margin-top:6px;
+
+    .status{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.35}
+
+    footer{
+      border-top:1px solid rgba(255,255,255,.05);
+      padding:14px 0 22px;
+      text-align:center;
+      color:var(--muted);
+      font-size:11px;
     }
   </style>
 </head>
 
 <body>
-  <header class="top-bar">
-    <div class="container top-bar-inner">
-      <a href="index.html" class="logo">
-        <div class="logo-mark"><img src="logo-gbp.png" alt="Логотип Auto GBP" /></div>
+  <!-- TOP HEADER (як раніше) -->
+  <div class="top">
+    <div class="container top-inner">
+      <div class="brand">
+        <div class="logo"><img src="logo-gbp.png" alt="Auto GBP"></div>
         <div>
-          <div class="logo-text-main">AUTO GBP</div>
-          <div class="logo-text-sub">Grand Best Performance · Dubno</div>
+          <div class="brand-title">AUTO GBP</div>
+          <div class="brand-sub">Grand Best Performance · Dubno</div>
         </div>
-      </a>
-      <nav class="nav-links">
-        <a href="index.html#services">Послуги</a>
-        <a href="index.html#how">Як це працює</a>
-        <a href="cars.html">Авто в наявності</a>
-        <a href="calculator.html" class="active">Калькулятор</a>
-        <a href="index.html#request">Заявка</a>
+      </div>
+
+      <div class="nav">
+        <a href="index.html">Головна</a>
+        <a href="cars.html">Авто</a>
+        <a class="active" href="calculator.html">Калькулятор</a>
         <a href="index.html#contact">Контакти</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="layout">
-    <section class="container page-hero">
-      <h1>Калькулятор вартості авто з США та Європи</h1>
-      <p>
-        База для мита/ПДВ: <b>ціна авто + аукціонні збори + логістика до пункту прибуття</b>.
-        Портові витрати, послуги Auto GBP і банківські платежі — <b>окремо</b>.
-        Є <b>посилання на розрахунок</b> та <b>брендований PDF</b>.
-      </p>
-      <div class="chips">
-        <span class="chip ok">✅ Без червоних позначок</span>
-        <span class="chip">₴ Показує підсумок у гривні</span>
-        <span class="chip">🧾 Брендований PDF “по-багатому”</span>
-      </div>
-    </section>
-
-    <section class="container">
-      <div class="grid">
-
-        <!-- LEFT -->
-        <div class="card">
-          <h2>Введи дані</h2>
-          <p class="sub">
-            Встав лінк на Copart/IAAI — розпізнаємо аукціон та ID. “Winning Bid” на GitHub Pages автоматом не тягнеться стабільно, тому вводиш його вручну.
-          </p>
-
-          <form id="calc-form" autocomplete="off">
-            <h2 class="section-title">0) Лот з аукціону</h2>
-
-            <div class="fields-row">
-              <div>
-                <label for="auctionUrl">Посилання на лот (Copart/IAAI)</label>
-                <input id="auctionUrl" name="auctionUrl" type="url" placeholder="https://www.copart.com/lot/82324705 або https://www.iaai.com/VehicleDetail/43925874~US" />
-                <div class="hint">Розпізнає аукціон + ID та додасть у PDF/посилання.</div>
-              </div>
-              <div>
-                <label>&nbsp;</label>
-                <div class="btn-row">
-                  <button class="btn-ghost" type="button" id="applyAuctionUrlBtn">🔎 Розпізнати лот</button>
-                  <button class="btn-primary" type="button" id="copyLinkBtn">🔗 Скопіювати посилання</button>
-                </div>
-                <div class="tiny" id="auctionStatus"></div>
-              </div>
-            </div>
-
-            <h2 class="section-title">1) Параметри авто</h2>
-
-            <div class="fields-row">
-              <div>
-                <label for="year">Рік випуску</label>
-                <input type="number" id="year" name="year" min="1995" max="2035" placeholder="2020" />
-              </div>
-              <div>
-                <label for="fuel">Тип палива</label>
-                <select id="fuel" name="fuel">
-                  <option value="gasoline">Бензин</option>
-                  <option value="diesel">Дизель</option>
-                  <option value="hybrid">Гібрид</option>
-                  <option value="electric">Електро</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="engine">Обʼєм двигуна, см³</label>
-                <input type="number" id="engine" name="engine" placeholder="2000" />
-                <div class="hint">Для електро можна 0 — акциз буде 0.</div>
-              </div>
-              <div>
-                <label for="auction">Аукціон</label>
-                <select id="auction" name="auction">
-                  <option value="Copart">Copart</option>
-                  <option value="IAAI">IAAI</option>
-                  <option value="Manheim">Manheim</option>
-                  <option value="other">Інший</option>
-                </select>
-              </div>
-            </div>
-
-            <h2 class="section-title">2) Вартість та логістика</h2>
-
-            <div class="fields-row">
-              <div>
-                <label for="lotPrice">Winning Bid (ціна виграшу), $</label>
-                <input type="number" id="lotPrice" name="lotPrice" placeholder="20000" />
-                <div class="hint">Входить у базу мита/ПДВ.</div>
-              </div>
-              <div>
-                <label for="auctionFee">Аукціонні збори, $</label>
-                <input type="number" id="auctionFee" name="auctionFee" placeholder="1200" />
-                <div class="hint">Входить у базу мита/ПДВ.</div>
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="shipUsa">Доставка по суші США, $</label>
-                <input type="number" id="shipUsa" name="shipUsa" placeholder="до порту" />
-                <div class="hint">Входить у базу мита/ПДВ.</div>
-              </div>
-              <div>
-                <label for="shipSea">Морська доставка, $</label>
-                <input type="number" id="shipSea" name="shipSea" placeholder="1350" />
-                <div class="hint">Входить у базу мита/ПДВ.</div>
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="euPort">Порт / місто прибуття</label>
-                <select id="euPort" name="euPort">
-                  <option value="Klaipeda">Клайпеда (LT)</option>
-                  <option value="Gdansk">Гданськ (PL)</option>
-                  <option value="Bremerhaven">Бремерхафен (DE)</option>
-                  <option value="Rotterdam">Роттердам (NL)</option>
-                  <option value="Chornomorsk">Чорноморськ (UA)</option>
-                  <option value="Other">Інше</option>
-                </select>
-              </div>
-              <div>
-                <label for="euCurrency">Валюта витрат ЄС</label>
-                <select id="euCurrency" name="euCurrency">
-                  <option value="USD">USD ($)</option>
-                  <option value="EUR">EUR (€)</option>
-                </select>
-                <div class="hint">Якщо EUR — витрати ЄС конвертуються в USD.</div>
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="eurUsd">Курс EUR → USD (якщо EUR)</label>
-                <input type="number" id="eurUsd" name="eurUsd" step="0.01" value="1.10" placeholder="1.10" />
-              </div>
-              <div>
-                <label for="shipEuLand">Доставка по суші в ЄС (до пункту)</label>
-                <input type="number" id="shipEuLand" name="shipEuLand" placeholder="350" />
-                <div class="hint">Входить у базу мита/ПДВ.</div>
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="portFees">Портові/термінальні витрати</label>
-                <input type="number" id="portFees" name="portFees" placeholder="експедитор у порту" />
-                <div class="hint">Не входять у мито/ПДВ. Додаються в підсумок.</div>
-              </div>
-              <div>
-                <label for="shipUa">Доставка по Україні, $</label>
-                <input type="number" id="shipUa" name="shipUa" placeholder="до Dubno / іншого міста" />
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="dealerFee">Послуги Auto GBP, $</label>
-                <input type="number" id="dealerFee" name="dealerFee" placeholder="700" />
-                <div class="hint">Не входять у мито/ПДВ.</div>
-              </div>
-              <div>
-                <label for="servicePackage">Комплекс послуг, $</label>
-                <input type="number" id="servicePackage" name="servicePackage" placeholder="оформлення/логістика" />
-                <div class="hint">Не входять у мито/ПДВ.</div>
-              </div>
-            </div>
-
-            <h2 class="section-title">3) Податки та інше</h2>
-
-            <div class="fields-row">
-              <div>
-                <label for="dutyRate">Мито, %</label>
-                <input type="number" id="dutyRate" name="dutyRate" value="10" placeholder="10" />
-              </div>
-              <div>
-                <label for="vatRate">ПДВ, %</label>
-                <input type="number" id="vatRate" name="vatRate" value="20" placeholder="20" />
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="cert">Сертифікація, $</label>
-                <input type="number" id="cert" name="cert" placeholder="0" />
-              </div>
-              <div>
-                <label for="reg">Реєстрація/облік, $</label>
-                <input type="number" id="reg" name="reg" placeholder="0" />
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="repair">Ремонт, $</label>
-                <input type="number" id="repair" name="repair" placeholder="0" />
-              </div>
-              <div>
-                <label for="insurance">Страхування, $</label>
-                <input type="number" id="insurance" name="insurance" placeholder="0" />
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="other">Інші витрати, $</label>
-                <input type="number" id="other" name="other" placeholder="дрібні платежі" />
-              </div>
-              <div>
-                <label for="usdToUah">Курс $ → грн</label>
-                <input type="number" id="usdToUah" name="usdToUah" step="0.01" placeholder="наприклад 42" />
-                <div class="hint">Покаже підсумок в гривні.</div>
-              </div>
-            </div>
-
-            <h2 class="section-title">4) Банківські/документальні</h2>
-
-            <div class="fields-row">
-              <div>
-                <label for="swiftFee">SWIFT, $</label>
-                <input type="number" id="swiftFee" name="swiftFee" value="200" />
-              </div>
-              <div>
-                <label for="payDocsFee">Платіжки, $</label>
-                <input type="number" id="payDocsFee" name="payDocsFee" value="95" />
-              </div>
-            </div>
-
-            <div class="fields-row">
-              <div>
-                <label for="transferLtFee">Переказ коштів в Литву, $</label>
-                <input type="number" id="transferLtFee" name="transferLtFee" value="85" />
-              </div>
-              <div>
-                <label for="legalEntityFee">Постановка на юр.особу, $</label>
-                <input type="number" id="legalEntityFee" name="legalEntityFee" value="250" />
-              </div>
-            </div>
-
-            <button type="button" class="btn-primary" id="scrollToResult">Показати результат</button>
-
-            <p class="note">
-              Розрахунок орієнтовний. Для точного прорахунку під конкретний лот — напиши нам (Telegram/Viber).
-            </p>
-          </form>
-        </div>
-
-        <!-- RIGHT -->
-        <aside class="card" id="result-card">
-          <div class="result-header">
-            <div>
-              <div class="result-main" id="total-usd">0 $</div>
-              <div class="result-ok" id="total-uah"></div>
-              <div class="tiny" id="route-line"></div>
-              <div class="tiny" id="lot-line"></div>
-            </div>
-            <div class="result-tag">Орієнтовна повна вартість</div>
-          </div>
-
-          <div class="result-block">
-            <div class="result-row"><span>База для мита/ПДВ</span><span id="customs-base">0 $</span></div>
-            <div class="result-row"><span>Мито</span><span id="duty">0 $</span></div>
-            <div class="result-row"><span>Акциз (орієнтовно)</span><span id="excise">0 $</span></div>
-            <div class="result-row"><span>ПДВ</span><span id="vat">0 $</span></div>
-            <div class="result-row result-highlight"><span>Податки разом</span><span id="taxes-total">0 $</span></div>
-
-            <div class="result-row"><span>Портові/термінальні</span><span id="port-only">0 $</span></div>
-            <div class="result-row"><span>Послуги Auto GBP</span><span id="gbp-services">0 $</span></div>
-            <div class="result-row"><span>Банківські платежі</span><span id="bank-fees">0 $</span></div>
-            <div class="result-row"><span>Україна + серт/облік/ремонт/інше</span><span id="extras">0 $</span></div>
-
-            <div class="result-row result-highlight"><span>Разом «під ключ»</span><span id="grand-total">0 $</span></div>
-
-            <div class="pill">⚡ Автооновлення увімкнено</div>
-
-            <div class="btn-row">
-              <button class="btn-ghost" type="button" id="copySummaryBtn">📋 Скопіювати розрахунок</button>
-              <button class="btn-ghost" type="button" id="copyLinkBtn2">🔗 Скопіювати посилання</button>
-            </div>
-
-            <button class="pdf-btn" type="button" id="savePdfBtn">
-              <span>🧾 Завантажити брендований PDF</span>
-            </button>
-
-            <div class="tiny" id="copyStatus"></div>
-          </div>
-        </aside>
-
-      </div>
-    </section>
-  </main>
-
-  <footer>© Grand Best Performance · Auto GBP.</footer>
-
-  <!-- Hidden PDF sheet (rendered into PDF) -->
-  <div id="pdf-sheet" aria-hidden="true">
-    <div class="pdf-top">
-      <div class="pdf-brand">
-        <div class="pdf-logo"><img src="logo-gbp.png" alt="Auto GBP"></div>
-        <div>
-          <div class="pdf-name">AUTO GBP</div>
-          <div class="pdf-sub">Grand Best Performance · Dubno</div>
-        </div>
-      </div>
-      <div class="pdf-meta">
-        <div class="pdf-title">Розрахунок вартості авто «під ключ»</div>
-        <div class="pdf-small" id="pdf-date">—</div>
-        <div class="pdf-small" id="pdf-route">—</div>
-        <div class="pdf-small" id="pdf-lot">—</div>
-      </div>
-    </div>
-
-    <div class="pdf-box">
-      <h3>База для мита/ПДВ та податки</h3>
-      <div class="pdf-row"><div class="pdf-left">База для мита/ПДВ</div><div class="pdf-right" id="pdf-customs-base">—</div></div>
-      <div class="pdf-row"><div class="pdf-left">Мито</div><div class="pdf-right" id="pdf-duty">—</div></div>
-      <div class="pdf-row"><div class="pdf-left">Акциз (орієнтовно)</div><div class="pdf-right" id="pdf-excise">—</div></div>
-      <div class="pdf-row"><div class="pdf-left">ПДВ</div><div class="pdf-right" id="pdf-vat">—</div></div>
-      <div class="pdf-total"><div>Податки разом</div><div id="pdf-taxes-total">—</div></div>
-    </div>
-
-    <div class="pdf-box">
-      <h3>Додаткові витрати (не входять у мито/ПДВ)</h3>
-      <div class="pdf-row"><div class="pdf-left">Портові/термінальні</div><div class="pdf-right" id="pdf-port">—</div></div>
-      <div class="pdf-row"><div class="pdf-left">Послуги Auto GBP</div><div class="pdf-right" id="pdf-gbp">—</div></div>
-      <div class="pdf-row"><div class="pdf-left">Банківські платежі</div><div class="pdf-right" id="pdf-bank">—</div></div>
-      <div class="pdf-row"><div class="pdf-left">Україна + серт/облік/ремонт/інше</div><div class="pdf-right" id="pdf-extras">—</div></div>
-      <div class="pdf-total"><div>Разом «під ключ»</div><div id="pdf-grand-total">—</div></div>
-      <div class="pdf-small" style="margin-top:6px;color:#b6b6b6;font-size:11px" id="pdf-uah">—</div>
-    </div>
-
-    <div class="pdf-footer">
-      <div class="pdf-contacts">
-        <div><b>Контакти Auto GBP:</b></div>
-        <div>Офіс: <b>+380955633089</b></div>
-        <div>Інфо: <b>+380508232374</b></div>
-        <div style="margin-top:8px"><b>Посилання на розрахунок:</b></div>
-        <div class="pdf-link" id="pdf-link">—</div>
-      </div>
-
-      <div class="pdf-note">
-        * Розрахунок орієнтовний. Формули спрощені та можуть не врахувати всі нюанси митного оформлення.
-        Для точного фінального прорахунку — звертайся до менеджера або митного брокера.
       </div>
     </div>
   </div>
 
-  <!-- PDF libs (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <main class="container">
+    <section class="hero">
+      <h1>Калькулятор вартості авто</h1>
+      <p>
+        ✅ По VIN підтягуємо: <b>рік / марка / модель / паливо / обʼєм</b> (без ціни).
+        <br>
+        ✅ База для мита/ПДВ: <b>ціна авто + аукціонні збори + логістика до пункту прибуття</b>.
+        <br>
+        ✅ <b>Портові витрати НЕ включаємо в мито/ПДВ</b>. Послуги Auto GBP і банківські — окремо.
+        <br>
+        ₴ Якщо введеш курс — усі суми показуємо і в гривні.
+      </p>
+    </section>
+
+    <section class="grid">
+      <!-- LEFT -->
+      <div class="card">
+        <h2>Введи дані</h2>
+        <p class="sub">
+          Встав лінк на Copart/IAAI — розпізнаємо аукціон та ID. Встав VIN — підтягнемо характеристики.
+        </p>
+
+        <form id="calc-form" autocomplete="off">
+          <div class="section-title">0) Лот + VIN (підтягування характеристик)</div>
+
+          <div class="row">
+            <div>
+              <label for="auctionUrl">Посилання на лот (Copart/IAAI)</label>
+              <input id="auctionUrl" name="auctionUrl" type="url" placeholder="https://www.iaai.com/.../VehicleDetail/44421501~US або https://www.copart.com/lot/82324705" />
+              <div class="hint">Лінк потрібен для аукціону/ID і щоб він був в “посиланні на розрахунок”.</div>
+            </div>
+            <div>
+              <label for="vin">VIN</label>
+              <input id="vin" name="vin" type="text" placeholder="Напр.: 1FM5K8AR2JGA89957" />
+              <div class="hint">Підтягуємо рік/марку/модель/паливо/обʼєм по VIN.</div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn" type="button" id="recognizeLotBtn">🔎 Розпізнати лот</button>
+            <button class="btn btn-primary" type="button" id="decodeVinBtn">⚡ Підтягнути по VIN</button>
+          </div>
+
+          <div class="status" id="lotStatus"></div>
+          <div class="status" id="vinStatus"></div>
+
+          <div class="section-title">1) Параметри авто</div>
+
+          <div class="row">
+            <div>
+              <label for="year">Рік випуску</label>
+              <input type="number" id="year" name="year" min="1995" max="2035" placeholder="2020" />
+            </div>
+            <div>
+              <label for="fuel">Тип палива</label>
+              <select id="fuel" name="fuel">
+                <option value="gasoline">Бензин</option>
+                <option value="diesel">Дизель</option>
+                <option value="hybrid">Гібрид</option>
+                <option value="electric">Електро</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="engine">Обʼєм двигуна, см³</label>
+              <input type="number" id="engine" name="engine" placeholder="2000" />
+              <div class="hint">Для електро можна 0 — акциз буде 0.</div>
+            </div>
+            <div>
+              <label for="auction">Аукціон</label>
+              <select id="auction" name="auction">
+                <option value="Copart">Copart</option>
+                <option value="IAAI">IAAI</option>
+                <option value="Manheim">Manheim</option>
+                <option value="other">Інший</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="section-title">2) Вартість та логістика</div>
+
+          <div class="row">
+            <div>
+              <label for="lotPrice">Winning Bid (ціна виграшу), $</label>
+              <input type="number" id="lotPrice" name="lotPrice" placeholder="20000" />
+              <div class="hint">Входить у базу мита/ПДВ.</div>
+            </div>
+            <div>
+              <label for="auctionFee">Аукціонні збори, $</label>
+              <input type="number" id="auctionFee" name="auctionFee" placeholder="1200" />
+              <div class="hint">Входить у базу мита/ПДВ.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="shipUsa">Доставка по суші (США/ЄС до порту), $</label>
+              <input type="number" id="shipUsa" name="shipUsa" placeholder="до порту" />
+              <div class="hint">Входить у базу мита/ПДВ.</div>
+            </div>
+            <div>
+              <label for="shipSea">Морська доставка, $</label>
+              <input type="number" id="shipSea" name="shipSea" placeholder="1350" />
+              <div class="hint">Входить у базу мита/ПДВ.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="arrival">Порт/пункт прибуття</label>
+              <select id="arrival" name="arrival">
+                <option value="Klaipeda">Клайпеда (LT)</option>
+                <option value="Gdansk">Гданськ (PL)</option>
+                <option value="Bremerhaven">Бремерхафен (DE)</option>
+                <option value="Rotterdam">Роттердам (NL)</option>
+                <option value="Chornomorsk">Чорноморськ (UA)</option>
+                <option value="Other">Інше</option>
+              </select>
+            </div>
+            <div>
+              <label for="shipEuLand">Доставка по Європі (до пункту), $</label>
+              <input type="number" id="shipEuLand" name="shipEuLand" placeholder="350" />
+              <div class="hint">Входить у базу мита/ПДВ.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="portFees">Портові/термінальні витрати, $</label>
+              <input type="number" id="portFees" name="portFees" placeholder="експедитор/термінал" />
+              <div class="hint"><b>Не входять</b> у мито/ПДВ. Додаються окремо в підсумок.</div>
+            </div>
+            <div>
+              <label for="shipUa">Доставка по Україні, $</label>
+              <input type="number" id="shipUa" name="shipUa" placeholder="до Dubno/іншого міста" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="dealerFee">Послуги Auto GBP, $</label>
+              <input type="number" id="dealerFee" name="dealerFee" placeholder="700" />
+              <div class="hint">Не входить у мито/ПДВ.</div>
+            </div>
+            <div>
+              <label for="servicePackage">Комплекс послуг, $</label>
+              <input type="number" id="servicePackage" name="servicePackage" placeholder="оформлення/логістика" />
+              <div class="hint">Не входить у мито/ПДВ.</div>
+            </div>
+          </div>
+
+          <div class="section-title">3) Податки + інше</div>
+
+          <div class="row">
+            <div>
+              <label for="dutyRate">Мито, %</label>
+              <input type="number" id="dutyRate" name="dutyRate" value="10" />
+            </div>
+            <div>
+              <label for="vatRate">ПДВ, %</label>
+              <input type="number" id="vatRate" name="vatRate" value="20" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="cert">Сертифікація, $</label>
+              <input type="number" id="cert" name="cert" placeholder="0" />
+            </div>
+            <div>
+              <label for="reg">Реєстрація/облік, $</label>
+              <input type="number" id="reg" name="reg" placeholder="0" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="repair">Ремонт, $</label>
+              <input type="number" id="repair" name="repair" placeholder="0" />
+            </div>
+            <div>
+              <label for="insurance">Страхування, $</label>
+              <input type="number" id="insurance" name="insurance" placeholder="0" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="other">Інші витрати, $</label>
+              <input type="number" id="other" name="other" placeholder="дрібні платежі" />
+            </div>
+            <div>
+              <label for="usdToUah">Курс $ → грн</label>
+              <input type="number" id="usdToUah" name="usdToUah" step="0.01" placeholder="наприклад 42" />
+              <div class="hint">Якщо введеш курс — покажемо грн у кожному рядку.</div>
+            </div>
+          </div>
+
+          <div class="section-title">4) Банківські/документальні (окремо від мита)</div>
+
+          <div class="row">
+            <div>
+              <label for="swiftFee">SWIFT, $</label>
+              <input type="number" id="swiftFee" name="swiftFee" value="200" />
+            </div>
+            <div>
+              <label for="payDocsFee">Платіжки, $</label>
+              <input type="number" id="payDocsFee" name="payDocsFee" value="95" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="transferLtFee">Переказ коштів в Литву, $</label>
+              <input type="number" id="transferLtFee" name="transferLtFee" value="85" />
+            </div>
+            <div>
+              <label for="legalEntityFee">Постановка на юр.особу, $</label>
+              <input type="number" id="legalEntityFee" name="legalEntityFee" value="250" />
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" type="button" id="copyLinkBtn">🔗 Скопіювати посилання на розрахунок</button>
+            <button class="btn" type="button" id="copyTextBtn">📋 Скопіювати розрахунок текстом</button>
+          </div>
+
+          <div class="status" id="copyStatus"></div>
+        </form>
+      </div>
+
+      <!-- RIGHT -->
+      <aside class="card" id="result-card">
+        <div class="result-top">
+          <div>
+            <div class="sum" id="totalUsd">0 $</div>
+            <div class="uah" id="totalUah"></div>
+            <div class="mini" id="routeLine"></div>
+            <div class="mini" id="lotLine"></div>
+            <div class="mini" id="vinLine"></div>
+          </div>
+          <div class="tag">Орієнтовна повна вартість</div>
+        </div>
+
+        <div class="block">
+          <div class="r"><span>База для мита/ПДВ</span><span id="customsBase">0 $</span></div>
+          <div class="r"><span>Мито</span><span id="duty">0 $</span></div>
+          <div class="r"><span>Акциз (орієнтовно)</span><span id="excise">0 $</span></div>
+          <div class="r"><span>ПДВ</span><span id="vat">0 $</span></div>
+          <div class="r hl"><span>Податки разом</span><span id="taxesTotal">0 $</span></div>
+
+          <div class="r"><span>Портові/термінальні</span><span id="portOnly">0 $</span></div>
+          <div class="r"><span>Послуги Auto GBP</span><span id="gbpServices">0 $</span></div>
+          <div class="r"><span>Банківські платежі</span><span id="bankFees">0 $</span></div>
+          <div class="r"><span>Україна + серт/облік/ремонт/інше</span><span id="extras">0 $</span></div>
+
+          <div class="r hl"><span>Разом «під ключ»</span><span id="grandTotal">0 $</span></div>
+
+          <div class="pill">✅ Автоперерахунок увімкнено</div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>© Grand Best Performance · Auto GBP</footer>
 
   <script>
     const form = document.getElementById("calc-form");
-    const currentYear = new Date().getFullYear();
-    const resultCard = document.getElementById("result-card");
 
-    const ELS = {
-      customsBase: document.getElementById("customs-base"),
+    const el = {
+      lotStatus: document.getElementById("lotStatus"),
+      vinStatus: document.getElementById("vinStatus"),
+      copyStatus: document.getElementById("copyStatus"),
+
+      totalUsd: document.getElementById("totalUsd"),
+      totalUah: document.getElementById("totalUah"),
+      routeLine: document.getElementById("routeLine"),
+      lotLine: document.getElementById("lotLine"),
+      vinLine: document.getElementById("vinLine"),
+
+      customsBase: document.getElementById("customsBase"),
       duty: document.getElementById("duty"),
       excise: document.getElementById("excise"),
       vat: document.getElementById("vat"),
-      taxesTotal: document.getElementById("taxes-total"),
-      portOnly: document.getElementById("port-only"),
-      gbpServices: document.getElementById("gbp-services"),
-      bankFees: document.getElementById("bank-fees"),
+      taxesTotal: document.getElementById("taxesTotal"),
+
+      portOnly: document.getElementById("portOnly"),
+      gbpServices: document.getElementById("gbpServices"),
+      bankFees: document.getElementById("bankFees"),
       extras: document.getElementById("extras"),
-      grandTotal: document.getElementById("grand-total"),
-      totalUsd: document.getElementById("total-usd"),
-      totalUah: document.getElementById("total-uah"),
-      routeLine: document.getElementById("route-line"),
-      lotLine: document.getElementById("lot-line"),
-      auctionStatus: document.getElementById("auctionStatus"),
-      copyStatus: document.getElementById("copyStatus"),
+      grandTotal: document.getElementById("grandTotal"),
     };
 
+    const currentYear = new Date().getFullYear();
+
     const PARAMS = [
-      "auctionUrl","year","fuel","engine","auction",
-      "lotPrice","auctionFee","shipUsa","shipSea",
-      "euPort","euCurrency","eurUsd","shipEuLand",
+      "auctionUrl","vin","year","fuel","engine","auction",
+      "lotPrice","auctionFee","shipUsa","shipSea","arrival","shipEuLand",
       "portFees","shipUa","dealerFee","servicePackage",
       "dutyRate","vatRate","cert","reg","repair","insurance","other",
       "usdToUah",
       "swiftFee","payDocsFee","transferLtFee","legalEntityFee"
     ];
 
-    function num(value){
-      if (value === null || value === undefined || value === "") return 0;
-      const v = parseFloat(String(value).replace(",", "."));
-      return Number.isFinite(v) ? v : 0;
-    }
-    function fmt(n){ return (Number(n) || 0).toLocaleString("uk-UA",{maximumFractionDigits:0}); }
-
-    function getEUtoUSD(x){
-      const cur = form.euCurrency.value;
-      if (cur === "EUR"){
-        const rate = Math.max(0, num(form.eurUsd.value) || 1.1);
-        return x * rate;
-      }
-      return x;
+    function num(v){
+      if (v === null || v === undefined || v === "") return 0;
+      const n = parseFloat(String(v).replace(",", "."));
+      return Number.isFinite(n) ? n : 0;
     }
 
-    function calcExcise({fuel, engine, age}){
-      let baseRate;
-      if (fuel === "gasoline") baseRate = 50;
-      else if (fuel === "diesel") baseRate = 75;
-      else if (fuel === "hybrid") baseRate = 25;
-      else baseRate = 0;
-      if (baseRate <= 0 || engine <= 0) return 0;
-      return (engine / 1000) * baseRate * age;
+    function fmt(n){
+      return (Number(n) || 0).toLocaleString("uk-UA",{maximumFractionDigits:0});
     }
 
-    function pulse(){
-      resultCard.classList.remove("pulse");
-      void resultCard.offsetWidth;
-      resultCard.classList.add("pulse");
+    function money(usd){
+      const rate = num(form.usdToUah.value);
+      const usdTxt = fmt(usd) + " $";
+      if (rate > 0) return usdTxt + " · " + fmt(usd * rate) + " грн";
+      return usdTxt;
     }
 
-    // --- Auction URL parsing ---
     function parseAuctionUrl(url){
       try{
         const u = new URL(url);
         const host = u.hostname.toLowerCase();
-        const path = u.pathname;
+        const path = (u.pathname || "").toLowerCase();
 
         if (host.includes("copart.com")){
           const m = path.match(/\/lot\/(\d+)/i);
           if (m) return { auction:"Copart", id:m[1] };
-          const q = u.searchParams.get("lotId");
+          const q = u.searchParams.get("lotid") || u.searchParams.get("lotId");
           if (q) return { auction:"Copart", id:q };
         }
 
         if (host.includes("iaai.com")){
-          const m = path.match(/\/VehicleDetail\/(\d+)/i);
+          const m = path.match(/\/vehicledetail\/(\d+)/i);
           if (m) return { auction:"IAAI", id:m[1] };
           const q = u.searchParams.get("vehicleid") || u.searchParams.get("id");
           if (q) return { auction:"IAAI", id:q };
         }
 
         return null;
-      }catch(e){
+      } catch(e){
         return null;
       }
     }
 
-    function applyAuctionUrl(){
+    function applyLot(){
       const url = (form.auctionUrl.value || "").trim();
       if (!url){
-        ELS.auctionStatus.textContent = "";
-        ELS.lotLine.textContent = "";
+        el.lotStatus.textContent = "";
+        el.lotLine.textContent = "";
         return null;
       }
       const info = parseAuctionUrl(url);
       if (!info){
-        ELS.auctionStatus.textContent = "Не розпізнав посилання. Перевір, щоб це був Copart/IAAI лінк.";
-        ELS.lotLine.textContent = "";
+        el.lotStatus.textContent = "Не розпізнав посилання. Перевір Copart/IAAI лінк.";
+        el.lotLine.textContent = "";
         return null;
       }
       form.auction.value = info.auction;
-      ELS.auctionStatus.textContent = `Розпізнано: ${info.auction} • ID: ${info.id}`;
-      ELS.lotLine.textContent = `${info.auction} • Лот/ID: ${info.id}`;
+      el.lotStatus.textContent = `Розпізнано: ${info.auction} • ID: ${info.id}`;
+      el.lotLine.textContent = `${info.auction} • ID: ${info.id}`;
       return info;
     }
 
-    // --- Share link (URL) ---
-    function buildShareUrl(){
-      const u = new URL(window.location.href);
-      const sp = new URLSearchParams();
+    function calcExcise(fuel, engine, age){
+      let baseRate;
+      if (fuel === "gasoline") baseRate = 50;
+      else if (fuel === "diesel") baseRate = 75;
+      else if (fuel === "hybrid") baseRate = 25;
+      else baseRate = 0;
 
+      if (baseRate <= 0 || engine <= 0) return 0;
+      return (engine / 1000) * baseRate * age;
+    }
+
+    function recalc(){
+      const year = parseInt(form.year.value,10) || currentYear;
+      const fuel = form.fuel.value;
+      const engine = num(form.engine.value);
+      const age = Math.max(1, currentYear - year);
+
+      const lotPrice = num(form.lotPrice.value);
+      const auctionFee = num(form.auctionFee.value);
+
+      // БАЗА МИТА/ПДВ: ціна + аукціонні + логістика до прибуття (суша+море+ЄС суша)
+      const shipUsa = num(form.shipUsa.value);
+      const shipSea = num(form.shipSea.value);
+      const shipEuLand = num(form.shipEuLand.value);
+
+      // Портові НЕ входять у мито/ПДВ
+      const portFees = num(form.portFees.value);
+
+      const dutyRate = num(form.dutyRate.value || 10);
+      const vatRate  = num(form.vatRate.value || 20);
+
+      // Послуги GBP окремо
+      const gbpServices = num(form.dealerFee.value) + num(form.servicePackage.value);
+
+      // Банківські окремо
+      const bankFees = num(form.swiftFee.value) + num(form.payDocsFee.value) + num(form.transferLtFee.value) + num(form.legalEntityFee.value);
+
+      // Інше
+      const extras = num(form.shipUa.value) + num(form.cert.value) + num(form.reg.value) + num(form.repair.value) + num(form.insurance.value) + num(form.other.value);
+
+      const customsBase = lotPrice + auctionFee + shipUsa + shipSea + shipEuLand;
+
+      const excise = calcExcise(fuel, engine, age);
+      const duty = (customsBase * dutyRate) / 100;
+      const vat  = ((customsBase + duty + excise) * vatRate) / 100;
+      const taxesTotal = duty + vat + excise;
+
+      const total = customsBase + taxesTotal + portFees + gbpServices + bankFees + extras;
+
+      el.customsBase.textContent = money(customsBase);
+      el.duty.textContent = money(duty);
+      el.excise.textContent = money(excise);
+      el.vat.textContent = money(vat);
+      el.taxesTotal.textContent = money(taxesTotal);
+
+      el.portOnly.textContent = money(portFees);
+      el.gbpServices.textContent = money(gbpServices);
+      el.bankFees.textContent = money(bankFees);
+      el.extras.textContent = money(extras);
+
+      el.grandTotal.textContent = money(total);
+      el.totalUsd.textContent = fmt(total) + " $";
+
+      const rate = num(form.usdToUah.value);
+      el.totalUah.textContent = rate > 0 ? ("≈ " + fmt(total * rate) + " грн (курс " + rate.toFixed(2) + ")") : "";
+
+      const arrivalText = form.arrival.options[form.arrival.selectedIndex]?.text || "";
+      el.routeLine.textContent = `Маршрут: США/ЄС → море → ${arrivalText}`;
+
+      const vin = (form.vin.value || "").trim().toUpperCase();
+      el.vinLine.textContent = vin ? ("VIN: " + vin) : "";
+    }
+
+    function buildShareUrl(){
+      const u = new URL(window.location.origin + window.location.pathname);
+      const sp = new URLSearchParams();
       PARAMS.forEach(k=>{
-        const el = form.elements[k];
-        if (!el) return;
-        const v = (el.value ?? "").toString().trim();
+        const field = form.elements[k];
+        if (!field) return;
+        const v = (field.value ?? "").toString().trim();
         if (v !== "") sp.set(k, v);
       });
-
       u.search = sp.toString();
       return u.toString();
     }
@@ -730,7 +697,9 @@
         return true;
       }catch(e){
         const ta = document.createElement("textarea");
-        ta.value = text; ta.style.position="fixed"; ta.style.left="-9999px";
+        ta.value = text;
+        ta.style.position="fixed";
+        ta.style.left="-9999px";
         document.body.appendChild(ta);
         ta.select();
         try{
@@ -744,131 +713,27 @@
       }
     }
 
-    async function copyShareLink(){
-      const link = buildShareUrl();
-      const ok = await copyText(link);
-      ELS.copyStatus.textContent = ok ? "Посилання скопійовано ✅" : "Не вдалось скопіювати посилання";
-      setTimeout(()=>ELS.copyStatus.textContent="", 2200);
-    }
-
-    function loadFromUrlParams(){
-      const sp = new URLSearchParams(window.location.search);
-      if ([...sp.keys()].length === 0) return;
-
-      PARAMS.forEach(k=>{
-        const v = sp.get(k);
-        const el = form.elements[k];
-        if (v !== null && el){
-          el.value = v;
-        }
-      });
-
-      applyAuctionUrl();
-    }
-
-    function recalc(){
-      const year = parseInt(form.year.value,10) || currentYear;
-      const fuel = form.fuel.value;
-      const engine = num(form.engine.value);
-      const age = Math.max(1, currentYear - year);
-
-      const lotPrice = num(form.lotPrice.value);
-      const auctionFee = num(form.auctionFee.value);
-      const shipUsa = num(form.shipUsa.value);
-      const shipSea = num(form.shipSea.value);
-
-      const shipEuLand = getEUtoUSD(num(form.shipEuLand.value));
-
-      // Портові НЕ включаємо в мито/ПДВ
-      const portFees = getEUtoUSD(num(form.portFees.value));
-
-      const shipUa = num(form.shipUa.value);
-
-      // Послуги GBP НЕ в миті
-      const dealerFee = num(form.dealerFee.value);
-      const servicePackage = num(form.servicePackage.value);
-
-      const dutyRate = num(form.dutyRate.value || 10);
-      const vatRate  = num(form.vatRate.value || 20);
-
-      const cert = num(form.cert.value);
-      const reg  = num(form.reg.value);
-      const repair = num(form.repair.value);
-      const insurance = num(form.insurance.value);
-      const other = num(form.other.value);
-
-      const usdToUah = num(form.usdToUah.value);
-
-      // Банківські НЕ в миті
-      const swiftFee = num(form.swiftFee.value);
-      const payDocsFee = num(form.payDocsFee.value);
-      const transferLtFee = num(form.transferLtFee.value);
-      const legalEntityFee = num(form.legalEntityFee.value);
-
-      const excise = calcExcise({fuel, engine, age});
-
-      // ✅ База для мита/ПДВ
-      const customsBase = lotPrice + auctionFee + shipUsa + shipSea + shipEuLand;
-
-      const duty = (customsBase * dutyRate) / 100;
-      const vat = ((customsBase + duty + excise) * vatRate) / 100;
-      const taxesTotal = duty + vat + excise;
-
-      const gbpServices = dealerFee + servicePackage;
-      const bankFees = swiftFee + payDocsFee + transferLtFee + legalEntityFee;
-      const extras = shipUa + cert + reg + repair + insurance + other;
-
-      const total = customsBase + taxesTotal + portFees + gbpServices + bankFees + extras;
-
-      ELS.customsBase.textContent = fmt(customsBase) + " $";
-      ELS.duty.textContent = fmt(duty) + " $";
-      ELS.excise.textContent = fmt(excise) + " $";
-      ELS.vat.textContent = fmt(vat) + " $";
-      ELS.taxesTotal.textContent = fmt(taxesTotal) + " $";
-
-      ELS.portOnly.textContent = fmt(portFees) + " $";
-      ELS.gbpServices.textContent = fmt(gbpServices) + " $";
-      ELS.bankFees.textContent = fmt(bankFees) + " $";
-      ELS.extras.textContent = fmt(extras) + " $";
-
-      ELS.grandTotal.textContent = fmt(total) + " $";
-      ELS.totalUsd.textContent = fmt(total) + " $";
-
-      const euPortText = form.euPort.options[form.euPort.selectedIndex]?.text || "";
-      const euCur = form.euCurrency.value;
-      ELS.routeLine.textContent =
-        `Маршрут: США → море → ${euPortText}` + (euCur === "EUR" ? " • ЄС витрати: EUR (конверт в USD)" : " • ЄС витрати: USD");
-
-      if (usdToUah > 0){
-        const totalUah = total * usdToUah;
-        ELS.totalUah.textContent = `≈ ${fmt(totalUah)} грн (курс ${usdToUah.toFixed(2)})`;
-      } else {
-        ELS.totalUah.textContent = "";
-      }
-
-      pulse();
-    }
-
-    function buildSummary(){
+    function summaryText(){
       const lines = [
         "Auto GBP — Розрахунок (орієнтовно)",
         "----------------------------------",
-        ELS.lotLine.textContent ? ("Лот: " + ELS.lotLine.textContent) : "",
-        ELS.routeLine.textContent || "",
+        el.lotLine.textContent ? ("Лот: " + el.lotLine.textContent) : "",
+        el.vinLine.textContent ? el.vinLine.textContent : "",
+        el.routeLine.textContent || "",
         "",
-        "БАЗА ДЛЯ МИТА/ПДВ: " + ELS.customsBase.textContent,
-        "Мито: " + ELS.duty.textContent,
-        "Акциз: " + ELS.excise.textContent,
-        "ПДВ: " + ELS.vat.textContent,
-        "Податки разом: " + ELS.taxesTotal.textContent,
+        "БАЗА ДЛЯ МИТА/ПДВ: " + el.customsBase.textContent,
+        "Мито: " + el.duty.textContent,
+        "Акциз: " + el.excise.textContent,
+        "ПДВ: " + el.vat.textContent,
+        "Податки разом: " + el.taxesTotal.textContent,
         "",
-        "Портові/термінальні: " + ELS.portOnly.textContent,
-        "Послуги Auto GBP: " + ELS.gbpServices.textContent,
-        "Банківські платежі: " + ELS.bankFees.textContent,
-        "Україна + серт/облік/ремонт/інше: " + ELS.extras.textContent,
+        "Портові/термінальні: " + el.portOnly.textContent + " (не входить у мито/ПДВ)",
+        "Послуги Auto GBP: " + el.gbpServices.textContent + " (окремо)",
+        "Банківські платежі: " + el.bankFees.textContent + " (окремо)",
+        "Україна + серт/облік/ремонт/інше: " + el.extras.textContent,
         "",
-        "РАЗОМ ПІД КЛЮЧ: " + ELS.grandTotal.textContent,
-        ELS.totalUah.textContent ? ELS.totalUah.textContent : "",
+        "РАЗОМ ПІД КЛЮЧ: " + el.grandTotal.textContent,
+        el.totalUah.textContent ? el.totalUah.textContent : "",
         "",
         "Посилання на розрахунок:",
         buildShareUrl()
@@ -876,124 +741,106 @@
       return lines.filter(Boolean).join("\n");
     }
 
-    async function copySummary(){
-      const ok = await copyText(buildSummary());
-      ELS.copyStatus.textContent = ok ? "Розрахунок скопійовано ✅" : "Не вдалось скопіювати";
-      setTimeout(()=>ELS.copyStatus.textContent="", 2200);
+    function loadFromParams(){
+      const sp = new URLSearchParams(window.location.search);
+      if ([...sp.keys()].length === 0) return;
+      PARAMS.forEach(k=>{
+        const v = sp.get(k);
+        const field = form.elements[k];
+        if (v !== null && field) field.value = v;
+      });
     }
 
-    // ---------- Branded PDF ----------
-    function pad2(n){ return String(n).padStart(2,"0"); }
-    function nowStamp(){
-      const d = new Date();
-      return `${pad2(d.getDate())}.${pad2(d.getMonth()+1)}.${d.getFullYear()} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-    }
+    async function decodeVin(){
+      const raw = (form.vin.value || "").trim().toUpperCase();
+      const vin = raw.replace(/[^A-Z0-9]/g, "");
+      form.vin.value = vin;
 
-    function fillPdfSheet(){
-      // meta
-      document.getElementById("pdf-date").textContent = "Дата: " + nowStamp();
-      document.getElementById("pdf-route").textContent = ELS.routeLine.textContent || "—";
-      document.getElementById("pdf-lot").textContent = ELS.lotLine.textContent ? ("Лот: " + ELS.lotLine.textContent) : "Лот: —";
+      if (!vin || vin.length < 11){
+        el.vinStatus.textContent = "Введи нормальний VIN (мінімум 11 символів).";
+        return;
+      }
 
-      // numbers
-      document.getElementById("pdf-customs-base").textContent = ELS.customsBase.textContent;
-      document.getElementById("pdf-duty").textContent = ELS.duty.textContent;
-      document.getElementById("pdf-excise").textContent = ELS.excise.textContent;
-      document.getElementById("pdf-vat").textContent = ELS.vat.textContent;
-      document.getElementById("pdf-taxes-total").textContent = ELS.taxesTotal.textContent;
+      el.vinStatus.textContent = "Підтягуємо дані по VIN…";
 
-      document.getElementById("pdf-port").textContent = ELS.portOnly.textContent;
-      document.getElementById("pdf-gbp").textContent = ELS.gbpServices.textContent;
-      document.getElementById("pdf-bank").textContent = ELS.bankFees.textContent;
-      document.getElementById("pdf-extras").textContent = ELS.extras.textContent;
-
-      document.getElementById("pdf-grand-total").textContent = ELS.grandTotal.textContent;
-      document.getElementById("pdf-uah").textContent = ELS.totalUah.textContent ? ("Підсумок у гривні: " + ELS.totalUah.textContent) : "";
-
-      document.getElementById("pdf-link").textContent = buildShareUrl();
-    }
-
-    async function saveBrandedPdf(){
       try{
-        if (!window.html2canvas || !window.jspdf?.jsPDF) {
-          ELS.copyStatus.textContent = "Не завантажились бібліотеки PDF. Перевір інтернет/блокувальник.";
-          setTimeout(()=>ELS.copyStatus.textContent="", 2600);
+        const url = "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValuesExtended/" + encodeURIComponent(vin) + "?format=json";
+        const res = await fetch(url, { cache: "no-store" });
+        const data = await res.json();
+
+        const row = data?.Results?.[0];
+        if (!row){
+          el.vinStatus.textContent = "Не отримав дані по VIN.";
           return;
         }
 
-        fillPdfSheet();
-        const sheet = document.getElementById("pdf-sheet");
+        // year / make / model
+        const y = parseInt(row.ModelYear, 10);
+        if (y) form.year.value = y;
 
-        // render
-        ELS.copyStatus.textContent = "Готую PDF…";
-        const canvas = await html2canvas(sheet, {
-          scale: 2,
-          backgroundColor: "#07080d",
-          useCORS: true
-        });
+        // fuel mapping
+        const fuelRaw = (row.FuelTypePrimary || row.FuelTypeSecondary || "").toLowerCase();
+        const engineDisp = (row.DisplacementCC || row.DisplacementL || "").toString();
 
-        const imgData = canvas.toDataURL("image/png");
+        if (fuelRaw.includes("diesel")) form.fuel.value = "diesel";
+        else if (fuelRaw.includes("electric")) form.fuel.value = "electric";
+        else if (fuelRaw.includes("hybrid")) form.fuel.value = "hybrid";
+        else if (fuelRaw) form.fuel.value = "gasoline";
 
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF("p", "mm", "a4");
+        // engine cc
+        const cc = parseInt(row.DisplacementCC, 10);
+        if (cc) form.engine.value = cc;
 
-        // A4 size in mm: 210 x 297
-        const pageW = 210;
-        const pageH = 297;
+        // if only liters exist
+        if (!cc && row.DisplacementL){
+          const l = num(row.DisplacementL);
+          if (l > 0) form.engine.value = Math.round(l * 1000);
+        }
 
-        // Fit image to page with margins
-        const margin = 8;
-        const imgW = pageW - margin*2;
-        const imgH = (canvas.height * imgW) / canvas.width;
+        el.vinStatus.textContent =
+          "Підтягнуто по VIN ✅ " +
+          (row.ModelYear ? (row.ModelYear + " ") : "") +
+          (row.Make ? (row.Make + " ") : "") +
+          (row.Model ? (row.Model) : "");
 
-        let y = margin;
-        pdf.addImage(imgData, "PNG", margin, y, imgW, imgH, undefined, "FAST");
-
-        // file name
-        const info = parseAuctionUrl((form.auctionUrl.value||"").trim());
-        const id = info?.id ? info.id : "calc";
-        const auc = info?.auction ? info.auction : "AutoGBP";
-        const d = new Date();
-        const fn = `${auc}_AutoGBP_${id}_${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}.pdf`;
-
-        pdf.save(fn);
-
-        ELS.copyStatus.textContent = "PDF збережено ✅";
-        setTimeout(()=>ELS.copyStatus.textContent="", 2200);
+        recalc();
       }catch(e){
-        ELS.copyStatus.textContent = "Не вдалось згенерувати PDF. Спробуй ще раз.";
-        setTimeout(()=>ELS.copyStatus.textContent="", 2600);
+        el.vinStatus.textContent = "Помилка підтягування VIN. Спробуй ще раз.";
       }
     }
 
     // events
-    form.querySelectorAll("input,select").forEach(el=>{
-      el.addEventListener("input", recalc);
-      el.addEventListener("change", recalc);
+    form.querySelectorAll("input,select").forEach(x=>{
+      x.addEventListener("input", recalc);
+      x.addEventListener("change", recalc);
     });
 
-    document.getElementById("scrollToResult").addEventListener("click", ()=>{
-      document.getElementById("result-card").scrollIntoView({behavior:"smooth",block:"start"});
-    });
-
-    document.getElementById("applyAuctionUrlBtn").addEventListener("click", ()=>{
-      applyAuctionUrl();
+    document.getElementById("recognizeLotBtn").addEventListener("click", ()=>{
+      applyLot();
       recalc();
     });
 
-    document.getElementById("copyLinkBtn").addEventListener("click", copyShareLink);
-    document.getElementById("copyLinkBtn2").addEventListener("click", copyShareLink);
+    document.getElementById("decodeVinBtn").addEventListener("click", decodeVin);
 
-    document.getElementById("copySummaryBtn").addEventListener("click", copySummary);
+    document.getElementById("copyLinkBtn").addEventListener("click", async ()=>{
+      applyLot();
+      recalc();
+      const ok = await copyText(buildShareUrl());
+      el.copyStatus.textContent = ok ? "Посилання скопійовано ✅" : "Не вдалось скопіювати посилання";
+      setTimeout(()=>el.copyStatus.textContent="", 2200);
+    });
 
-    document.getElementById("savePdfBtn").addEventListener("click", ()=>{
-      document.getElementById("result-card").scrollIntoView({ behavior:"smooth", block:"start" });
-      setTimeout(saveBrandedPdf, 200);
+    document.getElementById("copyTextBtn").addEventListener("click", async ()=>{
+      applyLot();
+      recalc();
+      const ok = await copyText(summaryText());
+      el.copyStatus.textContent = ok ? "Розрахунок скопійовано ✅" : "Не вдалось скопіювати";
+      setTimeout(()=>el.copyStatus.textContent="", 2200);
     });
 
     // init
-    loadFromUrlParams();
-    applyAuctionUrl();
+    loadFromParams();
+    applyLot();
     recalc();
   </script>
 </body>
