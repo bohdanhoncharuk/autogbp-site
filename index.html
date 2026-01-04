@@ -631,15 +631,17 @@
       <p>Завжди можна просто подзвонити або написати в зручний месенджер.</p>
       <div class="contacts-grid">
         <div class="contacts-row">
-          <strong>Телефон офісу:</strong>
-          <a href="tel:+380955633089">+38 095 563 30 89</a> <p class="contacts-location">
+  <strong>Телефон офісу:</strong>
+  <a href="tel:+380955633089">+38 095 563 30 89</a>
+</div>
+
+<div class="contacts-row" style="font-size:13px;color:var(--muted);">
   📍 Локація офісу:
   <a href="https://maps.app.goo.gl/LWsEqtXmjzeiW13r6?g_st=iv"
      target="_blank" rel="noopener noreferrer">
-    Офіс Auto GBP на мапі.
+    Офіс Auto GBP на мапі
   </a>
-</p>
-        </div>
+</div>
         <div class="contacts-row">
           <strong>Інформаційний номер:</strong>
           <a href="tel:+380508232374">+38 050 823 23 74</a>
@@ -670,59 +672,4 @@
   © Grand Best Performance · Auto GBP. Пригін авто з США та Європи.
 </footer>
 
-<script>
-  // ⚠️ ТВОЇ ДАНІ БОТА
-  const BOT_TOKEN ='8047611600:AAGFificTsV0FDpZ-NmgFKjZTeaT_xDJQtc';
-  const CHAT_ID   ='7490517948';
-
-  // ПРИВʼЯЗКА ДО HTML
-  const form   = document.getElementById('lead-form');    // id форми
-  const status = document.getElementById('form-status');  // id блоку зі статусом
-
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-      const name    = formData.get('name');
-      const phone   = formData.get('phone');
-      const car     = formData.get('car');
-      const comment = formData.get('comment');
-
-      const text =
-        'Нова заявка з сайту Auto GBP:%0A%0A' +
-        'Імʼя: ' + encodeURIComponent(name) + '%0A' +
-        'Телефон: ' + encodeURIComponent(phone) + '%0A' +
-        'Авто / бюджет: ' + encodeURIComponent(car || '-') + '%0A' +
-        'Коментар: ' + encodeURIComponent(comment || '-') + '%0A';
-
-      if (status) {
-        status.style.color = '#ccc';
-        status.textContent = 'Надсилаємо заявку...';
-      }
-
-      try {
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`;
-        const res = await fetch(url);
-
-        if (res.ok) {
-          if (status) {
-            status.style.color = '#65d96b';
-            status.textContent = 'Заявку надіслано ✅ Ми звʼяжемося з вами.';
-          }
-          form.reset();
-        } else {
-          if (status) {
-            status.style.color = '#ff7070';
-            status.textContent = 'Помилка при надсиланні. Спробуйте ще раз або зателефонуйте.';
-          }
-        }
-      } catch (err) {
-        if (status) {
-          status.style.color = '#ff7070';
-          status.textContent = 'Помилка мережі. Перевірте інтернет або зателефонуйте.';
-        }
-      }
-    });
-  }
-</script>
+<script src="lead-form.js"></script>
