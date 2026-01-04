@@ -1,5 +1,5 @@
 // netlify/functions/lead.js
-export async function handler(event) {
+exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
@@ -42,4 +42,4 @@ export async function handler(event) {
   } catch (e) {
     return { statusCode: 500, body: "Server error" };
   }
-}
+};
