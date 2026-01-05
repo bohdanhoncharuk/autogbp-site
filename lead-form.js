@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
       phone: fd.get("phone")?.trim(),
       car: fd.get("car")?.trim(),
       comment: fd.get("comment")?.trim(),
-      page: window.location.href,
+      page: window.location.pathname,
     };
 
     if (status) {
