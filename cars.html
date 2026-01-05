@@ -1,259 +1,536 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <title>Auto GBP – Авто в наявності</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Auto GBP — Авто в наявності</title>
+  <meta name="description" content="Auto GBP — Авто в наявності. Підбір, пригін, ремонт, розмитнення під ключ." />
+
   <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #050505;
-      color: #f7f7f7;
-    }
-    a { color: inherit; }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(16px);
-      background: rgba(5,5,5,0.9);
-      border-bottom: 1px solid #262626;
-    }
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo-circle {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: #ffd84a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #000;
-      font-weight: 700;
-      font-size: 18px;
-    }
-    .logo-text-main {
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      font-size: 15px;
-    }
-    .logo-text-sub {
-      font-size: 11px;
-      color: #b3b3b3;
-    }
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 13px;
-    }
-    .nav-links a {
-      padding: 6px 10px;
-      border-radius: 999px;
-      text-decoration: none;
-      color: #e5e5e5;
-    }
-    .nav-links a:hover {
-      background: #18181b;
-    }
-    .nav-links a.nav-cta {
-      background: #ffd84a;
-      color: #000;
-      font-weight: 600;
+    :root{
+      --bg:#0b0f14;
+      --panel:#0f1722;
+      --panel2:#101b29;
+      --stroke:rgba(255,216,74,.18);
+      --gold:#ffd84a;
+      --gold2:#f3c62c;
+      --text:#e9eef6;
+      --muted:rgba(233,238,246,.72);
+      --ok:#65d96b;
+      --bad:#ff7070;
+      --shadow: 0 16px 40px rgba(0,0,0,.45);
+      --radius:18px;
     }
 
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px 16px 40px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 420px at 20% -10%, rgba(255,216,74,.10), transparent 60%),
+        radial-gradient(900px 420px at 85% 10%, rgba(255,216,74,.08), transparent 55%),
+        linear-gradient(180deg, #070a0f 0%, #0b0f14 40%, #06080c 100%);
+      min-height:100vh;
     }
 
-    h1 {
-      font-size: 26px;
-      margin: 0 0 6px;
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1150px; margin:0 auto; padding:22px 16px 44px}
+
+    /* Top bar */
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px; padding:14px 14px;
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,216,74,.06), rgba(255,216,74,.02));
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      position:sticky; top:10px; z-index:20;
+      backdrop-filter: blur(8px);
     }
-    .page-sub {
-      font-size: 14px;
-      color: #c9c9c9;
-      margin-bottom: 24px;
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 220px;
+    }
+    .logo{
+      width:42px; height:42px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      display:grid; place-items:center;
+      background: linear-gradient(180deg, rgba(255,216,74,.14), rgba(255,216,74,.04));
+      color:var(--gold);
+      font-weight:900;
+      letter-spacing:.5px;
+    }
+    .brand h1{font-size:16px; margin:0; line-height:1.1}
+    .brand p{margin:2px 0 0; font-size:12px; color:var(--muted)}
+
+    .nav{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .pill{
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(15,23,34,.55);
+      color:var(--text);
+      font-weight:600;
+      font-size:13px;
+      transition:.2s ease;
+      white-space:nowrap;
+    }
+    .pill:hover{transform: translateY(-1px); border-color: rgba(255,216,74,.38)}
+    .pill.gold{
+      background: linear-gradient(180deg, rgba(255,216,74,.25), rgba(255,216,74,.10));
+      color:#1a1301;
+      border-color: rgba(255,216,74,.55);
     }
 
-    .cars-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+    /* Hero */
+    .hero{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+      align-items:stretch;
     }
-    .car-card {
-      background: #111;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #242424;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    @media (max-width: 920px){
+      .hero{grid-template-columns:1fr; }
+      .brand{min-width:unset}
     }
-    .car-card img {
-      width: 100%;
-      display: block;
-      object-fit: cover;
-      max-height: 230px;
+    .hero-card{
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(16,27,41,.9), rgba(15,23,34,.75));
+      box-shadow: var(--shadow);
+      padding:18px;
+      overflow:hidden;
+      position:relative;
     }
-    .car-body {
-      padding: 14px 16px 16px;
+    .hero-card:before{
+      content:"";
+      position:absolute; inset:-120px -80px auto auto;
+      width:320px; height:320px;
+      background: radial-gradient(circle, rgba(255,216,74,.18), transparent 60%);
+      filter: blur(2px);
+      pointer-events:none;
     }
-    .car-title {
-      margin: 0 0 6px;
-      font-size: 18px;
+    .hero h2{
+      margin:0 0 8px;
+      font-size:24px;
+      letter-spacing:.2px;
     }
-    .car-meta {
-      margin: 0 0 4px;
-      font-size: 14px;
-      color: #d0d0d0;
+    .hero .sub{
+      margin:0;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:14px;
+      max-width: 52ch;
     }
-    .car-desc {
-      margin: 0;
-      font-size: 13px;
-      color: #a3a3a3;
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:14px;
+    }
+    @media (max-width: 520px){ .stats{grid-template-columns:1fr} }
+    .stat{
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      border-radius:16px;
+      padding:12px;
+    }
+    .stat b{display:block; font-size:16px; color:var(--gold)}
+    .stat span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+
+    /* Filters */
+    .filters{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    @media (max-width: 520px){ .filters{grid-template-columns:1fr} }
+
+    .field{
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .field label{font-size:12px; color:var(--muted)}
+    .control{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,216,74,.25);
+      background: rgba(6,8,12,.35);
+      color:var(--text);
+      outline:none;
+    }
+    .control::placeholder{color: rgba(233,238,246,.45)}
+    .actions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:800;
+      font-size:13px;
+      transition:.2s ease;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn.primary{
+      background: linear-gradient(180deg, var(--gold), var(--gold2));
+      color:#1a1301;
+      box-shadow: 0 10px 18px rgba(255,216,74,.12);
+    }
+    .btn.ghost{
+      background: rgba(15,23,34,.55);
+      border:1px solid var(--stroke);
+      color:var(--text);
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .hint{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
     }
 
-    .insta-block {
-      margin-top: 28px;
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid #262626;
-      background: radial-gradient(circle at top, #2d2a1b 0, #050505 55%);
+    /* Grid */
+    .section-title{
+      margin:20px 0 10px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
     }
-    .insta-block p {
-      margin: 0 0 12px;
-      font-size: 14px;
-      color: #d4d4d4;
+    .section-title h3{margin:0; font-size:18px}
+    .counter{color:var(--muted); font-size:12px}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:10px;
     }
-    .insta-btn {
-      display: inline-block;
-      padding: 11px 20px;
-      border-radius: 999px;
-      background: #ffd84a;
-      color: #000;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
+    @media (max-width: 980px){ .grid{grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 640px){ .grid{grid-template-columns: 1fr;} }
+
+    .card{
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(16,27,41,.92), rgba(15,23,34,.72));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height: 100%;
+    }
+    .thumb{
+      height:190px;
+      background:
+        linear-gradient(135deg, rgba(255,216,74,.14), rgba(0,0,0,0)),
+        radial-gradient(650px 240px at 25% 20%, rgba(255,216,74,.10), transparent 60%),
+        #0b0f14;
+      border-bottom:1px solid rgba(255,216,74,.18);
+      position:relative;
+    }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: contrast(1.03) saturate(1.05);
+    }
+    .badges{
+      position:absolute; top:10px; left:10px;
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .badge{
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,216,74,.28);
+      background: rgba(0,0,0,.35);
+      color: var(--text);
+      backdrop-filter: blur(6px);
+    }
+    .badge.gold{
+      background: rgba(255,216,74,.16);
+      color: var(--gold);
+      border-color: rgba(255,216,74,.45);
     }
 
-    footer {
-      border-top: 1px solid #262626;
-      text-align: center;
-      padding: 12px 8px 18px;
-      font-size: 11px;
-      color: #9ca3af;
-      background: #050505;
+    .body{
+      padding:14px 14px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1;
+    }
+    .title{
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
+    }
+    .title h4{margin:0; font-size:16px; line-height:1.25}
+    .price{
+      font-weight:900;
+      color: var(--gold);
+      white-space:nowrap;
+      font-size:15px;
+    }
+    .meta{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:8px;
+      font-size:12px;
+      color: var(--muted);
+    }
+    .meta div{
+      border:1px solid rgba(255,216,74,.16);
+      background: rgba(0,0,0,.18);
+      border-radius:14px;
+      padding:8px 10px;
+      display:flex; justify-content:space-between; gap:8px;
+    }
+    .meta b{color: rgba(233,238,246,.9)}
+    .desc{
+      color: rgba(233,238,246,.78);
+      font-size:13px;
+      line-height:1.45;
+      min-height: 38px;
     }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 22px; }
-      .nav-inner { flex-direction: column; align-items: flex-start; }
-      .nav-links { justify-content: flex-start; }
+    .card-actions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:auto;
+    }
+    .small{
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:800;
+      font-size:13px;
+      border:1px solid var(--stroke);
+      background: rgba(15,23,34,.55);
+      color:var(--text);
+      cursor:pointer;
+      transition:.2s ease;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .small.primary{
+      background: linear-gradient(180deg, rgba(255,216,74,.22), rgba(255,216,74,.10));
+      border-color: rgba(255,216,74,.45);
+      color: var(--gold);
+    }
+    .small:hover{transform: translateY(-1px)}
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.60);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:50;
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:min(960px, 100%);
+      border-radius: 20px;
+      border:1px solid rgba(255,216,74,.24);
+      background: linear-gradient(180deg, rgba(16,27,41,.96), rgba(10,14,20,.92));
+      box-shadow: 0 24px 70px rgba(0,0,0,.65);
+      overflow:hidden;
+    }
+    .modal-top{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 14px;
+      border-bottom:1px solid rgba(255,216,74,.16);
+    }
+    .modal-top b{color: var(--gold)}
+    .x{
+      background: transparent;
+      border:1px solid rgba(255,216,74,.25);
+      color: var(--text);
+      border-radius: 12px;
+      padding:8px 10px;
+      cursor:pointer;
+      font-weight:900;
+    }
+    .modal-content{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:0;
+    }
+    @media (max-width: 860px){ .modal-content{grid-template-columns:1fr;} }
+    .modal-img{
+      min-height:320px;
+      background:#0b0f14;
+      border-right:1px solid rgba(255,216,74,.12);
+    }
+    @media (max-width: 860px){ .modal-img{border-right:none; border-bottom:1px solid rgba(255,216,74,.12);} }
+    .modal-img img{width:100%; height:100%; object-fit:cover; display:block}
+    .modal-info{
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .modal-info h4{margin:0; font-size:18px}
+    .modal-info .row{display:flex; justify-content:space-between; gap:10px; color:var(--muted); font-size:13px}
+    .modal-info .row b{color: rgba(233,238,246,.95)}
+    .modal-info .note{
+      margin-top:6px;
+      border:1px solid rgba(255,216,74,.18);
+      background: rgba(0,0,0,.18);
+      border-radius:16px;
+      padding:12px;
+      color: rgba(233,238,246,.82);
+      font-size:13px;
+      line-height:1.5;
+    }
+    .modal-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto}
+    footer{
+      margin-top:22px;
+      color: rgba(233,238,246,.55);
+      font-size:12px;
+      text-align:center;
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <div class="nav-inner">
-      <div class="logo">
-        <div class="logo-circle">G</div>
+  <div class="container">
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">GBP</div>
         <div>
-          <div class="logo-text-main">AUTO GBP</div>
-          <div class="logo-text-sub">Grand Best Performance · Dubno</div>
+          <h1>Auto GBP — Авто в наявності</h1>
+          <p>Підбір • Пригін • Доставка • Розмитнення • Ремонт</p>
         </div>
       </div>
-      <nav class="nav-links">
-        <a href="index.html#services">Послуги</a>
-        <a href="index.html#how">Як це працює</a>
-        <a href="calculator.html">Калькулятор</a>
-        <a href="cars.html" class="nav-cta">Авто в наявності</a>
-        <a href="index.html#lead">Заявка</a>
-        <a href="index.html#contacts">Контакти</a>
-      </nav>
+
+      <div class="nav">
+        <a class="pill" href="index.html">Головна</a>
+        <a class="pill gold" href="cars.html">Авто</a>
+        <a class="pill" href="calculator.html">Калькулятор</a>
+        <a class="pill" href="index.html#contacts">Контакти</a>
+      </div>
     </div>
-  </header>
 
-  <main>
-    <h1>Авто в наявності</h1>
-    <p class="page-sub">
-      Кілька прикладів авто, з якими вже працюємо. Повний актуальний список – у нашому Instagram.
-      Телефонуй або залишай заявку, підберемо авто під твій бюджет.
-    </p>
+    <div class="hero">
+      <div class="hero-card">
+        <h2>Підібрані авто. Прозоро. Красиво. По-людськи.</h2>
+        <p class="sub">
+          Тут — приклади авто в наявності / під замовлення. Фільтруй по марці, ціні, року.
+          Якщо треба інший варіант — натискай “Написати”, і ми підберемо.
+        </p>
 
-    <section class="cars-grid">
-      <!-- Картка 1 -->
-      <article class="car-card">
-        <img src="IMG_3858.jpeg" alt="Ford Edge SEL 2.0">
-        <div class="car-body">
-          <h2 class="car-title">Ford Edge SEL 2.0 EcoBoost</h2>
-          <p class="car-meta">2020 рік · повний привід · бензин 2.0</p>
-          <p class="car-desc">
-            Комфортний кросовер для сім’ї: гарна динаміка, безпека та адекватний розхід пального.
-            Авто з аукціону США, повний супровід від купівлі до постановки на облік.
-          </p>
+        <div class="stats">
+          <div class="stat"><b id="statTotal">—</b><span>авто у списку</span></div>
+          <div class="stat"><b>USA / EU</b><span>логістика під ключ</span></div>
+          <div class="stat"><b>GBP</b><span>підхід “як собі”</span></div>
         </div>
-      </article>
 
-      <!-- Картка 2 -->
-      <article class="car-card">
-        <img src="84b74527f337465f90a0bd5f0ecb7dee.jpeg" alt="BMW X5 E70">
-        <div class="car-body">
-          <h2 class="car-title">BMW X5 E70</h2>
-          <p class="car-meta">Преміум-кросовер · повний привід</p>
-          <p class="car-desc">
-            Для тих, хто хоче більше емоцій та статусу. Деталі по конкретному авто, комплектації
-            та бюджету – індивідуально по запиту.
-          </p>
+        <div class="filters">
+          <div class="field">
+            <label for="q">Пошук (модель / марка)</label>
+            <input id="q" class="control" placeholder="Напр. Ford Edge, Audi Q5…" />
+          </div>
+          <div class="field">
+            <label for="brand">Марка</label>
+            <select id="brand" class="control">
+              <option value="">Будь-яка</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="yearMin">Рік від</label>
+            <input id="yearMin" class="control" type="number" placeholder="2016" />
+          </div>
+          <div class="field">
+            <label for="priceMax">Ціна до ($)</label>
+            <input id="priceMax" class="control" type="number" placeholder="15000" />
+          </div>
         </div>
-      </article>
 
-      <!-- Картка 3 -->
-      <article class="car-card">
-        <img src="65d5a81653234472883c962edf37b196.jpeg" alt="Авто під замовлення">
-        <div class="car-body">
-          <h2 class="car-title">Авто під замовлення</h2>
-          <p class="car-meta">США · Канада · Європа</p>
-          <p class="car-desc">
-            Працюємо під твій бюджет: підбір, перевірка, доставка, митниця, ремонт. Розпиши,
-            що саме шукаєш – і я запропоную кілька варіантів з аукціонів.
-          </p>
+        <div class="actions">
+          <button class="btn primary" id="apply">
+            🔎 Показати
+          </button>
+          <button class="btn ghost" id="reset">
+            ♻️ Скинути
+          </button>
+          <a class="btn ghost" id="writeTop" href="#" target="_blank" rel="noopener">
+            ✉️ Написати нам
+          </a>
         </div>
-      </article>
-    </section>
 
-    <section class="insta-block">
-      <p>
-        Більше живих фото, відео з аукціонів та процесу доставки – у моєму Instagram.
-      </p>
-      <a
-        href="https://www.instagram.com/ВАШ_НІК_INSTAGRAM"
-        target="_blank"
-        rel="noopener"
-        class="insta-btn"
-      >
-        Переглянути більше авто в Instagram
-      </a>
-    </section>
-  </main>
+        <div class="hint">
+          * Кнопка “Написати” відкриває Telegram/WhatsApp (як вибереш). Деталі авто — у вікні “Деталі”.
+        </div>
+      </div>
 
-  <footer>
-    © Grand Best Performance · Auto GBP. Пригін авто з США та Європи.
-  </footer>
+      <div class="hero-card">
+        <h2>Як швидко додавати авто</h2>
+        <p class="sub">
+          Відкрий файл <b>cars-data.js</b> і додавай новий об’єкт (марка/модель/рік/ціна/пробіг/опис/фото).
+          Сторінка все підхопить автоматично.
+        </p>
+
+        <div class="note" style="margin-top:12px;border:1px solid rgba(255,216,74,.18);background:rgba(0,0,0,.18);border-radius:16px;padding:12px;color:rgba(233,238,246,.82);font-size:13px;line-height:1.5;">
+          <b style="color:var(--gold)">Рекомендація:</b><br>
+          Фото клади в папку <b>/assets/cars/</b> (наприклад: <i>edge-2020.jpg</i>).<br>
+          Якщо фото нема — став порожньо, і буде красивий фон-заглушка.
+        </div>
+
+        <div class="actions" style="margin-top:14px;">
+          <a class="btn primary" href="calculator.html">🧮 Калькулятор</a>
+          <a class="btn ghost" href="index.html#lead">📝 Заявка</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <h3>Авто</h3>
+      <div class="counter" id="counter">—</div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <footer>
+      © Grand Best Performance • Auto GBP
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div><b>Auto GBP</b> • Деталі авто</div>
+        <button class="x" id="close">✕</button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-img"><img id="mImg" alt=""></div>
+        <div class="modal-info">
+          <h4 id="mTitle">—</h4>
+          <div class="row"><span>Ціна:</span><b id="mPrice">—</b></div>
+          <div class="row"><span>Рік:</span><b id="mYear">—</b></div>
+          <div class="row"><span>Пробіг:</span><b id="mMileage">—</b></div>
+          <div class="row"><span>Паливо:</span><b id="mFuel">—</b></div>
+          <div class="row"><span>Привід:</span><b id="mDrive">—</b></div>
+          <div class="row"><span>Статус:</span><b id="mStatus">—</b></div>
+
+          <div class="note" id="mDesc">—</div>
+
+          <div class="modal-actions">
+            <a class="small primary" id="mWrite" href="#" target="_blank" rel="noopener">✉️ Написати</a>
+            <button class="small" id="mCopy">📋 Скопіювати дані</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="cars-data.js"></script>
+  <script src="cars.js"></script>
 </body>
 </html>
