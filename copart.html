@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Auto GBP — Copart лот + прорахунок</title>
+  <meta name="description" content="Сторінка для вставки посилання на Copart-лот і швидкого прорахунку пригону під ключ. Auto GBP." />
+
+  <style>
+    :root{
+      --bg:#050608;
+      --bg2:#0b0f14;
+      --card:#0b0f14cc;
+      --border:#232a35;
+      --gold:#ffd86a;
+      --gold2:#e9c45a;
+      --text:#f4f4f4;
+      --muted:#a6a6a6;
+      --ok:#65d96b;
+      --warn:#ffcf5a;
+      --danger:#ff7070;
+      --shadow: 0 18px 55px rgba(0,0,0,.55);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1200px 700px at 10% -10%, rgba(255,216,106,.13), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(101,217,107,.10), transparent 55%),
+        radial-gradient(900px 600px at 20% 110%, rgba(59,130,246,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1100px; margin:0 auto; padding:18px 14px 60px;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:rgba(8,10,13,.55);
+      box-shadow: var(--shadow);
+      position: sticky; top: 10px; backdrop-filter: blur(10px);
+      z-index:10;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width: 180px;
+    }
+    .brand img{width:40px; height:40px; object-fit:contain; filter: drop-shadow(0 10px 22px rgba(0,0,0,.55));}
+    .brand b{letter-spacing:.2px}
+    .brand small{display:block; color:var(--muted); font-size:12px; margin-top:2px}
+
+    .nav{
+      display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(12,15,20,.6);
+      color:var(--text);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      cursor:pointer;
+      font-weight:650;
+      transition:.15s transform, .15s border-color, .15s background;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); border-color:#3a465a; background: rgba(15,19,26,.75)}
+    .btn.gold{
+      border-color: rgba(255,216,106,.35);
+      background: linear-gradient(180deg, rgba(255,216,106,.18), rgba(12,15,20,.6));
+    }
+
+    .hero{
+      margin-top:16px;
+      padding:18px 14px;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background: rgba(8,10,13,.55);
+      box-shadow: var(--shadow);
+    }
+    .hero h1{
+      margin:0 0 6px;
+      font-size:22px;
+      letter-spacing:.2px;
+    }
+    .hero p{margin:0; color:var(--muted); line-height:1.35}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width: 940px){
+      .grid{grid-template-columns:1fr;}
+      .brand{min-width:auto;}
+      .topbar{position:relative; top:auto;}
+    }
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:18px;
+      background: rgba(8,10,13,.55);
+      box-shadow: var(--shadow);
+      padding:14px;
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0 0 10px;
+      font-size:16px;
+      letter-spacing:.15px;
+    }
+
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+    @media (max-width: 520px){ .row{grid-template-columns:1fr;} }
+
+    label{display:block; color:var(--muted); font-size:12px; margin:0 0 6px;}
+    input, select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid #2a3341;
+      background: rgba(7,9,12,.55);
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input:focus, select:focus{border-color: rgba(255,216,106,.45)}
+    .hint{color:var(--muted); font-size:12px; margin-top:8px; line-height:1.35}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid #2a3341;
+      background: rgba(7,9,12,.45);
+      color:var(--muted);
+      font-size:12px;
+      margin-top:8px;
+      max-width:100%;
+    }
+    .pill b{color:var(--gold); font-weight:800}
+    .pill a{color:var(--gold)}
+
+    .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;}
+    .actions .btn{flex: 1 1 auto;}
+    .btn.primary{
+      border-color: rgba(255,216,106,.40);
+      background: linear-gradient(180deg, rgba(255,216,106,.22), rgba(10,12,16,.55));
+    }
+
+    .result{
+      margin-top:12px;
+      border-top:1px solid #1f2631;
+      padding-top:12px;
+      display:grid;
+      gap:10px;
+    }
+    .line{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:12px;
+      padding:10px 12px;
+      border:1px solid #1f2631;
+      border-radius:14px;
+      background: rgba(7,9,12,.35);
+    }
+    .line .k{color:var(--muted); font-size:13px}
+    .line .v{font-weight:850}
+    .total{
+      border-color: rgba(255,216,106,.35);
+      background: linear-gradient(180deg, rgba(255,216,106,.14), rgba(7,9,12,.35));
+    }
+    .total .k{color:#ffe7a6}
+    .total .v{color: var(--gold); font-size:18px}
+    .warnbox{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+
+    .small{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .twoCol{
+      display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+    }
+    @media (max-width: 520px){ .twoCol{grid-template-columns:1fr;} }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid #2a3341;
+      background: rgba(7,9,12,.45);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .badge .dot{width:8px; height:8px; border-radius:50%; background: var(--warn); box-shadow:0 0 0 3px rgba(255,207,90,.12);}
+    .footer{
+      margin-top:14px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <img src="logo-gbp.png" alt="Auto GBP">
+        <div>
+          <b>Auto GBP</b>
+          <small>Copart лот • Прорахунок під пригін</small>
+        </div>
+      </div>
+      <div class="nav">
+        <a class="btn" href="index.html">🏠 Головна</a>
+        <a class="btn" href="calculator.html">🧮 Калькулятор</a>
+        <a class="btn" href="cars.html">🚗 Авто</a>
+        <a class="btn gold" id="openLotBtn" href="#" target="_blank" rel="noopener">🔗 Відкрити лот</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Copart лот + прорахунок “під ключ”</h1>
+      <p>Встав посилання на лот Copart, введи суму ставки/Buy It Now, і отримай орієнтовний розрахунок. Далі можеш одразу написати нам у Telegram.</p>
+    </div>
+
+    <div class="grid">
+      <!-- INPUTS -->
+      <div class="card">
+        <h2>1) Дані лоту</h2>
+
+        <div class="row">
+          <div>
+            <label>Посилання на лот Copart</label>
+            <input id="lotUrl" placeholder="https://www.copart.com/lot/12345678" />
+            <div class="hint">Можна вставити будь-яке посилання з номером лоту. Сторінка дістане номер автоматично.</div>
+            <div class="pill" id="lotInfo" style="display:none;"></div>
+          </div>
+
+          <div>
+            <label>Ціна на аукціоні (USD)</label>
+            <input id="bid" inputmode="decimal" placeholder="Напр. 1800" />
+            <div class="hint">Це твоя ставка/ціна покупки. Комісії можна додати нижче.</div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>Тип авто</label>
+            <select id="type">
+              <option value="gas">Бензин / Дизель</option>
+              <option value="hybrid">Гібрид</option>
+              <option value="ev">Електро</option>
+            </select>
+          </div>
+          <div>
+            <label>Рік (для мита/акцизу, якщо потрібно)</label>
+            <input id="year" inputmode="numeric" placeholder="Напр. 2018" />
+          </div>
+        </div>
+
+        <h2 style="margin-top:14px;">2) Логістика та платежі (редагуються)</h2>
+
+        <div class="row">
+          <div>
+            <label>Комісія аукціону (USD)</label>
+            <input id="auctionFee" inputmode="decimal" value="0" />
+          </div>
+          <div>
+            <label>Доставка США → порт (USD)</label>
+            <input id="usDelivery" inputmode="decimal" value="0" />
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>Морська доставка (USD)</label>
+            <input id="sea" inputmode="decimal" value="0" />
+          </div>
+          <div>
+            <label>Клайпеда/ЄС → Україна (USD)</label>
+            <input id="uaLeg" inputmode="decimal" value="0" />
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>Брокер / оформлення (USD)</label>
+            <input id="broker" inputmode="decimal" value="0" />
+          </div>
+          <div>
+            <label>Наш сервіс (USD)</label>
+            <input id="service" inputmode="decimal" value="500" />
+          </div>
+        </div>
+
+        <h2 style="margin-top:14px;">3) Податки (орієнтовно)</h2>
+
+        <div class="twoCol">
+          <div class="badge"><span class="dot"></span> Мито/акциз/ПДВ залежать від типу/об’єму/року. Тут зроблено “швидкий режим”.</div>
+          <div class="small">
+            Хочеш точний розрахунок під конкретне авто — натисни “Заявка”, і ми порахуємо під VIN/об’єм/тип.
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>Орієнтовне мито (USD)</label>
+            <input id="duty" inputmode="decimal" value="0" />
+          </div>
+          <div>
+            <label>Орієнтовний ПДВ (USD)</label>
+            <input id="vat" inputmode="decimal" value="0" />
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>Орієнтовний акциз (USD)</label>
+            <input id="excise" inputmode="decimal" value="0" />
+          </div>
+          <div>
+            <label>Запас/інші витрати (USD)</label>
+            <input id="misc" inputmode="decimal" value="0" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="calcBtn">🧾 Порахувати “під ключ”</button>
+          <button class="btn" id="resetBtn">↩️ Скинути</button>
+          <a class="btn gold" id="leadBtn" target="_blank" rel="noopener">✍️ Заявка</a>
+        </div>
+
+        <div class="warnbox">
+          ⚠️ Copart не дозволяє браузеру зчитувати сторінку лоту напряму (CORS), тому лот тут не “підтягується” автоматично. Але номер лоту ми дістаємо з посилання — цього достатньо, щоб швидко зв’язатися й зробити точний прорахунок.
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="card">
+        <h2>Результат</h2>
+
+        <div class="result" id="result">
+          <div class="line">
+            <div class="k">Ціна лоту + комісія</div>
+            <div class="v" id="rBuy">—</div>
+          </div>
+
+          <div class="line">
+            <div class="k">Логістика (USA → порт → UA)</div>
+            <div class="v" id="rLog">—</div>
+          </div>
+
+          <div class="line">
+            <div class="k">Оформлення / сервіс / інше</div>
+            <div class="v" id="rSrv">—</div>
+          </div>
+
+          <div class="line">
+            <div class="k">Податки (орієнтовно)</div>
+            <div class="v" id="rTax">—</div>
+          </div>
+
+          <div class="line total">
+            <div class="k">Разом “під ключ”</div>
+            <div class="v" id="rTotal">—</div>
+          </div>
+
+          <div class="small">
+            *Це орієнтовний розрахунок. Для точного — потрібен VIN/обʼєм/тип/стан та умови покупки.
+          </div>
+        </div>
+
+        <div class="footer">
+          Auto GBP • Grand Best Performance
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Налаштування контактів
+    const TELEGRAM_USERNAME = "AutoGBPBot"; // без @
+    const PREFER = "telegram"; // telegram або whatsapp
+    const WHATSAPP_NUMBER = "380508232374";
+
+    const $ = (id)=>document.getElementById(id);
+
+    function money(n){
+      const v = Number(n || 0);
+      return "$" + v.toLocaleString("en-US", {maximumFractionDigits: 0});
+    }
+    function num(v){
+      if (v === null || v === undefined) return 0;
+      const s = String(v).replace(",", ".").replace(/[^0-9.]/g,"");
+      return Number(s || 0);
+    }
+
+    function extractLotId(url){
+      const u = String(url || "").trim();
+      // приклади:
+      // https://www.copart.com/lot/82324705/...
+      // https://www.copart.com/lot/82324705
+      const m = u.match(/\/lot\/(\d+)/i);
+      if (m && m[1]) return m[1];
+      // якщо просто цифри вставили
+      const m2 = u.match(/\b(\d{6,10})\b/);
+      return m2 ? m2[1] : "";
+    }
+
+    function writeLink(text){
+      if (PREFER === "whatsapp"){
+        return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+      }
+      // telegram
+      // start параметр стабільний у Telegram
+      return `https://t.me/${TELEGRAM_USERNAME}?start=${encodeURIComponent("copart")}`;
+    }
+
+    function updateLotUI(){
+      const url = $("lotUrl").value.trim();
+      const lotId = extractLotId(url);
+
+      const info = $("lotInfo");
+      const openLotBtn = $("openLotBtn");
+
+      if (lotId){
+        info.style.display = "inline-flex";
+        info.innerHTML = `Лот: <b>#${lotId}</b> · <a href="${url}" target="_blank" rel="noopener">відкрити</a>`;
+        openLotBtn.href = url;
+      }else{
+        info.style.display = "none";
+        openLotBtn.href = "#";
+      }
+
+      // кнопка "Заявка"
+      const bid = num($("bid").value);
+      const year = $("year").value.trim();
+      const type = $("type").value;
+
+      const msg =
+`Привіт! Хочу прорахунок пригону з Copart.
+Лінк: ${url || "—"}
+Лот: ${lotId ? "#" + lotId : "—"}
+Ціна лоту: ${bid ? money(bid) : "—"}
+Тип: ${type}
+Рік: ${year || "—"}
+Підкажіть точний розрахунок під ключ.`;
+
+      $("leadBtn").href = writeLink(msg);
+    }
+
+    function calc(){
+      const bid = num($("bid").value);
+      const auctionFee = num($("auctionFee").value);
+      const usDelivery = num($("usDelivery").value);
+      const sea = num($("sea").value);
+      const uaLeg = num($("uaLeg").value);
+      const broker = num($("broker").value);
+      const service = num($("service").value);
+      const misc = num($("misc").value);
+
+      const duty = num($("duty").value);
+      const vat = num($("vat").value);
+      const excise = num($("excise").value);
+
+      const buy = bid + auctionFee;
+      const log = usDelivery + sea + uaLeg;
+      const srv = broker + service + misc;
+      const tax = duty + vat + excise;
+      const total = buy + log + srv + tax;
+
+      $("rBuy").textContent = money(buy);
+      $("rLog").textContent = money(log);
+      $("rSrv").textContent = money(srv);
+      $("rTax").textContent = money(tax);
+      $("rTotal").textContent = money(total);
+
+      updateLotUI();
+    }
+
+    function resetAll(){
+      $("lotUrl").value = "";
+      $("bid").value = "";
+      $("type").value = "gas";
+      $("year").value = "";
+
+      $("auctionFee").value = "0";
+      $("usDelivery").value = "0";
+      $("sea").value = "0";
+      $("uaLeg").value = "0";
+      $("broker").value = "0";
+      $("service").value = "500";
+      $("duty").value = "0";
+      $("vat").value = "0";
+      $("excise").value = "0";
+      $("misc").value = "0";
+
+      $("rBuy").textContent = "—";
+      $("rLog").textContent = "—";
+      $("rSrv").textContent = "—";
+      $("rTax").textContent = "—";
+      $("rTotal").textContent = "—";
+
+      updateLotUI();
+    }
+
+    // Events
+    $("lotUrl").addEventListener("input", updateLotUI);
+    $("bid").addEventListener("input", updateLotUI);
+
+    ["auctionFee","usDelivery","sea","uaLeg","broker","service","duty","vat","excise","misc","type","year"]
+      .forEach(id => $(id).addEventListener("input", ()=>{}));
+
+    $("calcBtn").addEventListener("click", calc);
+    $("resetBtn").addEventListener("click", resetAll);
+
+    // init
+    resetAll();
+  </script>
+</body>
+</html>
