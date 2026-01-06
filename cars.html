@@ -3,775 +3,469 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Auto GBP — Авто</title>
-  <meta name="description" content="Auto GBP — авто в наявності та підбір під замовлення. Підбір, доставка, розмитнення під ключ." />
+  <title>Auto GBP — Автомобілі</title>
 
   <style>
     :root{
-      --bg:#0a0b10;
-      --panel:#11131b;
-      --panel2:#0f121a;
-      --text:#e9ecf5;
-      --muted:#aeb6c7;
-      --gold:#d6b15e;
-      --gold2:#f0d08a;
-      --line:rgba(214,177,94,.18);
-      --shadow:0 18px 50px rgba(0,0,0,.55);
-      --radius:18px;
+      --bg:#070a0f;
+      --panel:#0c111a;
+      --panel2:#0a0f17;
+      --stroke:rgba(255,216,74,.14);
+      --stroke2:rgba(255,255,255,.06);
+      --gold:#ffd84a;
+      --gold2:#b38a2e;
+      --text:#e9eef7;
+      --muted:#a8b4c6;
+      --green:#1dbf73;
+      --shadow: 0 18px 70px rgba(0,0,0,.55);
+      --r:18px;
     }
+
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
-      background:
-        radial-gradient(1000px 600px at 10% 0%, rgba(214,177,94,.18), transparent 50%),
-        radial-gradient(900px 600px at 90% 10%, rgba(124,92,255,.16), transparent 50%),
-        radial-gradient(1200px 700px at 50% 110%, rgba(38,208,124,.10), transparent 50%),
-        var(--bg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
-      overflow-x:hidden;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(255,216,74,.10), transparent 55%),
+        radial-gradient(800px 500px at 90% 30%, rgba(179,138,46,.10), transparent 60%),
+        radial-gradient(900px 700px at 50% 90%, rgba(255,216,74,.06), transparent 55%),
+        var(--bg);
     }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:1180px; margin:0 auto; padding:20px}
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 14px 60px}
+
+    /* Top bar */
     .topbar{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(12px);
-      background: linear-gradient(to bottom, rgba(10,11,16,.86), rgba(10,11,16,.58));
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .nav{
       display:flex; align-items:center; justify-content:space-between;
-      gap:14px;
+      gap:10px; padding:10px 12px;
+      border:1px solid var(--stroke2);
+      background:linear-gradient(180deg, rgba(12,17,26,.86), rgba(8,12,18,.70));
+      border-radius:22px;
+      box-shadow: var(--shadow);
+      position:sticky; top:10px; z-index:5;
+      backdrop-filter: blur(10px);
     }
     .brand{
-      display:flex; align-items:center; gap:12px; min-width:200px;
+      display:flex;align-items:center;gap:10px;min-width:160px;
     }
-    .mark{
-      width:42px; height:42px; border-radius:14px;
-      background:
-        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.22), transparent 55%),
-        linear-gradient(135deg, rgba(214,177,94,.95), rgba(214,177,94,.16));
-      border:1px solid rgba(214,177,94,.35);
-      box-shadow: 0 10px 25px rgba(214,177,94,.18);
+    .logo{
+      width:40px;height:40px;border-radius:12px;
+      border:1px solid var(--stroke);
+      background: radial-gradient(circle at 30% 30%, rgba(255,216,74,.35), rgba(179,138,46,.12) 55%, rgba(0,0,0,.25) 100%);
+      box-shadow: 0 10px 30px rgba(0,0,0,.45);
     }
-    .brand h1{
-      margin:0; line-height:1.05; font-size:14px; letter-spacing:.3px;
-      font-weight:800;
-    }
-    .brand small{
-      display:block; color:var(--muted); font-weight:600; margin-top:3px; font-size:12px;
-    }
-    .menu{
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(17,19,27,.65);
+    .brand b{letter-spacing:.4px}
+    .brand small{display:block;color:var(--muted);margin-top:1px}
+
+    .top-actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:11px 14px;
+      border-radius:16px;
+      border:1px solid var(--stroke2);
+      background: rgba(10,15,23,.65);
       color:var(--text);
-      font-weight:700;
-      font-size:13px;
-      transition:.18s ease;
+      font-weight:650;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      transition:.15s transform ease, .15s opacity ease, .15s border-color ease;
       white-space:nowrap;
     }
-    .pill:hover{transform: translateY(-1px); border-color: rgba(214,177,94,.25)}
-    .pill.gold{
-      background: linear-gradient(135deg, rgba(214,177,94,.22), rgba(214,177,94,.08));
-      border-color: rgba(214,177,94,.30);
-      box-shadow: 0 16px 34px rgba(214,177,94,.10);
+    .btn:hover{transform:translateY(-1px); border-color:rgba(255,216,74,.22)}
+    .btn.gold{
+      border-color:rgba(255,216,74,.22);
+      background: linear-gradient(180deg, rgba(255,216,74,.14), rgba(179,138,46,.10));
+    }
+    .btn.dark{
+      background: rgba(10,15,23,.55);
     }
 
-    .hero{
-      padding:26px 0 8px;
-    }
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap:16px;
-      align-items:stretch;
-    }
-    .card{
-      background: linear-gradient(180deg, rgba(17,19,27,.86), rgba(15,18,26,.78));
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-    }
-    .card::before{
-      content:"";
-      position:absolute; inset:-2px;
-      background: radial-gradient(600px 260px at 12% 0%, rgba(214,177,94,.22), transparent 55%);
-      pointer-events:none;
-      opacity:.85;
-    }
-    .heroMain{padding:18px 18px 16px; position:relative}
-    .kicker{
-      display:inline-flex; align-items:center; gap:10px;
-      font-weight:800; letter-spacing:.4px;
-      color:var(--gold2); font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(214,177,94,.25);
-      background: rgba(214,177,94,.08);
-      margin-bottom:12px;
-    }
-    .heroTitle{
-      margin:0;
-      font-size:26px;
-      line-height:1.12;
-      letter-spacing:.2px;
-    }
-    .heroSub{
-      margin:10px 0 0;
-      color:var(--muted);
-      font-weight:650;
-      line-height:1.5;
-      max-width:60ch;
-    }
-    .chips{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:14px;
-    }
-    .chip{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-weight:750;
-      font-size:12px;
-    }
-    .chip b{color:var(--gold); font-weight:900}
-
-    .heroSide{padding:18px; position:relative}
-    .sideTitle{margin:0; font-size:16px; font-weight:900; letter-spacing:.2px}
-    .sideSub{margin:8px 0 0; color:var(--muted); font-weight:650; line-height:1.5}
-    .sideStats{
-      display:grid; grid-template-columns: repeat(3, 1fr);
-      gap:10px; margin-top:14px;
-    }
-    .stat{
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.18);
-      padding:10px;
-      min-height:62px;
-    }
-    .stat strong{display:block; font-size:13px; font-weight:900}
-    .stat span{display:block; margin-top:6px; color:var(--muted); font-weight:650; font-size:12px}
-    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding:12px 14px;
-      border-radius:14px;
-      font-weight:900;
-      letter-spacing:.2px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      color:var(--text);
-      transition:.18s ease;
-      cursor:pointer;
-      user-select:none;
-    }
-    .btn:hover{transform: translateY(-1px); border-color: rgba(214,177,94,.28)}
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(214,177,94,.30), rgba(214,177,94,.08));
-      border-color: rgba(214,177,94,.30);
-      box-shadow: 0 18px 40px rgba(214,177,94,.10);
-    }
-    .btn.ghost{
-      background: rgba(0,0,0,.22);
-    }
-
+    /* Filters */
     .filters{
       margin-top:14px;
-      padding:14px;
-      border-top:1px solid rgba(255,255,255,.06);
       display:grid;
-      grid-template-columns: 1.2fr .6fr .6fr .6fr .8fr;
+      grid-template-columns: 1.1fr .9fr .7fr .7fr auto;
       gap:10px;
-      position:relative;
+      align-items:stretch;
     }
     .field{
-      display:flex; flex-direction:column; gap:6px;
-      min-width:0;
-    }
-    .label{
-      color:var(--muted);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    input, select, textarea{
-      width:100%;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-      color:var(--text);
-      outline:none;
-      font-weight:750;
-      font-size:14px;
-    }
-    textarea{min-height:110px; resize:vertical}
-    input:focus, select:focus, textarea:focus{border-color: rgba(214,177,94,.38); box-shadow: 0 0 0 3px rgba(214,177,94,.10)}
-    .toggleRow{
-      display:flex; align-items:center; gap:10px;
+      border-radius:16px;
+      border:1px solid var(--stroke2);
+      background:rgba(10,15,23,.55);
       padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-      height:46px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
     }
-    .toggleRow input{width:auto; height:auto}
-    .toggleRow span{font-weight:800; color:var(--text); font-size:13px}
-    .countRow{
-      margin-top:14px;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px; flex-wrap:wrap;
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .field input,.field select{
+      width:100%;
+      border:0; outline:0;
+      color:var(--text);
+      background:transparent;
+      font-size:15px;
     }
-    .count{
-      color:var(--muted);
-      font-weight:800;
-    }
-    .goldText{color:var(--gold); font-weight:900}
+    .filters .btn{height:100%}
 
+    /* Stats */
+    .stats{
+      margin-top:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:10px 2px;
+      color:var(--muted);
+    }
+    .stats b{color:var(--gold)}
+
+    /* Grid */
     .grid{
-      margin-top:14px;
+      margin-top:10px;
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap:14px;
     }
-    .car{
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(17,19,27,.86), rgba(15,18,26,.76));
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow: var(--shadow);
+    @media (max-width:860px){
+      .filters{grid-template-columns:1fr 1fr; }
+      .grid{grid-template-columns:1fr;}
+      .brand{min-width:auto}
+    }
+
+    .card{
+      border-radius:24px;
       overflow:hidden;
-      position:relative;
+      border:1px solid var(--stroke2);
+      background: linear-gradient(180deg, rgba(12,17,26,.78), rgba(8,12,18,.62));
+      box-shadow: var(--shadow);
     }
-    .carTop{
+
+    .cover{
       position:relative;
-      height:170px;
-      background:
-        radial-gradient(500px 220px at 22% 10%, rgba(214,177,94,.25), transparent 55%),
-        radial-gradient(520px 240px at 90% 20%, rgba(124,92,255,.16), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(0,0,0,.30));
+      height:220px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,216,74,.10), rgba(0,0,0,.25) 60%),
+                  linear-gradient(135deg, rgba(255,216,74,.08), rgba(0,0,0,.0));
       border-bottom:1px solid rgba(255,255,255,.06);
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      padding:12px;
+      overflow:hidden;
     }
-    .carBadges{
+    .cover img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      filter:saturate(1.05) contrast(1.05);
+      transform:scale(1.01);
+    }
+    .badges{
+      position:absolute; left:12px; bottom:12px;
       display:flex; gap:8px; flex-wrap:wrap;
     }
     .badge{
-      font-size:12px;
-      font-weight:900;
+      display:inline-flex; align-items:center; justify-content:center;
       padding:7px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(10,15,23,.55);
+      color:var(--text);
+      font-size:12px;
+      font-weight:650;
+      backdrop-filter: blur(10px);
     }
-    .badge.gold{border-color: rgba(214,177,94,.28); background: rgba(214,177,94,.10); color:var(--gold2)}
-    .badge.green{border-color: rgba(101,217,107,.30); background: rgba(101,217,107,.12); color:#bff5c5}
-    .badge.purple{border-color: rgba(124,92,255,.32); background: rgba(124,92,255,.12); color:#d7d0ff}
-    .carMark{
-      width:44px; height:44px;
-      border-radius:16px;
-      border:1px solid rgba(214,177,94,.30);
-      background: radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.18), transparent 55%),
-                  linear-gradient(135deg, rgba(214,177,94,.85), rgba(214,177,94,.14));
-      box-shadow: 0 16px 34px rgba(214,177,94,.12);
+    .badge.gold{
+      border-color: rgba(255,216,74,.22);
+      background: linear-gradient(180deg, rgba(255,216,74,.16), rgba(179,138,46,.10));
+    }
+    .badge.green{
+      border-color: rgba(29,191,115,.25);
+      background: rgba(29,191,115,.12);
+      color:#d7ffea;
+    }
+    .flag{
+      position:absolute; right:12px; bottom:12px;
+      width:54px; height:54px;
+      border-radius:18px;
+      border:1px solid rgba(255,216,74,.20);
+      background: rgba(10,15,23,.55);
       display:flex; align-items:center; justify-content:center;
-      font-weight:1000;
-      letter-spacing:.4px;
-      color:#0a0b10;
+      font-weight:800;
+      color:var(--gold);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
     }
-    .carBody{
-      padding:14px;
-    }
-    .carTitle{
-      margin:0;
-      font-weight:950;
-      letter-spacing:.2px;
-      font-size:16px;
-      line-height:1.25;
-    }
-    .carMeta{
-      margin:8px 0 0;
-      color:var(--muted);
-      font-weight:700;
-      font-size:13px;
-      line-height:1.45;
-    }
+
+    .content{padding:14px 14px 16px}
+    .title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .title-row h3{margin:0;font-size:20px;line-height:1.2}
+    .subtitle{margin:8px 0 12px;color:var(--muted);font-weight:560}
+
     .specs{
-      margin-top:10px;
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:8px;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-bottom:12px;
     }
     .spec{
-      padding:10px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.16);
-      min-height:44px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.06);
+      background: rgba(10,15,23,.45);
+      padding:12px 12px;
     }
-    .spec small{display:block; color:var(--muted); font-weight:850; font-size:11px; letter-spacing:.2px}
-    .spec b{display:block; margin-top:6px; font-weight:950; font-size:13px}
-    .priceRow{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:12px;
-      padding-top:12px;
-      border-top:1px solid rgba(255,255,255,.06);
+    .spec span{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
+    .spec b{font-size:15px}
+
+    .price-row{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
+      margin-top:10px;
     }
     .price{
-      font-weight:1000;
+      font-size:26px;
+      font-weight:900;
+      color:var(--gold);
       letter-spacing:.2px;
-      font-size:18px;
-      color:var(--gold2);
-      line-height:1.05;
     }
     .price small{
       display:block;
       font-size:12px;
       color:var(--muted);
-      font-weight:800;
-      margin-top:6px;
+      margin-top:2px;
+      font-weight:650;
     }
-    .carBtns{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-    }
-    .btnSm{
+    .card-actions{display:flex;gap:10px}
+    .smallbtn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
       padding:10px 12px;
-      border-radius:14px;
-      font-weight:950;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      color:var(--text);
-      cursor:pointer;
-      transition:.18s ease;
-      font-size:13px;
-      display:inline-flex; align-items:center; gap:8px;
-    }
-    .btnSm:hover{transform: translateY(-1px); border-color: rgba(214,177,94,.28)}
-    .btnSm.primary{
-      background: linear-gradient(135deg, rgba(214,177,94,.30), rgba(214,177,94,.08));
-      border-color: rgba(214,177,94,.30);
-    }
-
-    .section{
-      margin-top:20px;
-      padding:18px;
-      border-radius: var(--radius);
+      border-radius:16px;
       border:1px solid rgba(255,255,255,.08);
-      background: linear-gradient(180deg, rgba(17,19,27,.82), rgba(15,18,26,.76));
+      background: rgba(10,15,23,.55);
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .smallbtn.gold{
+      border-color: rgba(255,216,74,.20);
+      background: linear-gradient(180deg, rgba(255,216,74,.14), rgba(179,138,46,.10));
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.70);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px 12px;
+      z-index:50;
+    }
+    .modal.open{display:flex}
+    .mcard{
+      width:min(980px, 100%);
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(12,17,26,.92), rgba(8,12,18,.86));
       box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .section h2{
-      margin:0;
-      font-size:18px;
-      font-weight:1000;
-      letter-spacing:.2px;
+    .mhead{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 14px;
+      border-bottom:1px solid rgba(255,255,255,.06);
     }
-    .section p{
-      margin:10px 0 0;
-      color:var(--muted);
-      font-weight:700;
-      line-height:1.55;
+    .mhead b{color:var(--gold)}
+    .xbtn{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(10,15,23,.55);
+      color:var(--text);
+      border-radius:14px;
+      padding:8px 10px;
+      font-weight:900;
+      cursor:pointer;
     }
-
-    .formGrid{
-      margin-top:14px;
+    .mbody{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
+      grid-template-columns: 1.1fr .9fr;
+      gap:0;
     }
-    .formGrid .full{grid-column: 1 / -1}
-    .formActions{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px;
+    @media (max-width:860px){
+      .mbody{grid-template-columns:1fr}
     }
-    #form-status{
-      font-weight:850;
-      color:var(--muted);
-      min-height:20px;
+    .gallery{
+      border-right:1px solid rgba(255,255,255,.06);
+      padding:14px;
     }
+    @media (max-width:860px){
+      .gallery{border-right:0;border-bottom:1px solid rgba(255,255,255,.06)}
+    }
+    .mainimg{
+      width:100%;
+      aspect-ratio: 16/10;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(10,15,23,.55);
+    }
+    .mainimg img{width:100%;height:100%;object-fit:cover;display:block}
+    .thumbs{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      overflow:auto;
+      padding-bottom:6px;
+    }
+    .thumb{
+      width:84px;height:60px;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(10,15,23,.55);
+      flex:0 0 auto;
+      cursor:pointer;
+      opacity:.85;
+    }
+    .thumb.active{border-color: rgba(255,216,74,.30); opacity:1}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
 
-    footer{
-      margin:18px 0 40px;
-      padding:18px;
-      border-top:1px solid rgba(255,255,255,.06);
-      color:var(--muted);
-      font-weight:700;
+    .minfo{padding:14px}
+    .minfo h2{margin:0 0 8px;font-size:22px}
+    .minfo .muted{color:var(--muted);font-weight:650;margin-bottom:12px}
+
+    .minfo .specs{grid-template-columns:1fr 1fr}
+    .minfo .desc{
+      border:1px solid rgba(255,255,255,.06);
+      background: rgba(10,15,23,.45);
+      border-radius:16px;
+      padding:12px;
+      color:var(--text);
+      line-height:1.35;
     }
-    .footerRow{
-      display:flex; gap:14px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap;
-    }
-    .contacts{
-      display:flex; flex-direction:column; gap:8px;
-    }
-    .contacts a{color:var(--text)}
-    .messengers{
+    .macts{
+      margin-top:12px;
       display:flex; gap:10px; flex-wrap:wrap;
     }
 
-    .modal{
-      position:fixed; inset:0;
-      display:none;
-      align-items:flex-end;
-      justify-content:center;
-      padding:18px;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(10px);
-      z-index:1000;
-    }
-    .modal.open{display:flex}
-    .sheet{
-      width:100%;
-      max-width:900px;
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(17,19,27,.96), rgba(15,18,26,.92));
-      box-shadow: 0 30px 80px rgba(0,0,0,.70);
-      overflow:hidden;
-    }
-    .sheetTop{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      padding:14px 14px;
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .sheetTop b{font-weight:1000; letter-spacing:.2px}
-    .x{
-      width:40px; height:40px; border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      color:var(--text);
-      font-weight:1000;
-      cursor:pointer;
-    }
-    .sheetBody{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap:0;
-    }
-    .preview{
-      min-height:260px;
-      background:
-        radial-gradient(600px 240px at 18% 10%, rgba(214,177,94,.28), transparent 56%),
-        radial-gradient(620px 260px at 90% 30%, rgba(124,92,255,.18), transparent 58%),
-        linear-gradient(135deg, rgba(255,255,255,.08), rgba(0,0,0,.34));
-      border-right:1px solid rgba(255,255,255,.06);
-      display:flex; align-items:flex-end; justify-content:space-between;
-      padding:16px;
-    }
-    .preview .bigMark{
-      width:64px; height:64px;
-      border-radius:22px;
-      border:1px solid rgba(214,177,94,.34);
-      background: radial-gradient(16px 16px at 30% 30%, rgba(255,255,255,.18), transparent 55%),
-                  linear-gradient(135deg, rgba(214,177,94,.86), rgba(214,177,94,.14));
-      box-shadow: 0 18px 44px rgba(214,177,94,.14);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:1000;
-      letter-spacing:.5px;
-      color:#0a0b10;
-      font-size:18px;
-    }
-    .details{
-      padding:16px;
-    }
-    .details h3{
-      margin:0;
-      font-size:18px;
-      font-weight:1000;
-      letter-spacing:.2px;
-      line-height:1.2;
-    }
-    .details .muted{margin:10px 0 0; color:var(--muted); font-weight:700; line-height:1.55}
-    .detailGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
-    .detailGrid .spec{min-height:auto}
-    .sheetBottom{
-      padding:14px;
-      border-top:1px solid rgba(255,255,255,.06);
-      display:flex;
-      gap:10px;
-      justify-content:flex-end;
-      flex-wrap:wrap;
-    }
-
-    @media (max-width: 980px){
-      .heroGrid{grid-template-columns: 1fr}
-      .filters{grid-template-columns: 1fr 1fr 1fr; }
-      .grid{grid-template-columns: repeat(2, 1fr)}
-      .sheetBody{grid-template-columns: 1fr}
-      .preview{border-right:none; border-bottom:1px solid rgba(255,255,255,.06)}
-    }
-    @media (max-width: 620px){
-      .wrap{padding:14px}
-      .heroTitle{font-size:22px}
-      .filters{grid-template-columns: 1fr}
-      .grid{grid-template-columns: 1fr}
-      .formGrid{grid-template-columns: 1fr}
+    .footnote{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12px;
+      opacity:.9;
     }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="wrap">
-      <div class="nav">
-        <a class="brand" href="index.html" aria-label="Auto GBP">
-          <div class="mark" aria-hidden="true"></div>
-          <div>
-            <h1>Auto GBP</h1>
-            <small>Пригін авто з США та Європи</small>
-          </div>
-        </a>
-
-        <div class="menu">
-          <a class="pill" href="index.html">Головна</a>
-          <a class="pill gold" href="cars.html">Авто</a>
-          <a class="pill" href="calculator.html">Калькулятор</a>
-          <a class="pill" href="index.html#lead">Заявка</a>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <b>Auto GBP</b>
+          <small>Автомобілі • підбір • доставка</small>
         </div>
       </div>
+
+      <div class="top-actions">
+        <a class="btn gold" href="calculator.html">🧮 Прорахувати</a>
+        <a class="btn dark" id="writeTop" target="_blank" rel="noopener">📝 Заявка</a>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="field">
+        <label>Пошук</label>
+        <input id="q" placeholder="Ford, Edge, Explorer..." />
+      </div>
+
+      <div class="field">
+        <label>Статус</label>
+        <select id="status">
+          <option value="">Всі</option>
+          <option value="in">В наявності</option>
+          <option value="order">В дорозі / під замовлення</option>
+          <option value="sold">Продано</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Рік від</label>
+        <input id="yearMin" inputmode="numeric" placeholder="2016" />
+      </div>
+
+      <div class="field">
+        <label>Ціна до ($)</label>
+        <input id="priceMax" inputmode="numeric" placeholder="20000" />
+      </div>
+
+      <button class="btn gold" id="apply">✅ Застосувати</button>
+      <button class="btn" id="reset">↩️ Скинути</button>
+    </div>
+
+    <div class="stats">
+      <div id="counter">Показано: 0</div>
+      <div>Всього: <b id="statTotal">0</b></div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="footnote">
+      Порада: фото береться з першого елемента <b>photos[0]</b>. Галерея в “Деталі” показує всі фото з масиву <b>photos</b>.
     </div>
   </div>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="heroGrid">
-        <div class="card">
-          <div class="heroMain">
-            <div class="kicker">⚡ Підбір • Доставка • Розмитнення</div>
-            <h2 class="heroTitle">Авто в наявності та підбір під замовлення</h2>
-            <p class="heroSub">
-              Тут — добірка актуальних варіантів. Можемо знайти авто під ваш бюджет, перевірити історію,
-              організувати доставку і оформлення «під ключ».
-            </p>
-
-            <div class="chips">
-              <div class="chip"><b>USA</b> Copart/IAAI</div>
-              <div class="chip"><b>EU</b> мобільність</div>
-              <div class="chip"><b>UA</b> видача в Україні</div>
-            </div>
-          </div>
-
-          <div class="filters" aria-label="Фільтри">
-            <div class="field">
-              <div class="label">Пошук</div>
-              <input id="q" type="text" placeholder="Модель, марка, кузов…" />
-            </div>
-
-            <div class="field">
-              <div class="label">Рік від</div>
-              <select id="yearFrom">
-                <option value="">Будь-який</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <div class="label">Рік до</div>
-              <select id="yearTo">
-                <option value="">Будь-який</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <div class="label">Ціна до</div>
-              <select id="priceMax">
-                <option value="">Без ліміту</option>
-                <option value="8000">до $8,000</option>
-                <option value="12000">до $12,000</option>
-                <option value="16000">до $16,000</option>
-                <option value="22000">до $22,000</option>
-                <option value="30000">до $30,000</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <div class="label">Опції</div>
-              <div class="toggleRow">
-                <input id="onlyInStock" type="checkbox" />
-                <span>Тільки в наявності</span>
-              </div>
-            </div>
-
-            <div class="field">
-              <div class="label">Сортування</div>
-              <select id="sort">
-                <option value="hot">Рекомендовані</option>
-                <option value="priceAsc">Ціна: ↑</option>
-                <option value="priceDesc">Ціна: ↓</option>
-                <option value="yearDesc">Рік: новіші</option>
-                <option value="yearAsc">Рік: старіші</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <div class="label">Швидка дія</div>
-              <button class="btn primary" id="clearBtn" type="button">Очистити фільтри</button>
-            </div>
-
-            <div class="field">
-              <div class="label">Перейти</div>
-              <a class="btn ghost" href="#lead">Залишити заявку</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="heroSide">
-            <h3 class="sideTitle">Auto GBP — підбір під ваші задачі</h3>
-            <p class="sideSub">
-              Пояснимо по варіантах, порахуємо логістику, підкажемо оптимальну комплектацію і маршрут.
-            </p>
-
-            <div class="sideStats">
-              <div class="stat">
-                <strong>Підбір</strong>
-                <span>під бюджет</span>
-              </div>
-              <div class="stat">
-                <strong>Доставка</strong>
-                <span>USA / EU</span>
-              </div>
-              <div class="stat">
-                <strong>Під ключ</strong>
-                <span>оформлення</span>
-              </div>
-            </div>
-
-            <div class="ctaRow">
-              <a class="btn primary" href="calculator.html">🧮 Прорахувати</a>
-              <a class="btn ghost" href="index.html#lead">📝 Заявка</a>
-            </div>
-
-            <div class="countRow" style="margin-top:14px">
-              <div class="count">Показано: <span class="goldText" id="shownCount">0</span></div>
-              <div class="count">Всього: <span class="goldText" id="totalCount">0</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid" id="grid" aria-label="Список авто"></div>
-    </section>
-
-    <section class="section" id="lead">
-      <h2>Заявка на підбір / авто з цієї сторінки</h2>
-      <p>
-        Залиште контакти — ми напишемо/зателефонуємо і підберемо оптимальний варіант під ваш бюджет та задачі.
-      </p>
-
-      <form id="lead-form" class="form" autocomplete="on">
-        <div class="formGrid">
-          <div class="field">
-            <div class="label">Ім’я</div>
-            <input name="name" type="text" placeholder="Ваше ім’я" required />
-          </div>
-          <div class="field">
-            <div class="label">Телефон</div>
-            <input name="phone" type="tel" placeholder="+380…" required />
-          </div>
-          <div class="field full">
-            <div class="label">Авто / бюджет</div>
-            <input id="carField" name="car" type="text" placeholder="Наприклад: Ford Edge 2020 / до $15,000" />
-          </div>
-          <div class="field full">
-            <div class="label">Коментар</div>
-            <textarea name="comment" placeholder="Побажання по комплектації, приводу, пробігу, кольору…"></textarea>
-          </div>
-        </div>
-
-        <div class="formActions">
-          <button class="btn primary" type="submit">Надіслати</button>
-          <div id="form-status" aria-live="polite"></div>
-        </div>
-      </form>
-    </section>
-
-    <footer>
-      <div class="footerRow">
-        <div class="contacts">
-          <div><b style="color:var(--text)">Auto GBP</b> • Grand Best Performance</div>
-          <div>Інфо.номер:<a href="tel:+380508232374">+38 050 823 23 74</a></div>
-          <div>Офіс: <a href="tel:+380955633089">+38 095 563 30 89</a></div>
-        </div>
-
-        <div class="messengers" aria-label="Месенджери">
-          <a class="pill" target="_blank" rel="noreferrer" href="https://t.me/">Telegram</a>
-          <a class="pill" href="viber://chat?number=%2B380508232374">Viber</a>
-          <a class="pill" target="_blank" rel="noreferrer" href="https://wa.me/380508232374">WhatsApp</a>
-          <a class="pill" target="_blank" rel="noreferrer" href="https://m.me/">Messenger</a>
-          <a class="pill" target="_blank" rel="noreferrer" href="https://instagram.com/">Instagram</a>
-        </div>
-      </div>
-    </footer>
-  </main>
-
+  <!-- Modal -->
   <div class="modal" id="modal" aria-hidden="true">
-    <div class="sheet" role="dialog" aria-modal="true" aria-label="Деталі авто">
-      <div class="sheetTop">
-        <b id="mTitle">Авто</b>
-        <button class="x" id="mClose" type="button" aria-label="Закрити">✕</button>
+    <div class="mcard">
+      <div class="mhead">
+        <div><b>Auto GBP</b> • Деталі авто</div>
+        <button class="xbtn" id="mClose">✕</button>
       </div>
 
-      <div class="sheetBody">
-        <div class="preview">
-          <div class="carBadges" id="mBadges"></div>
-          <div class="bigMark" id="mMark">A</div>
+      <div class="mbody">
+        <div class="gallery">
+          <div class="mainimg"><img id="mImg" alt=""></div>
+          <div class="thumbs" id="thumbs"></div>
         </div>
 
-        <div class="details">
-          <h3 id="mH3">—</h3>
-          <div class="muted" id="mSub">—</div>
+        <div class="minfo">
+          <h2 id="mTitle">—</h2>
+          <div class="muted" id="mNote">—</div>
 
-          <div class="detailGrid" id="mSpecs"></div>
+          <div class="specs">
+            <div class="spec"><span>Кузов</span><b id="mBody">—</b></div>
+            <div class="spec"><span>Привід</span><b id="mDrive">—</b></div>
+            <div class="spec"><span>Двигун</span><b id="mEngine">—</b></div>
+            <div class="spec"><span>Локація</span><b id="mLoc">—</b></div>
+            <div class="spec"><span>Рік</span><b id="mYear">—</b></div>
+            <div class="spec"><span>Пробіг</span><b id="mMileage">—</b></div>
+          </div>
 
-          <div class="priceRow" style="margin-top:12px;">
-            <div class="price" id="mPrice">$—<small id="mPriceSub">Орієнтовно</small></div>
-            <div class="carBtns">
-              <button class="btnSm" id="mToCalc" type="button">🧮 Прорахувати</button>
-              <button class="btnSm primary" id="mToLead" type="button">📝 Заявка</button>
-            </div>
+          <div class="desc" id="mDesc">—</div>
+
+          <div class="macts">
+            <div class="price" id="mPrice">$0<small>Орієнтовно</small></div>
+            <a class="smallbtn gold" id="mWrite" target="_blank" rel="noopener">📝 Заявка</a>
+            <button class="smallbtn" id="mCopy">📋 Скопіювати</button>
           </div>
         </div>
       </div>
-
-      <div class="sheetBottom">
-        <button class="btnSm" id="mClose2" type="button">Закрити</button>
-      </div>
     </div>
   </div>
-
-  <script src="lead-form.js" defer></script>
 
   <script>
-    const data = [
+    // ===== Налаштування кнопки "Заявка" (можеш змінити)
+    const TELEGRAM_USERNAME = "AutoGBPBot"; // без @
+    function writeLink(text){
+      // простий старт-параметр (працює стабільно)
+      return `https://t.me/${TELEGRAM_USERNAME}?start=${encodeURIComponent("cars")}`;
+      // Якщо хочеш текстом (інколи не у всіх клієнтах):
+      // return `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(text)}`;
+    }
+    document.getElementById("writeTop").href = writeLink("Привіт! Хочу авто.");
+
+    // ===== ДАНІ (тут фото вже підключені)
+    const CARS = [
       {
         id:"edge2020",
         title:"Ford Edge SEL",
         year:2020,
         note:"Комфортний кросовер для міста та траси",
         origin:"USA",
-        status:"in",
+        status:"in",          // in / order / sold
         body:"SUV",
         drive:"AWD",
         engine:"2.0 EcoBoost",
@@ -779,284 +473,202 @@
         location:"Доставлено",
         price:15700,
         tags:["Рекомендовано","Комфорт"],
-        photo:[/assets/cars/edge2020/IMG_5005.jpeg",
-  "/assets/cars/edge2020/IMG_5006.jpeg",
-  "/assets/cars/edge2020/IMG_5008.jpeg",
-  "/assets/cars/edge2020/IMG_5010.jpeg",
-  "/assets/cars/edge2020/IMG_5012.jpeg"
-]
+        photos:[
+          "assets/cars/edge2020/IMG_5005.jpeg",
+          "assets/cars/edge2020/IMG_5006.jpeg",
+          "assets/cars/edge2020/IMG_5008.jpeg",
+          "assets/cars/edge2020/IMG_5010.jpeg",
+          "assets/cars/edge2020/IMG_5012.jpeg"
+        ],
+        desc:"Доглянутий стан. Уточнюй комплектацію та деталі в заявці."
       },
       {
-  id:"explorer2018",
-  title:"Ford Explorer",
-  year:2018,
-  note:"Сімейний 7-місний, великий багажник • Interceptor",
-  origin:"USA",
-  status:"order",
-  body:"SUV",
-  drive:"AWD",
-  engine:"3.7",
-  mileage:"140k km",
-  location:"В дорозі",
-  price:17500,
-  tags:["Підбір","Сім’я","Подорож"],
-        photo:["/assets/cars/explorer2018/IMG_5682.jpeg",
-  "/assets/cars/explorer2018/IMG_5683.jpeg",
-  "/assets/cars/explorer2018/IMG_5684.jpeg",
-  "/assets/cars/explorer2018/IMG_5685.jpeg",
-  "/assets/cars/explorer2018/IMG_5686.jpeg"
-]
-},
-{
-  id:"ioniq5",
-  title:"Hyundai Ioniq 5",
-  year:2022,
-  note:"Сучасний EV, швидка зарядка, просторий салон • гарна комплектація",
-  origin:"USA",
-  status:"order",
-  body:"elektro",
-  drive:"AWD",
-  engine:"USA",
-  mileage:"50k km",
-  location:"Доставлено",
-  price:16700,
-  tags:["EV","Технології"]
-},
-      {
-        id:"q3",
-        title:"Audi Q3",
-        year:2021,
-        note:"Преміум, гарний баланс керованості та комфорту",
+        id:"explorer2018",
+        title:"Ford Explorer",
+        year:2018,
+        note:"Сімейний 7-місний, великий багажник",
         origin:"USA",
         status:"order",
         body:"SUV",
-        drive:"Quattro",
-        engine:"2.0 TFSI",
-        mileage:"179k km",
-        location:"Доставлено",
-        price:18300,
-        tags:["Преміум"]
-      },
-      {
-        id:"leaf22",
-        title:"Nissan Leaf",
-        year:2024,
-        note:"Електро для міста: економно та тихо",
-        origin:"USA",
-        status:"in",
-        body:"Hatch",
-        drive:"FWD",
-        engine:"EV",
-        mileage:"—",
-        location:"Підберемо",
-        price:16800,
-        tags:["EV","Економія"]
-      },
-      {
-        id:"sprinter",
-        title:"Mercedes Sprinter",
-        year:2017,
-        note:"Вантажний/пасажирський — під бізнес",
-        origin:"EU",
-        status:"order",
-        body:"Van",
-        drive:"RWD",
-        engine:"2.1 Diesel",
-        mileage:"—",
-        location:"Під замовлення",
+        drive:"AWD",
+        engine:"3.7",
+        mileage:"140k km",
+        location:"В дорозі",
         price:17500,
-        tags:["Бізнес"]
+        tags:["Підбір","Сімʼя","Подорож"],
+        photos:[
+          "assets/cars/explorer2018/IMG_5682.jpeg",
+          "assets/cars/explorer2018/IMG_5683.jpeg",
+          "assets/cars/explorer2018/IMG_5684.jpeg",
+          "assets/cars/explorer2018/IMG_5685.jpeg",
+          "assets/cars/explorer2018/IMG_5686.jpeg"
+        ],
+        desc:"Під замовлення / в дорозі. Напиши — підкажу по термінах і комплектації."
       }
     ];
 
-    const grid = document.getElementById("grid");
-    const shownCount = document.getElementById("shownCount");
-    const totalCount = document.getElementById("totalCount");
+    // ===== Helpers
+    const $ = (id)=>document.getElementById(id);
+    const fmtMoney = (n)=>`$${Number(n||0).toLocaleString("en-US")}`;
+    const statusLabel = (s)=>{
+      if(s==="in") return "В наявності";
+      if(s==="order") return "В дорозі";
+      if(s==="sold") return "Продано";
+      return s || "—";
+    };
 
-    const q = document.getElementById("q");
-    const yearFrom = document.getElementById("yearFrom");
-    const yearTo = document.getElementById("yearTo");
-    const priceMax = document.getElementById("priceMax");
-    const onlyInStock = document.getElementById("onlyInStock");
-    const sort = document.getElementById("sort");
-    const clearBtn = document.getElementById("clearBtn");
-
-    const modal = document.getElementById("modal");
-    const mClose = document.getElementById("mClose");
-    const mClose2 = document.getElementById("mClose2");
-    const mTitle = document.getElementById("mTitle");
-    const mH3 = document.getElementById("mH3");
-    const mSub = document.getElementById("mSub");
-    const mBadges = document.getElementById("mBadges");
-    const mMark = document.getElementById("mMark");
-    const mSpecs = document.getElementById("mSpecs");
-    const mPrice = document.getElementById("mPrice");
-    const mPriceSub = document.getElementById("mPriceSub");
-    const mToLead = document.getElementById("mToLead");
-    const mToCalc = document.getElementById("mToCalc");
-    const carField = document.getElementById("carField");
-
-    totalCount.textContent = String(data.length);
-
-    function fmtUSD(n){
-      return new Intl.NumberFormat("en-US", {maximumFractionDigits:0}).format(n);
-    }
-    function makeMark(title){
-      const t = (title || "").trim();
-      const parts = t.split(" ");
-      const a = (parts[0] || "A")[0].toUpperCase();
-      const b = (parts[1] || "")[0] ? parts[1][0].toUpperCase() : "";
-      return (a + b) || "A";
-    }
-    function statusBadge(s){
-      if (s === "in") return {text:"В наявності", cls:"green"};
-      return {text:"Під замовлення", cls:"purple"};
-    }
-    function originBadge(o){
-      if (o === "USA") return {text:"USA", cls:"gold"};
-      return {text:"EU", cls:"gold"};
+    function placeholderSvg(){
+      return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='700'%3E%3Crect width='100%25' height='100%25' fill='%230b0f14'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffd84a' font-family='Arial' font-size='48'%3EAuto%20GBP%3C/text%3E%3C/svg%3E";
     }
 
-    function render(list){
-      grid.innerHTML = "";
-      shownCount.textContent = String(list.length);
+    function cardHTML(c){
+      const cover = (c.photos && c.photos.length) ? c.photos[0] : "";
+      const tag = (c.tags && c.tags.length) ? c.tags[0] : "";
+      const isIn = c.status === "in";
 
-      if (!list.length){
-        const empty = document.createElement("div");
-        empty.className = "section";
-        empty.innerHTML = "<h2>Нічого не знайдено</h2><p>Спробуйте змінити фільтри або залиште заявку — підберемо авто під ваш бюджет.</p><div style='margin-top:12px'><a class='btn primary' href='#lead'>📝 Заявка</a></div>";
-        grid.appendChild(empty);
-        return;
-      }
-
-      for (const it of list){
-        const s = statusBadge(it.status);
-        const o = originBadge(it.origin);
-
-        const el = document.createElement("article");
-        el.className = "car";
-        el.innerHTML = `
-          <div class="carTop">
-            <div class="carBadges">
-              <span class="badge ${o.cls}">${o.text}</span>
-              <span class="badge ${s.cls}">${s.text}</span>
+      return `
+        <div class="card">
+          <div class="cover">
+            ${cover ? `<img src="${cover}" alt="${c.title}">` : `<img src="${placeholderSvg()}" alt="Auto GBP">`}
+            <div class="badges">
+              <span class="badge gold">${c.origin || "—"}</span>
+              <span class="badge ${isIn ? "green" : ""}">${statusLabel(c.status)}</span>
+              ${tag ? `<span class="badge">${tag}</span>` : ""}
             </div>
-            <div class="carMark">${makeMark(it.title)}</div>
+            <div class="flag">${(c.title||"")[0] ? (c.title.match(/[A-Z]/)?.[0] || "A") : "A"}</div>
           </div>
 
-          <div class="carBody">
-            <h3 class="carTitle">${it.title} • ${it.year}</h3>
-            <div class="carMeta">${it.note}</div>
-
-            <div class="specs">
-              <div class="spec"><small>Кузов</small><b>${it.body}</b></div>
-              <div class="spec"><small>Привід</small><b>${it.drive}</b></div>
-              <div class="spec"><small>Двигун</small><b>${it.engine}</b></div>
-              <div class="spec"><small>Локація</small><b>${it.location}</b></div>
+          <div class="content">
+            <div class="title-row">
+              <div>
+                <h3>${c.title} • ${c.year || ""}</h3>
+                <div class="subtitle">${c.note || ""}</div>
+              </div>
             </div>
 
-            <div class="priceRow">
-              <div class="price">$${fmtUSD(it.price)}<small>Орієнтовно</small></div>
-              <div class="carBtns">
-                <button class="btnSm" data-act="open" data-id="${it.id}" type="button">ℹ️ Деталі</button>
-                <button class="btnSm primary" data-act="lead" data-id="${it.id}" type="button">📝 Заявка</button>
+            <div class="specs">
+              <div class="spec"><span>Кузов</span><b>${c.body || "—"}</b></div>
+              <div class="spec"><span>Привід</span><b>${c.drive || "—"}</b></div>
+              <div class="spec"><span>Двигун</span><b>${c.engine || "—"}</b></div>
+              <div class="spec"><span>Локація</span><b>${c.location || "—"}</b></div>
+            </div>
+
+            <div class="price-row">
+              <div class="price">${fmtMoney(c.price)}<small>Орієнтовно</small></div>
+              <div class="card-actions">
+                <button class="smallbtn" data-open="${c.id}">ℹ️ Деталі</button>
+                <a class="smallbtn gold" target="_blank" rel="noopener"
+                   href="${writeLink(`Хочу по авто: ${c.title} ${c.year}. Ціна: ${fmtMoney(c.price)}.`)}">📝 Заявка</a>
               </div>
             </div>
           </div>
-        `;
-        grid.appendChild(el);
-      }
+        </div>
+      `;
     }
 
-    function apply(){
-      const qq = (q.value || "").trim().toLowerCase();
-      const yf = yearFrom.value ? Number(yearFrom.value) : null;
-      const yt = yearTo.value ? Number(yearTo.value) : null;
-      const pm = priceMax.value ? Number(priceMax.value) : null;
-      const inOnly = !!onlyInStock.checked;
+    function render(list){
+      $("grid").innerHTML = list.map(cardHTML).join("");
+      $("counter").textContent = `Показано: ${list.length}`;
+      $("statTotal").textContent = CARS.length;
 
-      let list = data.filter(x => {
-        const hitQ = !qq || (String(x.title).toLowerCase().includes(qq) || String(x.note).toLowerCase().includes(qq) || String(x.body).toLowerCase().includes(qq));
-        const hitYf = yf == null || x.year >= yf;
-        const hitYt = yt == null || x.year <= yt;
-        const hitPm = pm == null || x.price <= pm;
-        const hitIn = !inOnly || x.status === "in";
-        return hitQ && hitYf && hitYt && hitPm && hitIn;
+      document.querySelectorAll("[data-open]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-open");
+          const car = CARS.find(x=>x.id===id);
+          if(car) openModal(car);
+        });
       });
+    }
 
-      switch (sort.value){
-        case "priceAsc": list.sort((a,b)=>a.price-b.price); break;
-        case "priceDesc": list.sort((a,b)=>b.price-a.price); break;
-        case "yearDesc": list.sort((a,b)=>b.year-a.year); break;
-        case "yearAsc": list.sort((a,b)=>a.year-b.year); break;
-        default:
-          list.sort((a,b)=>{
-            const aHot = a.tags?.includes("Рекомендовано") ? 1 : 0;
-            const bHot = b.tags?.includes("Рекомендовано") ? 1 : 0;
-            if (bHot !== aHot) return bHot - aHot;
-            return b.year - a.year;
-          });
+    function applyFilters(){
+      const qq = ($("q").value||"").trim().toLowerCase();
+      const st = $("status").value || "";
+      const yMin = Number($("yearMin").value || 0);
+      const pMax = Number($("priceMax").value || 0);
+
+      let list = CARS.slice();
+
+      if(qq){
+        list = list.filter(c => (c.title||"").toLowerCase().includes(qq));
+      }
+      if(st){
+        list = list.filter(c => c.status === st);
+      }
+      if(yMin){
+        list = list.filter(c => Number(c.year||0) >= yMin);
+      }
+      if(pMax){
+        list = list.filter(c => Number(c.price||0) <= pMax);
       }
 
       render(list);
     }
 
-    function fillYears(){
-      const years = [...new Set(data.map(x=>x.year))].sort((a,b)=>a-b);
-      for (const y of years){
-        const o1 = document.createElement("option");
-        o1.value = String(y);
-        o1.textContent = String(y);
-        yearFrom.appendChild(o1);
+    // ===== Modal
+    const modal = $("modal");
+    const thumbs = $("thumbs");
 
-        const o2 = document.createElement("option");
-        o2.value = String(y);
-        o2.textContent = String(y);
-        yearTo.appendChild(o2);
-      }
+    function setActiveImage(src){
+      $("mImg").src = src || placeholderSvg();
+      [...thumbs.querySelectorAll(".thumb")].forEach(t=>{
+        t.classList.toggle("active", t.dataset.src === src);
+      });
     }
 
-    function openModal(it){
-      if (!it) return;
-      const s = statusBadge(it.status);
-      const o = originBadge(it.origin);
-
-      mTitle.textContent = `${it.title} • ${it.year}`;
-      mH3.textContent = `${it.title} • ${it.year}`;
-      mSub.textContent = it.note || "—";
-      mMark.textContent = makeMark(it.title);
-
-      mBadges.innerHTML = `
-        <span class="badge ${o.cls}">${o.text}</span>
-        <span class="badge ${s.cls}">${s.text}</span>
-      `;
-
-      mSpecs.innerHTML = `
-        <div class="spec"><small>Кузов</small><b>${it.body}</b></div>
-        <div class="spec"><small>Привід</small><b>${it.drive}</b></div>
-        <div class="spec"><small>Двигун</small><b>${it.engine}</b></div>
-        <div class="spec"><small>Пробіг</small><b>${it.mileage || "—"}</b></div>
-        <div class="spec"><small>Локація</small><b>${it.location}</b></div>
-        <div class="spec"><small>Походження</small><b>${it.origin}</b></div>
-      `;
-
-      mPrice.textContent = `$${fmtUSD(it.price)}`;
-      mPriceSub.textContent = "Орієнтовно";
-
-      mToLead.onclick = () => {
-        if (carField){
-          carField.value = `${it.title} ${it.year} / ~$${fmtUSD(it.price)}`;
-        }
-        closeModal();
-        location.hash = "#lead";
-      };
-
-      mToCalc.onclick = () => {
-        window.location.href = "calculator.html";
-      };
-
+    function openModal(c){
       modal.classList.add("open");
       modal.setAttribute("aria-hidden","false");
+
+      $("mTitle").textContent = `${c.title} • ${c.year || ""}`;
+      $("mNote").textContent = `${c.note || ""} • ${statusLabel(c.status)} • ${c.origin || ""}`;
+      $("mBody").textContent = c.body || "—";
+      $("mDrive").textContent = c.drive || "—";
+      $("mEngine").textContent = c.engine || "—";
+      $("mLoc").textContent = c.location || "—";
+      $("mYear").textContent = c.year || "—";
+      $("mMileage").textContent = c.mileage || "—";
+      $("mDesc").textContent = c.desc || "—";
+      $("mPrice").innerHTML = `${fmtMoney(c.price)}<small>Орієнтовно</small>`;
+
+      $("mWrite").href = writeLink(`Хочу по авто: ${c.title} ${c.year}. Ціна: ${fmtMoney(c.price)}.`);
+
+      const pics = (c.photos && c.photos.length) ? c.photos : [];
+      thumbs.innerHTML = pics.map((p,i)=>`
+        <div class="thumb ${i===0 ? "active":""}" data-src="${p}">
+          <img src="${p}" alt="photo ${i+1}">
+        </div>
+      `).join("");
+
+      if(!pics.length){
+        thumbs.innerHTML = "";
+        setActiveImage("");
+      }else{
+        setActiveImage(pics[0]);
+        thumbs.querySelectorAll(".thumb").forEach(t=>{
+          t.addEventListener("click", ()=> setActiveImage(t.dataset.src));
+        });
+      }
+
+      $("mCopy").onclick = async ()=>{
+        const txt =
+`Auto GBP — Авто
+${c.title}
+Рік: ${c.year}
+Ціна: ${fmtMoney(c.price)}
+Пробіг: ${c.mileage || "—"}
+Кузов: ${c.body || "—"}
+Привід: ${c.drive || "—"}
+Двигун: ${c.engine || "—"}
+Статус: ${statusLabel(c.status)}
+Локація: ${c.location || "—"}`;
+        try{
+          await navigator.clipboard.writeText(txt);
+          $("mCopy").textContent = "✅ Скопійовано";
+          setTimeout(()=> $("mCopy").textContent = "📋 Скопіювати", 1200);
+        }catch(e){
+          alert("Не вдалося скопіювати. Спробуй вручну.");
+        }
+      };
     }
 
     function closeModal(){
@@ -1064,50 +676,27 @@
       modal.setAttribute("aria-hidden","true");
     }
 
-    function bind(){
-      [q, yearFrom, yearTo, priceMax, onlyInStock, sort].forEach(el=>{
-        el.addEventListener("input", apply);
-        el.addEventListener("change", apply);
-      });
+    $("mClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e)=>{ if(e.target===modal) closeModal(); });
+    document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
 
-      clearBtn.addEventListener("click", ()=>{
-        q.value = "";
-        yearFrom.value = "";
-        yearTo.value = "";
-        priceMax.value = "";
-        onlyInStock.checked = false;
-        sort.value = "hot";
-        apply();
-      });
+    // ===== Events
+    $("apply").addEventListener("click", applyFilters);
+    $("reset").addEventListener("click", ()=>{
+      $("q").value = "";
+      $("status").value = "";
+      $("yearMin").value = "";
+      $("priceMax").value = "";
+      applyFilters();
+    });
 
-      grid.addEventListener("click", (e)=>{
-        const btn = e.target.closest("button[data-act]");
-        if (!btn) return;
-        const id = btn.getAttribute("data-id");
-        const it = data.find(x=>x.id===id);
-        const act = btn.getAttribute("data-act");
-        if (act === "open") openModal(it);
-        if (act === "lead"){
-          if (carField){
-            carField.value = `${it.title} ${it.year} / ~$${fmtUSD(it.price)}`;
-          }
-          location.hash = "#lead";
-        }
-      });
+    ["q","yearMin","priceMax"].forEach(id=>{
+      $(id).addEventListener("keydown",(e)=>{ if(e.key==="Enter") applyFilters(); });
+    });
+    $("status").addEventListener("change", applyFilters);
 
-      mClose.addEventListener("click", closeModal);
-      mClose2.addEventListener("click", closeModal);
-      modal.addEventListener("click", (e)=>{
-        if (e.target === modal) closeModal();
-      });
-      document.addEventListener("keydown", (e)=>{
-        if (e.key === "Escape") closeModal();
-      });
-    }
-
-    fillYears();
-    bind();
-    apply();
+    // init
+    render(CARS);
   </script>
 </body>
 </html>
