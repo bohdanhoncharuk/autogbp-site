@@ -429,7 +429,102 @@
         text-align: center;
         width: 100%;
       }
-    }
+    }/* ===== Premium mobile header ===== */
+header{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: rgba(5,6,8,.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,216,106,.14);
+}
+
+.nav-inner{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 12px;
+  display:flex;
+  align-items:center;
+  gap: 12px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width: 190px;
+}
+
+.logo img{
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 14px;
+  padding: 6px;
+  background: rgba(255,216,106,.07);
+  border: 1px solid rgba(255,216,106,.22);
+  box-shadow: 0 14px 30px rgba(0,0,0,.45);
+}
+
+.logo-text-main{
+  font-weight: 900;
+  letter-spacing: .6px;
+  line-height: 1.05;
+}
+
+.logo-text-sub{
+  color: rgba(255,255,255,.62);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.nav-links{
+  display:flex;
+  gap: 8px;
+  align-items:center;
+  justify-content:flex-start;
+  flex: 1;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 2px 8px;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar{ display:none; }
+
+.nav-links a{
+  flex: 0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,216,106,.16);
+  background: rgba(12,15,20,.55);
+  color: rgba(255,255,255,.9);
+  font-weight: 750;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 12px 26px rgba(0,0,0,.25);
+  transition: .15s transform, .15s border-color, .15s background;
+}
+
+.nav-links a:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,216,106,.30);
+  background: rgba(12,15,20,.75);
+}
+
+.nav-links a.is-gold{
+  border-color: rgba(255,216,106,.35);
+  background: linear-gradient(180deg, rgba(255,216,106,.18), rgba(12,15,20,.55));
+}
+
+@media (max-width: 520px){
+  .logo{ min-width: 155px; }
+  .logo img{ width: 42px; height: 42px; }
+  .nav-links a{ padding: 9px 11px; font-size: 13px; }
+}
   </style>
 </head>
 <body>
